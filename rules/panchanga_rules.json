@@ -1,0 +1,157 @@
+{
+  "positive": {
+    "Amrita Siddhi": {
+      "type": "vara+nakshatra",
+      "criteria": {
+        "weekday": "Sunday",
+        "nakshatra": [
+          "Ashwini", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", 
+          "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", 
+          "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", 
+          "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", 
+          "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+        ]
+      },
+      "description": "Amrita Siddhi yoga occurs when Sunday coincides with specific nakshatras"
+    },
+    "Sarvartha Siddhi": {
+      "type": "vara+nakshatra",
+      "criteria": {
+        "weekday": "Monday",
+        "nakshatra": ["Rohini", "Hasta", "Shravana"]
+      },
+      "description": "Sarvartha Siddhi yoga for Monday with specific nakshatras"
+    },
+    "Siddha": {
+      "type": "vara+nakshatra",
+      "criteria": {
+        "weekday": "Tuesday",
+        "nakshatra": ["Krittika", "Vishakha", "Purva Bhadrapada"]
+      },
+      "description": "Siddha yoga for Tuesday with specific nakshatras"
+    },
+    "Ravi Yoga": {
+      "type": "sun+moon",
+      "criteria": {
+        "offset": [4, 6, 9, 10, 13, 20]
+      },
+      "description": "Ravi Yoga based on Sun-Moon nakshatra offset"
+    },
+    "Guru Pushya": {
+      "type": "vara+nakshatra",
+      "criteria": {
+        "weekday": "Thursday",
+        "nakshatra": ["Pushya"]
+      },
+      "description": "Guru Pushya yoga - Thursday with Pushya nakshatra"
+    },
+    "Ravi Pushya": {
+      "type": "sun+nakshatra",
+      "criteria": {
+        "nakshatra": ["Pushya"]
+      },
+      "description": "Ravi Pushya yoga - Sun in Pushya nakshatra"
+    },
+    "Dvipushkara": {
+      "type": "vara+tithi+nakshatra",
+      "criteria": {
+        "tithi": [2, 7, 12],
+        "nakshatra": ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra"]
+      },
+      "description": "Dvipushkara yoga with specific tithi and nakshatra combinations"
+    },
+    "Tripushkara": {
+      "type": "vara+tithi+nakshatra",
+      "criteria": {
+        "tithi": [2, 7, 12],
+        "nakshatra": ["Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni"]
+      },
+      "description": "Tripushkara yoga with specific tithi and nakshatra combinations"
+    }
+  },
+  "negative": {
+    "Dagdha": {
+      "type": "vara+tithi",
+      "criteria": {
+        "weekday": "Sunday",
+        "tithi": [1, 6, 11, 16, 21, 26]
+      },
+      "description": "Dagdha yoga - Sunday with specific tithis"
+    },
+    "Visha": {
+      "type": "vara+tithi",
+      "criteria": {
+        "weekday": "Monday",
+        "tithi": [2, 7, 12, 17, 22, 27]
+      },
+      "description": "Visha yoga - Monday with specific tithis"
+    },
+    "Hutasana": {
+      "type": "vara+tithi",
+      "criteria": {
+        "weekday": "Tuesday",
+        "tithi": [3, 8, 13, 18, 23, 28]
+      },
+      "description": "Hutasana yoga - Tuesday with specific tithis"
+    },
+    "Krakacha": {
+      "type": "vara+tithi",
+      "criteria": {
+        "weekday": "Wednesday",
+        "tithi": [4, 9, 14, 19, 24, 29]
+      },
+      "description": "Krakacha yoga - Wednesday with specific tithis"
+    },
+    "Samvartaka": {
+      "type": "vara+tithi",
+      "criteria": {
+        "weekday": "Thursday",
+        "tithi": [5, 10, 15, 20, 25, 30]
+      },
+      "description": "Samvartaka yoga - Thursday with specific tithis"
+    },
+    "Asubha": {
+      "type": "tithi+nakshatra",
+      "criteria": {
+        "tithi": [1, 6, 11, 16, 21, 26],
+        "nakshatra": ["Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra"]
+      },
+      "description": "Asubha yoga - specific tithi and nakshatra combinations"
+    },
+    "Vinasa": {
+      "type": "triple",
+      "criteria": {
+        "Sunday": ["Ashlesha", "Magha", "Purva Phalguni"],
+        "Monday": ["Uttara Phalguni", "Hasta", "Chitra"],
+        "Tuesday": ["Swati", "Vishakha", "Anuradha"],
+        "Wednesday": ["Jyeshtha", "Mula", "Purva Ashadha"],
+        "Thursday": ["Uttara Ashadha", "Shravana", "Dhanishtha"],
+        "Friday": ["Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada"],
+        "Saturday": ["Revati", "Ashwini", "Bharani"]
+      },
+      "description": "Vinasa yoga - triple combinations by weekday"
+    },
+    "Panchaka": {
+      "type": "nakshatra+weekday",
+      "criteria": {
+        "nakshatra": ["Dhanishtha", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
+        "classification": {
+          "Sunday": "roga",
+          "Monday": "raja", 
+          "Tuesday": "agni",
+          "Wednesday": "chora",
+          "Thursday": "mrityu",
+          "Friday": "roga",
+          "Saturday": "raja"
+        }
+      },
+      "description": "Panchaka yoga - specific nakshatras classified by weekday"
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "description": "Panchanga yoga rules for Jyotiṣa API",
+    "source": "Traditional Vedic astrology texts",
+    "last_updated": "2024-01-01"
+  }
+}
