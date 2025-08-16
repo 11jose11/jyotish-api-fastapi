@@ -1,6 +1,18 @@
 # Jyotiṣa API
 
+[![CI/CD Pipeline](https://github.com/11jose11/jyotish-api-fastapi/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/11jose11/jyotish-api-fastapi/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.116.1-green.svg)](https://fastapi.tiangolo.com/)
+[![Swiss Ephemeris](https://img.shields.io/badge/Swiss%20Ephemeris-2.10.3-orange.svg)](https://www.astro.com/swisseph/)
+
 Una API completa de Jyotiṣa (astrología védica) construida con Python, FastAPI y Swiss Ephemeris, integrada con Google Places API y Google Time Zone API para resolver ubicaciones y zonas horarias históricas.
+
+## 📍 **Repositorio**
+
+- **GitHub:** https://github.com/11jose11/jyotish-api-fastapi
+- **Tipo:** Repositorio Privado
+- **Estado:** ✅ API completamente funcional y desplegada en Google Cloud Run
 
 ## ✅ Estado del Proyecto
 
@@ -12,6 +24,7 @@ Una API completa de Jyotiṣa (astrología védica) construida con Python, FastA
 - ✅ Logging JSON y observabilidad
 - ✅ Tests unitarios incluidos
 - ✅ Documentación completa
+- ✅ CI/CD Pipeline configurado
 
 ## Características
 
@@ -45,8 +58,8 @@ Una API completa de Jyotiṣa (astrología védica) construida con Python, FastA
 
 1. **Clonar el repositorio**
 ```bash
-git clone <repository-url>
-cd jyotish-api
+git clone https://github.com/11jose11/jyotish-api-fastapi.git
+cd jyotish-api-fastapi
 ```
 
 2. **Crear entorno virtual**
@@ -202,10 +215,12 @@ jyotish-api/
 ├── rules/
 │   └── panchanga_rules.json # Reglas de yogas
 ├── tests/                   # Tests unitarios
+├── .github/workflows/       # CI/CD Pipeline
 ├── requirements.txt         # Dependencias Python
 ├── Dockerfile              # Configuración Docker
 ├── deploy.sh               # Script de despliegue
 ├── cloudbuild.yaml         # Configuración Cloud Build
+├── LICENSE                 # Licencia MIT
 └── README.md               # Este archivo
 ```
 
@@ -315,6 +330,7 @@ Para soporte y preguntas:
 - [x] Swiss Ephemeris integrado
 - [x] Google APIs integradas
 - [x] Docker y Cloud Run
+- [x] CI/CD Pipeline
 - [ ] Soporte para Redis/MemoryStore
 - [ ] Más algoritmos de cálculo de salida del sol
 - [ ] API para cálculos de horóscopo
