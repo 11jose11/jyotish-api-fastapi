@@ -8,10 +8,23 @@ import { type YogaInfo } from '@/types/api';
 interface YogasListProps {
   yogas: YogaInfo[];
   isLoading: boolean;
+  compact?: boolean;
 }
 
-export function YogasList({ yogas, isLoading }: YogasListProps) {
+export function YogasList({ yogas, isLoading, compact = false }: YogasListProps) {
   if (isLoading) {
+    if (compact) {
+      return (
+        <div className="flex items-center justify-center py-4">
+          <div className="flex items-center space-x-2">
+            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-600"></div>
+            <span className="text-sm text-slate-600 dark:text-slate-400">
+              Loading...
+            </span>
+          </div>
+        </div>
+      );
+    }
     return (
       <Card className="w-full">
         <CardHeader>
@@ -58,6 +71,45 @@ export function YogasList({ yogas, isLoading }: YogasListProps) {
         return 'bg-slate-100 text-slate-800 dark:bg-slate-900 dark:text-slate-200';
     }
   };
+
+  if (compact) {
+    return (
+      <div>
+        {yogas.length > 0 ? (
+          <div className="space-y-3">
+            {yogas.map((yoga, index) => (
+              <div 
+                key={index}
+                className="p-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-slate-50/50 dark:bg-slate-800/50"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-slate-900 dark:text-slate-100 text-sm truncate">
+                      {yoga.name}
+                    </h4>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+                      {yoga.name_spanish}
+                    </p>
+                  </div>
+                  <Badge 
+                    variant="secondary" 
+                    className={`text-xs ml-2 ${getPolarityColor(yoga.polarity)}`}
+                  >
+                    {yoga.polarity === 'positive' ? '✓' : 
+                     yoga.polarity === 'negative' ? '✗' : '○'}
+                  </Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-4 text-slate-500 dark:text-slate-400 text-sm">
+            No active yogas
+          </div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <Card className="w-full">

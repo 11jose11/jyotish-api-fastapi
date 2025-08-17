@@ -15,6 +15,7 @@ import { Legend } from '@/components/legend';
 import { useCalendarState, useResolvePlace, useMonthlyCalendar, useYogas, usePlanetSpeeds } from '@/hooks/use-calendar';
 import { type DayData } from '@/types/api';
 import { exportCalendarCSV, exportYogasCSV, exportSpeedsCSV, downloadCSV } from '@/lib/api';
+import { Calendar, Activity, BarChart3, Settings, Database, Globe, Clock } from 'lucide-react';
 
 // Create a client
 const queryClient = new QueryClient({
@@ -146,103 +147,241 @@ function CalendarPage() {
   }, [navigateMonth]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-bold text-slate-900 dark:text-slate-100 mb-4">
-            Calendario Jyotiṣa
-          </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
-            Calendario védico con posiciones planetarias precisas usando Swiss Ephemeris en modo sideral Lahiri
-          </p>
-        </div>
-
-        {/* Controls Bar */}
-        <ControlsBar
-          selectedPlace={selectedPlace}
-          onPlaceSelect={setSelectedPlace}
-          selectedDate={selectedDate}
-          onNavigateMonth={navigateMonth}
-          onGoToToday={goToToday}
-          anchor={anchor}
-          onAnchorChange={setAnchor}
-          units={units}
-          onUnitsChange={setUnits}
-          selectedPlanets={selectedPlanets}
-          onPlanetsChange={setSelectedPlanets}
-          customTime={customTime}
-          onCustomTimeChange={setCustomTime}
-          onExportCSV={handleExportCSV}
-          onPrint={handlePrint}
-          isLoading={isCalendarLoading}
-        />
-
-        {/* Calendar Grid */}
-        <div className="relative mb-8">
-          <MonthGrid
-            selectedDate={selectedDate}
-            calendarData={calendarData?.days}
-            selectedPlanets={selectedPlanets}
-            units={units}
-            onDayClick={handleDayClick}
-            isLoading={isCalendarLoading}
-          />
-        </div>
-
-        {/* Additional Data Section */}
-        <div className="space-y-8 mb-8">
-          {/* Planet Speeds Section */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                Velocidades Planetarias
-              </h2>
-              <button
-                onClick={handleExportSpeedsCSV}
-                disabled={!speedsData || isSpeedsLoading}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              >
-                Exportar CSV
-              </button>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
+      {/* Modern App Header */}
+      <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50 backdrop-blur-lg bg-white/95 dark:bg-slate-800/95">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-3">
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-2.5 rounded-xl shadow-lg">
+                  <Calendar className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+                    Jyotiṣa Analytics
+                  </h1>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                    Vedic Astronomy Data Platform
+                  </p>
+                </div>
+              </div>
             </div>
             
-            {/* Chart and Table Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <PlanetSpeedsChart 
-                speeds={speedsData?.planets || []} 
-                isLoading={isSpeedsLoading} 
-              />
-              <PlanetSpeedsTable 
-                speeds={speedsData?.planets || []} 
-                isLoading={isSpeedsLoading} 
+            {/* Status Indicators */}
+            <div className="hidden md:flex items-center space-x-3">
+              <div className="flex items-center space-x-2 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span className="text-xs font-medium text-emerald-700 dark:text-emerald-400">Swiss Ephemeris</span>
+              </div>
+              <div className="flex items-center space-x-2 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+                <Database className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                <span className="text-xs font-medium text-blue-700 dark:text-blue-400">Sidereal Lahiri</span>
+              </div>
+              {placeDetails && (
+                <div className="flex items-center space-x-2 px-3 py-1.5 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
+                  <Globe className="h-3 w-3 text-purple-600 dark:text-purple-400" />
+                  <span className="text-xs font-medium text-purple-700 dark:text-purple-400">{placeDetails.place?.name}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="container mx-auto px-6 py-8 max-w-7xl">
+        {/* Controls Section */}
+        <div className="mb-8">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <div className="flex items-center space-x-3">
+                <Settings className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">Configuration Panel</h2>
+              </div>
+            </div>
+            <div className="p-6">
+              <ControlsBar
+                selectedPlace={selectedPlace}
+                onPlaceSelect={setSelectedPlace}
+                selectedDate={selectedDate}
+                onNavigateMonth={navigateMonth}
+                onGoToToday={goToToday}
+                anchor={anchor}
+                onAnchorChange={setAnchor}
+                units={units}
+                onUnitsChange={setUnits}
+                selectedPlanets={selectedPlanets}
+                onPlanetsChange={setSelectedPlanets}
+                customTime={customTime}
+                onCustomTimeChange={setCustomTime}
+                onExportCSV={handleExportCSV}
+                onPrint={handlePrint}
+                isLoading={isCalendarLoading}
               />
             </div>
           </div>
+        </div>
 
-          {/* Yogas Section */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                Yogas del Panchanga
-              </h2>
-              <button
-                onClick={handleExportYogasCSV}
-                disabled={!yogasData || isYogasLoading}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-              >
-                Exportar CSV
-              </button>
+        {/* Dashboard Grid */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
+          {/* Calendar - Takes 2/3 of the width */}
+          <div className="xl:col-span-2">
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+              <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Calendar className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                    <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                      Planetary Calendar
+                    </h2>
+                  </div>
+                  <Badge variant="outline" className="text-xs">
+                    {format(selectedDate, 'MMMM yyyy')}
+                  </Badge>
+                </div>
+              </div>
+              <div className="p-6">
+                <MonthGrid
+                  selectedDate={selectedDate}
+                  calendarData={calendarData?.days}
+                  selectedPlanets={selectedPlanets}
+                  units={units}
+                  onDayClick={handleDayClick}
+                  isLoading={isCalendarLoading}
+                />
+              </div>
             </div>
-            <YogasList 
-              yogas={yogasData?.yogas || []} 
-              isLoading={isYogasLoading} 
-            />
+          </div>
+
+          {/* Quick Stats Sidebar */}
+          <div className="space-y-6">
+            {/* Yogas Card */}
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+              <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div className="flex items-center space-x-3">
+                  <Activity className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Active Yogas</h3>
+                </div>
+              </div>
+              <div className="p-6">
+                <YogasList 
+                  yogas={yogasData?.yogas?.slice(0, 5) || []} 
+                  isLoading={isYogasLoading}
+                  compact={true}
+                />
+                {yogasData?.yogas && yogasData.yogas.length > 5 && (
+                  <button
+                    onClick={handleExportYogasCSV}
+                    className="mt-4 w-full text-sm text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
+                  >
+                    View all {yogasData.yogas.length} yogas →
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+              <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+                <div className="flex items-center space-x-3">
+                  <BarChart3 className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white">Statistics</h3>
+                </div>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600 dark:text-slate-400">Selected Planets</span>
+                  <Badge variant="secondary">{selectedPlanets.length}/9</Badge>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600 dark:text-slate-400">Active Yogas</span>
+                  <Badge variant="secondary">{yogasData?.yogas?.length || 0}</Badge>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-slate-600 dark:text-slate-400">Data Points</span>
+                  <Badge variant="secondary">{calendarData?.days?.length || 0}</Badge>
+                </div>
+                {placeDetails?.timezone && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-slate-600 dark:text-slate-400">Timezone</span>
+                    <Badge variant="secondary" className="text-xs">
+                      {placeDetails.timezone.timeZoneId}
+                    </Badge>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Analytics Section */}
+        <div className="space-y-8">
+          {/* Planet Speeds Analysis */}
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <BarChart3 className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    Planetary Motion Analysis
+                  </h2>
+                </div>
+                <button
+                  onClick={handleExportSpeedsCSV}
+                  disabled={!speedsData || isSpeedsLoading}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium transition-colors"
+                >
+                  Export Data
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <PlanetSpeedsChart 
+                  speeds={speedsData?.planets || []} 
+                  isLoading={isSpeedsLoading} 
+                />
+                <PlanetSpeedsTable 
+                  speeds={speedsData?.planets || []} 
+                  isLoading={isSpeedsLoading} 
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Full Yogas List */}
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Activity className="h-5 w-5 text-slate-600 dark:text-slate-400" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    Panchanga Yogas Analysis
+                  </h2>
+                </div>
+                <button
+                  onClick={handleExportYogasCSV}
+                  disabled={!yogasData || isYogasLoading}
+                  className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium transition-colors"
+                >
+                  Export Data
+                </button>
+              </div>
+            </div>
+            <div className="p-6">
+              <YogasList 
+                yogas={yogasData?.yogas || []} 
+                isLoading={isYogasLoading} 
+              />
+            </div>
           </div>
         </div>
 
         {/* Legend */}
-        <Legend />
+        <div className="mt-8">
+          <Legend />
+        </div>
 
         {/* Day Details Modal */}
         {selectedDay && (
@@ -251,7 +390,7 @@ function CalendarPage() {
             onClose={() => setIsModalOpen(false)}
             date={selectedDay.date}
             dayData={selectedDay.dayData}
-            placeName={placeDetails?.formatted_address}
+            placeName={placeDetails?.place?.name}
             timezone={placeDetails?.timezone?.timeZoneId}
             units={units}
             selectedPlanets={selectedPlanets}
@@ -261,6 +400,7 @@ function CalendarPage() {
         {/* Print Styles */}
         <style jsx global>{`
           @media print {
+            header,
             .controls-bar,
             .modal,
             .planet-speeds,
@@ -273,7 +413,7 @@ function CalendarPage() {
             }
           }
         `}</style>
-      </div>
+      </main>
     </div>
   );
 }
