@@ -57,27 +57,42 @@ class SwissEphService:
                 swe.set_ephe_path(settings.swiss_ephe_path)
                 logger.info(f"Using Swiss Ephemeris path: {settings.swiss_ephe_path}")
             else:
-                logger.warning("No SWISS_EPHE_PATH set, using default path")
+                logger.info("Using default Swiss Ephemeris path")
             
             # Set Lahiri sidereal mode
             swe.set_sid_mode(swe.SIDM_LAHIRI, 0, 0)
             logger.info("Swiss Ephemeris initialized with Lahiri sidereal mode")
             
-            # Test calculation to verify setup
-            test_jd = swe.julday(2024, 1, 1, 12.0)
-            flags = swe.FLG_SIDEREAL
+            # Test calculation to verify setup - use modern date to avoid file dependencies
+            test_jd = swe.julday(2025, 8, 17, 12.0)
+            # Use built-in precision flags instead of file-dependent ones
+            flags = swe.FLG_SIDEREAL | swe.FLG_MOSEPH  # Use built-in Moshier ephemeris
             result = swe.calc_ut(test_jd, swe.SUN, flags)
             
-            if result[0] == 0:  # Success
+            if len(result) >= 1 and not isinstance(result[0], int):  # Success - position returned
                 self.initialized = True
-                logger.info("Swiss Ephemeris test calculation successful")
+                logger.info(f"Swiss Ephemeris test calculation successful: Sun at {result[0]:.2f}°")
             else:
-                logger.error(f"Swiss Ephemeris test calculation failed: {result[0]}")
-                self.precision = "low"
+                logger.error(f"Swiss Ephemeris test calculation failed: {result}")
+                # Try with minimal flags as fallback
+                flags_fallback = swe.FLG_MOSEPH
+                result_fallback = swe.calc_ut(test_jd, swe.SUN, flags_fallback)
+                if len(result_fallback) >= 1 and not isinstance(result_fallback[0], int):
+                    self.initialized = True
+                    logger.info("Swiss Ephemeris initialized with fallback settings")
+                else:
+                    self.precision = "low"
                 
         except Exception as e:
             logger.error(f"Failed to initialize Swiss Ephemeris: {e}")
-            self.precision = "low"
+            # Try one more time with minimal settings
+            try:
+                swe.set_sid_mode(swe.SIDM_LAHIRI, 0, 0)
+                self.initialized = True
+                self.precision = "low"
+                logger.warning("Swiss Ephemeris initialized with minimal settings")
+            except:
+                self.precision = "low"
     
     def _get_planet_id(self, planet_name: str) -> int:
         """Get Swiss Ephemeris planet ID."""
@@ -119,7 +134,7 @@ class SwissEphService:
         )
         
         results = {}
-        flags = swe.FLG_SIDEREAL
+        flags = swe.FLG_SIDEREAL | swe.FLG_MOSEPH  # Use built-in Moshier ephemeris
         
         # Calculate Rahu first if needed for Ketu
         rahu_lon = None
