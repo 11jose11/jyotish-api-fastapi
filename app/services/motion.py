@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 
 from app.services.swe import swe_service
+from app.services.places import places_service
 from app.util.logging import get_logger
 
 logger = get_logger("motion")
@@ -34,6 +35,19 @@ BASELINE_SPEEDS = {
     "Ketu": 0.05
 }
 
+# Planet names in Sanskrit and Spanish
+PLANET_NAMES = {
+    "Sun": {"sanskrit": "Sūrya", "spanish": "Sol"},
+    "Moon": {"sanskrit": "Chandra", "spanish": "Luna"},
+    "Mercury": {"sanskrit": "Budha", "spanish": "Mercurio"},
+    "Venus": {"sanskrit": "Śukra", "spanish": "Venus"},
+    "Mars": {"sanskrit": "Maṅgala", "spanish": "Marte"},
+    "Jupiter": {"sanskrit": "Guru", "spanish": "Júpiter"},
+    "Saturn": {"sanskrit": "Śani", "spanish": "Saturno"},
+    "Rahu": {"sanskrit": "Rāhu", "spanish": "Rahu"},
+    "Ketu": {"sanskrit": "Ketu", "spanish": "Ketu"}
+}
+
 
 class MotionService:
     """Service for analyzing planetary motion states."""
@@ -62,6 +76,52 @@ class MotionService:
             return "sighra"
         else:
             return "atisighra"
+    
+    def get_planet_speeds(
+        self,
+        start: datetime,
+        end: datetime,
+        place_id: str,
+        planets: List[str]
+    ) -> Dict:
+        """Get current planetary speeds for the given date range."""
+        try:
+            # Resolve place information
+            place_info = places_service.resolve_place(place_id)
+            
+            # Calculate speeds for the middle of the date range
+            mid_date = start + (end - start) / 2
+            
+            # Calculate planetary positions
+            planet_data = self.swe_service.calculate_planets(mid_date, planets)
+            
+            speeds = []
+            for planet in planets:
+                if planet in planet_data:
+                    data = planet_data[planet]
+                    motion_state = self.classify_motion_state(planet, data["speedDegPerDay"])
+                    
+                    planet_names = PLANET_NAMES.get(planet, {"sanskrit": planet, "spanish": planet})
+                    
+                    speeds.append({
+                        "planet": planet,
+                        "name_sanskrit": planet_names["sanskrit"],
+                        "name_spanish": planet_names["spanish"],
+                        "speed_deg_per_day": data["speedDegPerDay"],
+                        "motion_state": motion_state,
+                        "is_retrograde": data["retrograde"]
+                    })
+            
+            return {
+                "start": start.isoformat(),
+                "end": end.isoformat(),
+                "place_id": place_id,
+                "planets": speeds
+            }
+            
+        except Exception as e:
+            logger.error(f"Error calculating planet speeds: {e}")
+            raise
     
     def detect_retrograde_events(
         self, 

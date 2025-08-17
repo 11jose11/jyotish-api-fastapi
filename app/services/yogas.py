@@ -10,6 +10,50 @@ from app.util.logging import get_logger
 
 logger = get_logger("yogas")
 
+# Yoga definitions with Sanskrit and Spanish names
+YOGAS_DEFINITIONS = {
+    "Amrita Siddhi": {
+        "name_sanskrit": "Amṛta Siddhi",
+        "name_spanish": "Amrita Siddhi",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Yoga auspicioso para todas las actividades",
+        "color": "#10b981"
+    },
+    "Guru Pushya": {
+        "name_sanskrit": "Guru Puṣya",
+        "name_spanish": "Guru Pushya",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Excelente para educación y negocios",
+        "color": "#8b5cf6"
+    },
+    "Ravi Pushya": {
+        "name_sanskrit": "Ravi Puṣya",
+        "name_spanish": "Ravi Pushya",
+        "polarity": "positive",
+        "type": "sun+nakshatra",
+        "description": "Ideal para actividades espirituales",
+        "color": "#f59e0b"
+    },
+    "Dagdha": {
+        "name_sanskrit": "Dagdha",
+        "name_spanish": "Dagdha",
+        "polarity": "negative",
+        "type": "vara+tithi",
+        "description": "Evitar matrimonio, viajes, nueva casa",
+        "color": "#ef4444"
+    },
+    "Visha": {
+        "name_sanskrit": "Viṣa",
+        "name_spanish": "Visha",
+        "polarity": "negative",
+        "type": "vara+tithi",
+        "description": "Evitar procedimientos médicos y viajes",
+        "color": "#dc2626"
+    }
+}
+
 
 class YogasService:
     """Service for detecting panchanga yogas."""
@@ -121,17 +165,31 @@ class YogasService:
                 day_yogas = positive_yogas + negative_yogas
                 
                 for yoga in day_yogas:
-                    yoga["day"] = current_dt.date().isoformat()
-                    yoga["window"] = {
-                        "start": current_dt.isoformat(),
-                        "end": (current_dt + timedelta(days=1)).isoformat()
+                    yoga_name = yoga["name"]
+                    yoga_def = YOGAS_DEFINITIONS.get(yoga_name, {})
+                    
+                    yoga_data = {
+                        "name": yoga_name,
+                        "name_sanskrit": yoga_def.get("name_sanskrit", yoga_name),
+                        "name_spanish": yoga_def.get("name_spanish", yoga_name),
+                        "polarity": yoga["polarity"],
+                        "kind": yoga["kind"],
+                        "type": yoga_def.get("type", yoga["kind"]),
+                        "description": yoga_def.get("description", ""),
+                        "color": yoga_def.get("color", "#6b7280"),
+                        "day": current_dt.date().isoformat(),
+                        "window": {
+                            "start": current_dt.isoformat(),
+                            "end": (current_dt + timedelta(days=1)).isoformat()
+                        },
+                        "source": "compiled_rules_v1"
                     }
-                    yoga["source"] = "compiled_rules_v1"
                     
                     if include_notes:
-                        yoga["flags"] = self._get_yoga_flags(yoga["name"])
+                        yoga_data["flags"] = self._get_yoga_flags(yoga_name)
+                    
+                    yogas.append(yoga_data)
                 
-                yogas.extend(day_yogas)
                 current_dt += timedelta(days=1)
             
             return yogas

@@ -45,3 +45,34 @@ async def get_motion_states(
         except Exception as e:
             logger.error(f"Motion states calculation failed: {e}")
             raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/speeds")
+async def get_planet_speeds(
+    start: str = Query(..., description="Start date in YYYY-MM-DD format"),
+    end: str = Query(..., description="End date in YYYY-MM-DD format"),
+    place_id: str = Query(..., description="Place ID"),
+    planets: str = Query("Sun,Moon,Mercury,Venus,Mars,Jupiter,Saturn,Rahu,Ketu", description="Comma-separated list of planets")
+):
+    """Get current planetary speeds for the given date range."""
+    with RequestLogger("motion.speeds") as req_log:
+        try:
+            # Parse dates
+            start_dt = datetime.fromisoformat(f"{start}T00:00:00")
+            end_dt = datetime.fromisoformat(f"{end}T23:59:59")
+            
+            # Parse planets
+            planet_list = [p.strip() for p in planets.split(",")]
+            
+            # Get planet speeds
+            result = motion_service.get_planet_speeds(
+                start_dt, end_dt, place_id, planet_list
+            )
+            
+            return result
+            
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid date format: {e}")
+        except Exception as e:
+            logger.error(f"Planet speeds calculation failed: {e}")
+            raise HTTPException(status_code=500, detail=str(e))

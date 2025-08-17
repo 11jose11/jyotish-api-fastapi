@@ -1,311 +1,211 @@
-# Jyotiṣa API
+# Jyotiṣa Calendar Frontend
 
-[![CI/CD Pipeline](https://github.com/11jose11/jyotish-api-fastapi/workflows/CI/CD%20Pipeline/badge.svg)](https://github.com/11jose11/jyotish-api-fastapi/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.116.1-green.svg)](https://fastapi.tiangolo.com/)
-[![Swiss Ephemeris](https://img.shields.io/badge/Swiss%20Ephemeris-2.10.3-orange.svg)](https://www.astro.com/swisseph/)
+Frontend moderno y responsive para el Calendario Jyotish, construido con Next.js 14, TypeScript, Tailwind CSS y shadcn/ui.
 
-Una API completa de Jyotiṣa (astrología védica) construida con Python, FastAPI y Swiss Ephemeris, integrada con Google Places API y Google Time Zone API para resolver ubicaciones y zonas horarias históricas.
+## 🌟 Características
 
-## 📍 **Repositorio**
+- **Interfaz Moderna**: Diseño limpio y accesible con tema oscuro/claro
+- **Búsqueda de Lugares**: Autocompletado con debounce de 250ms
+- **Calendario Mensual**: Vista completa con posiciones planetarias
+- **Detalles Interactivos**: Modal con información completa del día
+- **Exportación**: CSV del mes completo y días individuales
+- **Impresión**: Vista optimizada para impresión
+- **Navegación por Teclado**: Flechas para cambiar mes
+- **Persistencia**: Configuración guardada en localStorage
+- **Responsive**: Optimizado para móvil, tablet y desktop
 
-- **GitHub:** https://github.com/11jose11/jyotish-api-fastapi
-- **Tipo:** Repositorio Privado
-- **Estado:** ✅ API completamente funcional y desplegada en Google Cloud Run
+## 🛠️ Stack Tecnológico
 
-## ✅ Estado del Proyecto
+- **Next.js 14** - Framework React con App Router
+- **TypeScript** - Tipado estático
+- **Tailwind CSS** - Framework de estilos
+- **shadcn/ui** - Componentes de UI
+- **TanStack Query** - Gestión de estado y caché
+- **date-fns** - Manipulación de fechas
+- **Lucide React** - Iconos
 
-**API completamente funcional y lista para producción**
+## 🚀 Instalación
 
-- ✅ Swiss Ephemeris funcionando en modo sideral Lahiri
-- ✅ Todos los endpoints implementados y probados
-- ✅ Dockerizado y listo para Google Cloud Run
-- ✅ Logging JSON y observabilidad
-- ✅ Tests unitarios incluidos
-- ✅ Documentación completa
-- ✅ CI/CD Pipeline configurado
+### Prerrequisitos
 
-## Características
+- Node.js 18+ 
+- npm o yarn
 
-- **Swiss Ephemeris con modo sideral Lahiri**: Cálculos precisos de posiciones planetarias
-- **Google Places API**: Autocompletado y resolución de lugares
-- **Google Time Zone API**: Soporte para zonas horarias históricas incluyendo DST
-- **Cálculos de Pañchāṅga**: Tithi, Nakṣatra, Rāśi, etc.
-- **Estados de movimiento planetario**: Clasificación de cheṣṭā (vakri, manda, sighra, etc.)
-- **Detección de Yogas**: Combinaciones positivas y negativas según reglas tradicionales
-- **Calendarios mensuales y diarios**: Con ventanas exactas de cambios
-- **Observabilidad**: Logging JSON, métricas, health checks
-- **Dockerizado**: Listo para Google Cloud Run
-
-## Tecnologías
-
-- **Python 3.11**
-- **FastAPI** - Framework web moderno y rápido
-- **Swiss Ephemeris** - Biblioteca de efemérides astronómicas
-- **Google APIs** - Places y Time Zone
-- **Pydantic** - Validación de datos
-- **Docker** - Containerización
-
-## Instalación Local
-
-### Requisitos
-
-- Python 3.11+
-- Google Maps API Key (opcional para desarrollo)
-
-### Configuración local
+### Configuración Local
 
 1. **Clonar el repositorio**
 ```bash
-git clone https://github.com/11jose11/jyotish-api-fastapi.git
-cd jyotish-api-fastapi
+git clone <repository-url>
+cd jyotish-frontend
 ```
 
-2. **Crear entorno virtual**
+2. **Instalar dependencias**
 ```bash
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# o
-venv\Scripts\activate  # Windows
+npm install
 ```
 
-3. **Instalar dependencias**
+3. **Configurar variables de entorno**
 ```bash
-pip install -r requirements.txt
+# Crear .env.local
+NEXT_PUBLIC_API_BASE_URL=https://jyotish-api-814110081793.us-central1.run.app
 ```
 
-4. **Ejecutar la aplicación**
+4. **Ejecutar en desarrollo**
 ```bash
-python run.py
+npm run dev
 ```
 
-La API estará disponible en: http://localhost:8080
-Documentación: http://localhost:8080/docs
+La aplicación estará disponible en: http://localhost:3000
 
-## Despliegue en Google Cloud Run
-
-### Opción 1: Despliegue Automático (Recomendado)
-
-```bash
-# 1. Configurar gcloud
-gcloud auth login
-gcloud config set project YOUR_PROJECT_ID
-
-# 2. Ejecutar script de despliegue
-./deploy.sh YOUR_PROJECT_ID us-central1
-```
-
-### Opción 2: Despliegue Manual
-
-```bash
-# 1. Construir y subir imagen
-gcloud builds submit --tag gcr.io/$PROJECT_ID/jyotish-api:latest
-
-# 2. Desplegar servicio
-gcloud run deploy jyotish-api \
-  --image gcr.io/$PROJECT_ID/jyotish-api:latest \
-  --region us-central1 \
-  --platform managed \
-  --allow-unauthenticated \
-  --port 8080 \
-  --memory 1Gi \
-  --cpu 1
-```
-
-### Opción 3: Despliegue con Cloud Build
-
-```bash
-# Configurar trigger en Cloud Build
-gcloud builds submit --config cloudbuild.yaml
-```
-
-### Configurar Variables de Entorno
-
-```bash
-# Configurar Google Maps API Key
-gcloud run services update jyotish-api \
-  --region us-central1 \
-  --set-env-vars GOOGLE_MAPS_API_KEY=your_api_key
-```
-
-## Endpoints de la API
-
-### Health Checks
-
-```bash
-# Health check básico
-curl https://your-service-url/health/healthz
-
-# Readiness check
-curl https://your-service-url/health/readyz
-```
-
-### Efemérides
-
-```bash
-# Cálculo con timestamp UTC
-curl "https://your-service-url/v1/ephemeris?when_utc=2024-01-15T12:00:00Z"
-
-# Cálculo con tiempo local y place_id
-curl "https://your-service-url/v1/ephemeris?when_local=2024-01-15T12:00:00&place_id=ChIJD7fiBh9u5kcRYJSMaMOCCwQ"
-```
-
-### Calendario
-
-```bash
-# Calendario mensual
-curl "https://your-service-url/v1/calendar/month?year=2024&month=8&place_id=ChIJD7fiBh9u5kcRYJSMaMOCCwQ"
-
-# Calendario diario
-curl "https://your-service-url/v1/calendar/day?date=2024-08-15&place_id=ChIJD7fiBh9u5kcRYJSMaMOCCwQ"
-```
-
-### Estados de Movimiento
-
-```bash
-# Estados de movimiento planetario
-curl "https://your-service-url/v1/motion/states?start=2024-08-01T00:00:00&end=2024-08-31T23:59:59&planets=Mars,Venus"
-```
-
-### Yogas
-
-```bash
-# Detectar yogas
-curl -X POST "https://your-service-url/v1/panchanga/yogas/detect" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "start": "2024-08-01",
-    "end": "2024-08-31",
-    "place_id": "ChIJD7fiBh9u5kcRYJSMaMOCCwQ",
-    "granularity": "day",
-    "includeNotes": true
-  }'
-```
-
-## Documentación de la API
-
-La documentación interactiva está disponible en:
-- **Swagger UI**: https://your-service-url/docs
-- **ReDoc**: https://your-service-url/redoc
-
-## Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```
-jyotish-api/
+src/
 ├── app/
-│   ├── main.py              # Aplicación principal FastAPI
-│   ├── config.py            # Configuración y settings
-│   ├── util/
-│   │   └── logging.py       # Configuración de logging JSON
-│   ├── services/
-│   │   ├── swe.py           # Wrapper Swiss Ephemeris
-│   │   ├── places.py        # Google Places API
-│   │   ├── timezone.py      # Google Time Zone API
-│   │   ├── motion.py        # Estados de movimiento
-│   │   ├── panchanga.py     # Cálculos de pañchāṅga
-│   │   └── yogas.py         # Detección de yogas
-│   └── routers/
-│       ├── health.py        # Health checks
-│       ├── places.py        # Endpoints de lugares
-│       ├── ephemeris.py     # Efemérides
-│       ├── calendar.py      # Calendarios
-│       ├── motion.py        # Movimiento planetario
-│       └── yogas.py         # Yogas
-├── rules/
-│   └── panchanga_rules.json # Reglas de yogas
-├── tests/                   # Tests unitarios
-├── .github/workflows/       # CI/CD Pipeline
-├── requirements.txt         # Dependencias Python
-├── Dockerfile              # Configuración Docker
-├── deploy.sh               # Script de despliegue
-├── cloudbuild.yaml         # Configuración Cloud Build
-├── LICENSE                 # Licencia MIT
-└── README.md               # Este archivo
+│   ├── calendario/
+│   │   └── page.tsx          # Página principal del calendario
+│   ├── globals.css           # Estilos globales
+│   ├── layout.tsx            # Layout principal
+│   └── page.tsx              # Página de inicio
+├── components/
+│   ├── ui/                   # Componentes shadcn/ui
+│   ├── controls-bar.tsx      # Barra de controles
+│   ├── day-cell.tsx          # Celda de día
+│   ├── day-details-modal.tsx # Modal de detalles
+│   ├── legend.tsx            # Leyenda
+│   ├── month-grid.tsx        # Grid mensual
+│   └── place-autocomplete.tsx # Autocompletado de lugares
+├── hooks/
+│   └── use-calendar.ts       # Hooks personalizados
+└── lib/
+    └── api.ts                # Configuración y tipos de API
 ```
 
-## Algoritmos Implementados
+## 🎯 Funcionalidades Principales
 
-### Cálculos Básicos
+### Búsqueda de Lugares
+- Autocompletado con debounce de 250ms
+- Integración con Google Places API a través del backend
+- Resolución automática de zona horaria
 
-- **Rāśi**: `rasi_index = floor(lon/30) + 1`
-- **Nakṣatra**: `nak_index = floor(lon/13°20') + 1`
-- **Pāda**: `pada = floor((lon % 13°20')/(3°20')) + 1`
-- **Tithi**: `tithi = floor((λ_moon - λ_sun) % 360 / 12°) + 1`
+### Calendario Mensual
+- Vista de 7 columnas (L-D)
+- Posiciones planetarias en tiempo real
+- Indicadores de cambios (Nakṣatra, Pāda, Rāśi)
+- Estados de movimiento planetario
+- Detección de retrogradación
 
-### Estados de Movimiento
+### Controles Avanzados
+- Selección de hora de referencia (sunrise, midnight, noon, custom)
+- Unidades de longitud (decimal, DMS, both)
+- Selección múltiple de planetas
+- Navegación por teclado (←/→)
 
-- **Vakri**: Movimiento retrógrado (v < 0)
-- **Vikala**: Muy lento (|v| < 3% del baseline)
-- **Manda**: Lento (0.6 < v/baseline < 1.4)
-- **Sama**: Normal (1.4 < v/baseline < 2.0)
-- **Sighra**: Rápido (v/baseline > 2.0)
+### Exportación e Impresión
+- Exportación a CSV del mes completo
+- Exportación de días individuales
+- Vista de impresión optimizada
+- Copia al portapapeles
 
-### Yogas Detectados
+## 🔧 Configuración
 
-**Positivos:**
-- Amṛta Siddhi (Vāra + Nakṣatra)
-- Sarvārtha Siddhi
-- Siddha
-- Ravi Yoga (offset Sol-Luna)
-- Guru Puṣya (Jueves + Puṣya)
-- Ravi Puṣya (Sol + Puṣya)
+### Variables de Entorno
 
-**Negativos:**
-- Dagdha, Visha, Hutasana, Krakacha, Samvartaka
-- Asubha (Tithi + Nakṣatra)
-- Vināsa (combinación triple)
-- Panchaka (clasificación por día)
+```bash
+# API Configuration
+NEXT_PUBLIC_API_BASE_URL=https://jyotish-api-814110081793.us-central1.run.app
 
-## Tests
+# App Configuration (opcional)
+NEXT_PUBLIC_APP_NAME=Jyotiṣa Calendar
+NEXT_PUBLIC_APP_VERSION=1.0.0
+```
+
+### Personalización
+
+#### Temas
+Los temas se configuran en `src/app/globals.css` usando las variables CSS de shadcn/ui.
+
+#### Componentes
+Los componentes de UI se pueden personalizar en `src/components/ui/`.
+
+## 📱 Responsive Design
+
+- **Móvil**: 2 columnas en grid, controles apilados
+- **Tablet**: 4-5 columnas, controles en grid
+- **Desktop**: 7 columnas, controles en línea
+
+## ♿ Accesibilidad
+
+- Navegación por teclado (←/→ para cambiar mes)
+- Anuncios ARIA para cambios de estado
+- Contraste adecuado en todos los temas
+- Focus visible en todos los elementos interactivos
+
+## 🧪 Testing
 
 ```bash
 # Ejecutar tests
-pytest
+npm test
 
 # Tests con coverage
-pytest --cov=app tests/
+npm run test:coverage
+
+# Tests en modo watch
+npm run test:watch
 ```
 
-## Desarrollo
+## 🚀 Despliegue
 
-### Formateo de código
+### Vercel (Recomendado)
 
+1. **Conectar repositorio**
 ```bash
-# Formatear con black
-black app/
-
-# Linting con ruff
-ruff check app/
+# En Vercel Dashboard
+# Importar desde GitHub
+# Configurar variables de entorno
+NEXT_PUBLIC_API_BASE_URL=https://jyotish-api-814110081793.us-central1.run.app
 ```
 
-## Monitoreo y Logs
+2. **Despliegue automático**
+- Cada push a `main` despliega automáticamente
+- Preview deployments para pull requests
 
+### Otros Proveedores
+
+#### Netlify
 ```bash
-# Ver logs en tiempo real
-gcloud logs tail --service=jyotish-api --region=us-central1
+# build command
+npm run build
 
-# Ver métricas
-gcloud run services describe jyotish-api --region=us-central1
+# publish directory
+.next
 ```
 
-## Troubleshooting
-
-### Problemas Comunes
-
-1. **Error de Swiss Ephemeris**: Verificar que pyswisseph esté instalado correctamente
-2. **Error de Google API**: Verificar que GOOGLE_MAPS_API_KEY esté configurado
-3. **Error de memoria**: Aumentar --memory a 2Gi si es necesario
-4. **Timeout**: Aumentar --timeout si los cálculos son lentos
-
-### Logs de Debug
-
+#### Railway
 ```bash
-# Ver logs detallados
-gcloud logs read --service=jyotish-api --limit=50 --format="table(timestamp,severity,textPayload)"
+# Configurar en Railway Dashboard
+# Variables de entorno automáticas
 ```
 
-## Contribuir
+## 🔍 Debugging
+
+### React Query DevTools
+En desarrollo, las React Query DevTools están disponibles en la esquina inferior derecha.
+
+### Console Logs
+```bash
+# Habilitar logs detallados
+DEBUG=* npm run dev
+```
+
+## 📊 Performance
+
+- **Lazy Loading**: Componentes cargados bajo demanda
+- **Caching**: React Query con TTL de 5-10 minutos
+- **Prefetching**: Mes siguiente precargado automáticamente
+- **Optimización**: Imágenes y assets optimizados
+
+## 🤝 Contribuir
 
 1. Fork el proyecto
 2. Crear rama feature (`git checkout -b feature/AmazingFeature`)
@@ -313,29 +213,20 @@ gcloud logs read --service=jyotish-api --limit=50 --format="table(timestamp,seve
 4. Push a la rama (`git push origin feature/AmazingFeature`)
 5. Abrir Pull Request
 
-## Licencia
+## 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
 
-## Soporte
+## 🆘 Soporte
 
-Para soporte y preguntas:
-- Abrir un issue en GitHub
-- Consultar la documentación de la API en `/docs`
-- Revisar los logs de la aplicación
+- **Issues**: Abrir issue en GitHub
+- **Documentación**: Ver `/docs` en la aplicación
+- **API**: Verificar endpoints en el backend
 
-## Roadmap
+## 🔗 Enlaces Útiles
 
-- [x] API básica funcional
-- [x] Swiss Ephemeris integrado
-- [x] Google APIs integradas
-- [x] Docker y Cloud Run
-- [x] CI/CD Pipeline
-- [ ] Soporte para Redis/MemoryStore
-- [ ] Más algoritmos de cálculo de salida del sol
-- [ ] API para cálculos de horóscopo
-- [ ] Soporte para múltiples sistemas de coordenadas
-- [ ] Cache distribuido
-- [ ] Métricas Prometheus
-- [ ] Tests de integración
-- [ ] Cliente Python oficial
+- [API Jyotiṣa](https://jyotish-api-814110081793.us-central1.run.app/docs)
+- [Swiss Ephemeris](https://www.astro.com/swisseph/)
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
