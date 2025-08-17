@@ -74,5 +74,7 @@ async def get_ephemeris(
         except ValueError as e:
             raise HTTPException(status_code=400, detail=f"Invalid timestamp format: {e}")
         except Exception as e:
-            logger.error(f"Ephemeris calculation failed: {e}")
-            raise HTTPException(status_code=500, detail=str(e))
+            logger.error(f"Ephemeris calculation failed: {type(e).__name__}: {e}")
+            import traceback
+            logger.error(f"Traceback: {traceback.format_exc()}")
+            raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")

@@ -142,8 +142,8 @@ class SwissEphService:
             rahu_planet_id = self._get_planet_id("Rahu")
             if rahu_planet_id:
                 rahu_result = swe.calc_ut(jd, rahu_planet_id, flags)
-                if rahu_result[0] == 0:
-                    rahu_lon = rahu_result[0]
+                if len(rahu_result) >= 2 and len(rahu_result[0]) >= 1:
+                    rahu_lon = rahu_result[0][0]
         
         for planet_name in planets:
             try:
@@ -155,8 +155,8 @@ class SwissEphService:
                         rahu_planet_id = self._get_planet_id("Rahu")
                         if rahu_planet_id:
                             rahu_result = swe.calc_ut(jd, rahu_planet_id, flags)
-                            if rahu_result[0] == 0:
-                                rahu_lon = rahu_result[0]
+                            if len(rahu_result) >= 2 and len(rahu_result[0]) >= 1:
+                                rahu_lon = rahu_result[0][0]
                     
                     if rahu_lon is not None:
                         ketu_lon = self._calculate_ketu(rahu_lon)
@@ -180,16 +180,16 @@ class SwissEphService:
                 # Calculate planet position
                 result = swe.calc_ut(jd, planet_id, flags)
                 
-                if result[0] == 0:  # Success
-                    lon = result[0]
-                    lat = result[1]
-                    dist = result[2]
+                if len(result) >= 2 and len(result[0]) >= 3:  # Success - we have position data
+                    lon = result[0][0]  # longitude from position tuple
+                    lat = result[0][1]  # latitude from position tuple
+                    dist = result[0][2]  # distance from position tuple
                     
                     # Calculate speed (approximate)
                     jd_next = jd + 1.0  # Next day
                     result_next = swe.calc_ut(jd_next, planet_id, flags)
-                    if result_next[0] == 0:
-                        speed = (result_next[0] - lon) % 360.0
+                    if len(result_next) >= 2 and len(result_next[0]) >= 3:
+                        speed = (result_next[0][0] - lon) % 360.0
                         if speed > 180:
                             speed -= 360
                     else:
@@ -211,10 +211,12 @@ class SwissEphService:
                         "pada": self._get_pada(lon)
                     }
                 else:
-                    logger.error(f"Failed to calculate {planet_name}: {result[0]}")
+                    logger.error(f"Failed to calculate {planet_name}: invalid result structure {result}")
                     
             except Exception as e:
-                logger.error(f"Error calculating {planet_name}: {e}")
+                logger.error(f"Error calculating planet '{planet_name}': {type(e).__name__}: {e}")
+                import traceback
+                logger.error(f"Traceback: {traceback.format_exc()}")
         
         return results
     
