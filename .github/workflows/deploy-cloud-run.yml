@@ -28,9 +28,9 @@ jobs:
           pip install -r requirements.txt
           pip install pytest pytest-cov
 
-              - name: Run tests
-          run: |
-            python -m pytest tests/test_yogas_rules.py tests/test_swe_basics.py tests/test_panchanga_math.py -v
+      - name: Run tests
+        run: |
+          python -m pytest tests/test_yogas_rules.py tests/test_swe_basics.py tests/test_panchanga_math.py -v
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2
