@@ -23,7 +23,7 @@ class PanchangaService:
         minutes = int(minutes_decimal)
         seconds = (minutes_decimal - minutes) * 60
         
-        return f"{degrees}°{minutes:02d}'{seconds:05.1f}\""
+        return f"{degrees}°{minutes:02d}'{seconds:04.1f}\""
     
     def get_rasi(self, longitude: float) -> Tuple[str, int]:
         """Get rashi name and index from longitude."""
@@ -53,6 +53,12 @@ class PanchangaService:
         nakshatra_lon = longitude % nakshatra_span
         pada_span = nakshatra_span / 4  # 3°20' = 3.333... degrees
         pada = int(nakshatra_lon // pada_span) + 1
+        
+        # Ensure pada is within 1-4 range
+        if pada > 4:
+            pada = 4
+        elif pada < 1:
+            pada = 1
         
         return nakshatras[nak_index - 1], nak_index, pada
     

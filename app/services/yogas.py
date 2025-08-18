@@ -299,7 +299,7 @@ class YogasService:
                     return False
         
         # Check Ravi Yoga (Sun-Moon offset)
-        if yoga_rule["type"] == "sun+moon" and sun_lon is not None and moon_lon is not None:
+        if yoga_rule.get("type") == "sun+moon" and sun_lon is not None and moon_lon is not None:
             sun_nak = self._get_nakshatra_index(sun_lon)
             moon_nak = self._get_nakshatra_index(moon_lon)
             offset = (moon_nak - sun_nak) % 27

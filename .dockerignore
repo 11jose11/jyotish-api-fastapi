@@ -1,0 +1,75 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+pip-log.txt
+pip-delete-this-directory.txt
+.tox
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+.git
+.mypy_cache
+.pytest_cache
+.hypothesis
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Documentation
+README.md
+DEPLOYMENT.md
+STATUS.md
+*.md
+
+# Scripts and configs
+deploy.sh
+deploy-vercel.sh
+cloudbuild.yaml
+vercel.json
+test_api.py
+simple_server.py
+run.py
+
+# Frontend (if not needed in API container)
+frontend/
+
+# Tests
+tests/
+
+# Development files
+calculate_birth_chart.py
+

@@ -11,6 +11,11 @@ from fastapi.responses import JSONResponse
 from app.config import settings
 from app.util.logging import setup_logging, get_logger, RequestLogger
 from app.routers import health, places, ephemeris, calendar, motion, yogas
+from app.middleware.auth import verify_api_key
+from app.middleware.rate_limit import rate_limit_middleware
+from app.middleware.circuit_breaker import get_circuit_breaker
+from app.middleware.performance import performance_middleware
+from app.middleware.metrics import metrics_middleware, get_metrics
 
 # Setup logging
 setup_logging()
@@ -48,6 +53,29 @@ async def add_request_id(request: Request, call_next: Callable):
     response.headers["X-Request-Id"] = request_id
     return response
 
+# Rate limiting middleware
+@app.middleware("http")
+async def rate_limit_requests(request: Request, call_next: Callable):
+    """Apply rate limiting to requests."""
+    return await rate_limit_middleware(request, call_next)
+
+# Authentication middleware
+@app.middleware("http")
+async def authenticate_requests(request: Request, call_next: Callable):
+    """Authenticate requests with API key."""
+    try:
+        await verify_api_key(request)
+        response = await call_next(request)
+        return response
+    except Exception as e:
+        return JSONResponse(
+            status_code=401,
+            content={
+                "error": "Authentication failed",
+                "detail": str(e)
+            }
+        )
+
 # Logging middleware
 @app.middleware("http")
 async def log_requests(request: Request, call_next: Callable):
@@ -72,15 +100,30 @@ app.include_router(calendar.router)
 app.include_router(motion.router)
 app.include_router(yogas.router)
 
+# Include optimized routers
+if settings.enable_async:
+    from app.routers.ephemeris_optimized import router as ephemeris_optimized_router
+    app.include_router(ephemeris_optimized_router)
+
 @app.get("/")
 async def root():
     """Root endpoint."""
     return {
         "message": "Jyotiṣa API",
-        "version": "0.1.0",
+        "version": "0.2.0",
         "docs": "/docs",
-        "health": "/health/healthz"
+        "health": "/health/healthz",
+        "metrics": "/metrics",
+        "optimized": settings.enable_async
     }
+
+@app.get("/metrics")
+async def metrics():
+    """Prometheus metrics endpoint."""
+    if settings.enable_metrics:
+        return get_metrics()
+    else:
+        return {"message": "Metrics disabled"}
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):

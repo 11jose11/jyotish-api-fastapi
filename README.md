@@ -1,28 +1,29 @@
-# Jyotiṣa Calendar Frontend
+# Jyotiṣa API
 
-Frontend moderno y responsive para el Calendario Jyotish, construido con Next.js 14, TypeScript, Tailwind CSS y shadcn/ui.
+API moderna y optimizada para cálculos de astrología védica, construida con FastAPI, Swiss Ephemeris y optimizaciones de performance.
 
 ## 🌟 Características
 
-- **Interfaz Moderna**: Diseño limpio y accesible con tema oscuro/claro
-- **Búsqueda de Lugares**: Autocompletado con debounce de 250ms
-- **Calendario Mensual**: Vista completa con posiciones planetarias
-- **Detalles Interactivos**: Modal con información completa del día
-- **Exportación**: CSV del mes completo y días individuales
-- **Impresión**: Vista optimizada para impresión
-- **Navegación por Teclado**: Flechas para cambiar mes
-- **Persistencia**: Configuración guardada en localStorage
-- **Responsive**: Optimizado para móvil, tablet y desktop
+- **Cálculos Precisos**: Swiss Ephemeris con modo Lahiri para máxima precisión
+- **Performance Optimizada**: Caché Redis, LRU caching, operaciones asíncronas
+- **Rate Limiting**: Protección contra abuso con límites configurables
+- **Circuit Breakers**: Manejo robusto de fallos en servicios externos
+- **Métricas Completas**: Prometheus metrics para monitoreo
+- **Validación Robusta**: Modelos Pydantic para validación de entrada
+- **Batch Processing**: Procesamiento eficiente de múltiples cálculos
+- **Health Checks**: Monitoreo de estado del sistema
+- **Documentación Automática**: OpenAPI/Swagger docs
+- **Escalabilidad**: Preparado para producción con optimizaciones
 
 ## 🛠️ Stack Tecnológico
 
-- **Next.js 14** - Framework React con App Router
-- **TypeScript** - Tipado estático
-- **Tailwind CSS** - Framework de estilos
-- **shadcn/ui** - Componentes de UI
-- **TanStack Query** - Gestión de estado y caché
-- **date-fns** - Manipulación de fechas
-- **Lucide React** - Iconos
+- **FastAPI** - Framework web moderno y rápido
+- **Swiss Ephemeris** - Biblioteca de cálculos astronómicos precisos
+- **Redis** - Caché distribuido para performance
+- **Prometheus** - Métricas y monitoreo
+- **Pydantic** - Validación de datos y serialización
+- **Uvicorn** - Servidor ASGI de alta performance
+- **Python 3.11+** - Lenguaje de programación
 
 ## 🚀 Instalación
 

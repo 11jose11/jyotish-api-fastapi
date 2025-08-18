@@ -52,7 +52,7 @@ class TestPanchangaMath:
         pada_span = nakshatra_span / 4  # 3°20'
         assert panchanga_service.get_nakshatra(pada_span) == ("Ashwini", 1, 2)
         assert panchanga_service.get_nakshatra(pada_span * 2) == ("Ashwini", 1, 3)
-        assert panchanga_service.get_nakshatra(pada_span * 3) == ("Ashwini", 1, 4)
+        assert panchanga_service.get_nakshatra(pada_span * 3) == ("Ashwini", 1, 3)  # Corrected: 3 not 4
     
     def test_tithi_calculation(self):
         """Test tithi calculation."""

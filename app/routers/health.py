@@ -25,14 +25,17 @@ async def readiness_check():
     if not swe_service.initialized:
         missing.append("swiss_ephemeris")
     
-    # Check Google API key
+    # Check Google API key (optional for basic functionality)
     if not places_service.api_key:
         missing.append("google_maps_api_key")
     
-    ready = len(missing) == 0
+    # Consider ready if Swiss Ephemeris is working (Google Maps is optional)
+    ready = swe_service.initialized
     
     return {
         "ready": ready,
         "missing": missing,
-        "precision": swe_service.precision
+        "precision": swe_service.precision,
+        "swiss_ephemeris_status": "working" if swe_service.initialized else "failed",
+        "google_maps_status": "configured" if places_service.api_key else "not_configured"
     }
