@@ -10,496 +10,386 @@ from app.util.logging import get_logger
 
 logger = get_logger("yogas")
 
+# Yoga definitions with Sanskrit and Spanish names
+YOGAS_DEFINITIONS = {
+    "Amrita Siddhi": {
+        "name_sanskrit": "Amṛta Siddhi",
+        "name_spanish": "Amrita Siddhi",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Yoga auspicioso para todas las actividades",
+        "color": "#10b981"
+    },
+    "Sarvartha Siddhi": {
+        "name_sanskrit": "Sarvārtha Siddhi",
+        "name_spanish": "Sarvartha Siddhi",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Yoga auspicioso para todos los propósitos",
+        "color": "#10b981"
+    },
+    "Siddha": {
+        "name_sanskrit": "Siddha",
+        "name_spanish": "Siddha",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Yoga auspicioso para actividades espirituales",
+        "color": "#10b981"
+    },
+    "Guru Pushya": {
+        "name_sanskrit": "Guru Puṣya",
+        "name_spanish": "Guru Pushya",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Excelente para educación y negocios",
+        "color": "#8b5cf6"
+    },
+    "Ravi Pushya": {
+        "name_sanskrit": "Ravi Puṣya",
+        "name_spanish": "Ravi Pushya",
+        "polarity": "positive",
+        "type": "sun+nakshatra",
+        "description": "Ideal para actividades espirituales",
+        "color": "#f59e0b"
+    },
+    "Ravi Yoga": {
+        "name_sanskrit": "Ravi Yoga",
+        "name_spanish": "Ravi Yoga",
+        "polarity": "positive",
+        "type": "sun+moon",
+        "description": "Yoga auspicioso basado en la relación Sol-Luna",
+        "color": "#f59e0b"
+    },
+    "Dvipushkara": {
+        "name_sanskrit": "Dvipuṣkara",
+        "name_spanish": "Dvipushkara",
+        "polarity": "positive",
+        "type": "vara+tithi+nakshatra",
+        "description": "Yoga auspicioso para actividades importantes",
+        "color": "#10b981"
+    },
+    "Tripushkara": {
+        "name_sanskrit": "Tripuṣkara",
+        "name_spanish": "Tripushkara",
+        "polarity": "positive",
+        "type": "vara+tithi+nakshatra",
+        "description": "Yoga muy auspicioso para actividades importantes",
+        "color": "#10b981"
+    },
+    "Dagdha": {
+        "name_sanskrit": "Dagdha",
+        "name_spanish": "Dagdha",
+        "polarity": "negative",
+        "type": "vara+tithi",
+        "description": "Evitar matrimonio, viajes, nueva casa",
+        "color": "#ef4444"
+    },
+    "Visha": {
+        "name_sanskrit": "Viṣa",
+        "name_spanish": "Visha",
+        "polarity": "negative",
+        "type": "vara+tithi",
+        "description": "Evitar procedimientos médicos y viajes",
+        "color": "#dc2626"
+    },
+    "Hutasana": {
+        "name_sanskrit": "Hutāsana",
+        "name_spanish": "Hutasana",
+        "polarity": "negative",
+        "type": "vara+tithi",
+        "description": "Evitar actividades importantes",
+        "color": "#ef4444"
+    },
+    "Panchaka": {
+        "name_sanskrit": "Pañcaka",
+        "name_spanish": "Panchaka",
+        "polarity": "negative",
+        "type": "nakshatra+weekday",
+        "description": "Evitar actividades importantes",
+        "color": "#dc2626"
+    },
+    "Siddhi": {
+        "name_sanskrit": "Siddhi",
+        "name_spanish": "Siddhi",
+        "polarity": "positive",
+        "type": "vara+tithi_group",
+        "description": "Competencias, litigios, tareas que exigen coraje",
+        "color": "#10b981"
+    },
+    "Amritasiddha": {
+        "name_sanskrit": "Amṛtasiddha",
+        "name_spanish": "Amritasiddha",
+        "polarity": "positive",
+        "type": "vara+tithi_group",
+        "description": "Actividades auspiciosas, especialmente espirituales",
+        "color": "#10b981"
+    },
+    "Jaya": {
+        "name_sanskrit": "Jaya",
+        "name_spanish": "Jaya",
+        "polarity": "positive",
+        "type": "vara+tithi_group",
+        "description": "Victoria en competencias y litigios",
+        "color": "#10b981"
+    },
+    "Rikta": {
+        "name_sanskrit": "Rikta",
+        "name_spanish": "Rikta",
+        "polarity": "negative",
+        "type": "vara+tithi_group",
+        "description": "Evitar actividades importantes",
+        "color": "#ef4444"
+    },
+    "Utpata": {
+        "name_sanskrit": "Utpāta",
+        "name_spanish": "Utpata",
+        "polarity": "negative",
+        "type": "vara+tithi_group",
+        "description": "Evitar viajes y actividades importantes",
+        "color": "#dc2626"
+    },
+    "Mrityu": {
+        "name_sanskrit": "Mṛtyu",
+        "name_spanish": "Mrityu",
+        "polarity": "negative",
+        "type": "vara+tithi_group",
+        "description": "Evitar actividades importantes",
+        "color": "#dc2626"
+    },
+    "Kana": {
+        "name_sanskrit": "Kaṇa",
+        "name_spanish": "Kana",
+        "polarity": "negative",
+        "type": "vara+tithi_group",
+        "description": "Evitar actividades importantes",
+        "color": "#ef4444"
+    }
+}
+
+# Nakshatra names with proper diacritics
+NAKSHATRAS_WITH_DIACRITICS = [
+    "Aśvinī", "Bharaṇī", "Kṛttikā", "Rohiṇī", "Mṛgaśira", "Ārdrā",
+    "Punarvasu", "Puṣya", "Āśleṣā", "Maghā", "Pūrva Phalgunī", "Uttara Phalgunī",
+    "Hasta", "Citrā", "Svātī", "Viśākhā", "Anurādhā", "Jyeṣṭhā",
+    "Mūla", "Pūrva Āṣāḍhā", "Uttara Āṣāḍhā", "Śravaṇa", "Dhaniṣṭhā", "Śatabhiṣā",
+    "Pūrva Bhādrapadā", "Uttara Bhādrapadā", "Revatī"
+]
+
+# Nakshatra names without diacritics (for compatibility)
+NAKSHATRAS_WITHOUT_DIACRITICS = [
+    "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
+    "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
+    "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+    "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", "Shatabhisha",
+    "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+]
+
+# Mapping from SWE names to diacritic names
+NAKSHATRA_MAPPING = {
+    "Ashwini": "Aśvinī",
+    "Bharani": "Bharaṇī", 
+    "Krittika": "Kṛttikā",
+    "Rohini": "Rohiṇī",
+    "Mrigashira": "Mṛgaśira",
+    "Ardra": "Ārdrā",
+    "Punarvasu": "Punarvasu",
+    "Pushya": "Puṣya",
+    "Ashlesha": "Āśleṣā",
+    "Magha": "Maghā",
+    "Purva Phalguni": "Pūrva Phalgunī",
+    "Uttara Phalguni": "Uttara Phalgunī",
+    "Hasta": "Hasta",
+    "Chitra": "Citrā",
+    "Swati": "Svātī",
+    "Vishakha": "Viśākhā",
+    "Anuradha": "Anurādhā",
+    "Jyeshtha": "Jyeṣṭhā",
+    "Mula": "Mūla",
+    "Purva Ashadha": "Pūrva Āṣāḍhā",
+    "Uttara Ashadha": "Uttara Āṣāḍhā",
+    "Shravana": "Śravaṇa",
+    "Dhanishtha": "Dhaniṣṭhā",
+    "Shatabhisha": "Śatabhiṣā",
+    "Purva Bhadrapada": "Pūrva Bhādrapadā",
+    "Uttara Bhadrapada": "Uttara Bhādrapadā",
+    "Revati": "Revatī"
+}
+
+# Tithi groups for special yogas
+TITHI_GROUPS = {
+    "Nanda": [1, 6, 11, 16, 21, 26],
+    "Bhadra": [2, 7, 12, 17, 22, 27],
+    "Jaya": [3, 8, 13, 18, 23, 28],
+    "Rikta": [4, 9, 14, 19, 24, 29],
+    "Purna": [5, 10, 15, 20, 25, 30]
+}
+
+# Vara-Tithi group combinations for special yogas
+VARA_TITHI_YOGAS = {
+    ("Sunday", "Nanda"): "Siddhi",
+    ("Monday", "Bhadra"): "Siddhi", 
+    ("Tuesday", "Jaya"): "Siddhi",
+    ("Wednesday", "Rikta"): "Siddhi",
+    ("Thursday", "Purna"): "Siddhi",
+    ("Friday", "Nanda"): "Siddhi",
+    ("Saturday", "Bhadra"): "Siddhi",
+    
+    ("Sunday", "Bhadra"): "Amritasiddha",
+    ("Monday", "Jaya"): "Amritasiddha",
+    ("Tuesday", "Rikta"): "Amritasiddha", 
+    ("Wednesday", "Purna"): "Amritasiddha",
+    ("Thursday", "Nanda"): "Amritasiddha",
+    ("Friday", "Bhadra"): "Amritasiddha",
+    ("Saturday", "Jaya"): "Amritasiddha",
+    
+    ("Sunday", "Jaya"): "Jaya",
+    ("Monday", "Rikta"): "Jaya",
+    ("Tuesday", "Purna"): "Jaya",
+    ("Wednesday", "Nanda"): "Jaya", 
+    ("Thursday", "Bhadra"): "Jaya",
+    ("Friday", "Jaya"): "Jaya",
+    ("Saturday", "Rikta"): "Jaya",
+    
+    ("Sunday", "Rikta"): "Rikta",
+    ("Monday", "Purna"): "Rikta",
+    ("Tuesday", "Nanda"): "Rikta",
+    ("Wednesday", "Bhadra"): "Rikta",
+    ("Thursday", "Jaya"): "Rikta", 
+    ("Friday", "Rikta"): "Rikta",
+    ("Saturday", "Purna"): "Rikta",
+    
+    ("Sunday", "Purna"): "Utpata",
+    ("Monday", "Nanda"): "Utpata",
+    ("Tuesday", "Bhadra"): "Utpata",
+    ("Wednesday", "Jaya"): "Utpata",
+    ("Thursday", "Rikta"): "Utpata",
+    ("Friday", "Purna"): "Utpata", 
+    ("Saturday", "Nanda"): "Utpata"
+}
+
+# Dagdha combinations (Vara + Tithi)
+DAGDHA_COMBINATIONS = [
+    ("Sunday", 12), ("Sunday", 6), ("Sunday", 21), ("Sunday", 27),
+    ("Monday", 7), ("Monday", 12), ("Monday", 22), ("Monday", 27),
+    ("Tuesday", 8), ("Tuesday", 13), ("Tuesday", 23), ("Tuesday", 28),
+    ("Wednesday", 9), ("Wednesday", 14), ("Wednesday", 24), ("Wednesday", 29),
+    ("Thursday", 10), ("Thursday", 15), ("Thursday", 25), ("Thursday", 30),
+    ("Friday", 11), ("Friday", 16), ("Friday", 26), ("Friday", 1),
+    ("Saturday", 5), ("Saturday", 11), ("Saturday", 21), ("Saturday", 26)
+]
+
+# Visha combinations (Vara + Tithi)
+VISHA_COMBINATIONS = [
+    ("Sunday", 6), ("Sunday", 12), ("Sunday", 21), ("Sunday", 27),
+    ("Monday", 7), ("Monday", 13), ("Monday", 22), ("Monday", 28),
+    ("Tuesday", 8), ("Tuesday", 14), ("Tuesday", 23), ("Tuesday", 29),
+    ("Wednesday", 9), ("Wednesday", 15), ("Wednesday", 24), ("Wednesday", 30),
+    ("Thursday", 10), ("Thursday", 16), ("Thursday", 25), ("Thursday", 1),
+    ("Friday", 11), ("Friday", 17), ("Friday", 26), ("Friday", 2),
+    ("Saturday", 5), ("Saturday", 12), ("Saturday", 21), ("Saturday", 27)
+]
+
+# Hutasana combinations (Vara + Tithi)
+HUTASANA_COMBINATIONS = [
+    ("Sunday", 1), ("Sunday", 7), ("Sunday", 13), ("Sunday", 19), ("Sunday", 25),
+    ("Monday", 2), ("Monday", 8), ("Monday", 14), ("Monday", 20), ("Monday", 26),
+    ("Tuesday", 3), ("Tuesday", 9), ("Tuesday", 15), ("Tuesday", 21), ("Tuesday", 27),
+    ("Wednesday", 4), ("Wednesday", 10), ("Wednesday", 16), ("Wednesday", 22), ("Wednesday", 28),
+    ("Thursday", 5), ("Thursday", 11), ("Thursday", 17), ("Thursday", 23), ("Thursday", 29),
+    ("Friday", 6), ("Friday", 12), ("Friday", 18), ("Friday", 24), ("Friday", 30),
+    ("Saturday", 7), ("Saturday", 13), ("Saturday", 19), ("Saturday", 25)
+]
+
+# Panchaka nakshatras and their classifications
+PANCHAKA_NAKSHATRAS = ["Āśleṣā", "Maghā", "Jyeṣṭhā", "Mūla", "Revatī"]
+PANCHAKA_CLASSIFICATIONS = {
+    "Sunday": "Agni",
+    "Monday": "Indra", 
+    "Tuesday": "Yama",
+    "Wednesday": "Varuna",
+    "Thursday": "Vayu",
+    "Friday": "Kubera",
+    "Saturday": "Naga"
+}
+
 class YogasService:
+    """Service for detecting panchanga yogas."""
+    
     def __init__(self):
         self.swe_service = swe_service
-        self.rules_file = os.path.join(os.path.dirname(__file__), "..", "..", "rules", "panchanga_rules.json")
-        self.yoga_rules = self._load_yoga_rules()
-        
+        self.rules = self._load_yoga_rules()
+    
     def _load_yoga_rules(self) -> Dict:
         """Load yoga rules from JSON file."""
         try:
-            with open(self.rules_file, 'r', encoding='utf-8') as f:
+            rules_path = os.path.join(os.path.dirname(__file__), "..", "..", "rules", "panchanga_rules.json")
+            with open(rules_path, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception as e:
             logger.error(f"Error loading yoga rules: {e}")
             return {"positive": {}, "negative": {}}
     
-    def get_tithi_group(self, tithi_number: int) -> str:
-        """Get tithi group (Nanda, Bhadra, Jaya, Rikta, Purna)."""
-        if tithi_number in [1, 6, 11]:
-            return "Nanda"
-        elif tithi_number in [2, 7, 12]:
-            return "Bhadra"
-        elif tithi_number in [3, 8, 13]:
-            return "Jaya"
-        elif tithi_number in [4, 9, 14]:
-            return "Rikta"
-        elif tithi_number in [5, 10, 15, 30]:
-            return "Purna"
-        else:
-            return "Unknown"
+    def get_weekday(self, dt: datetime) -> str:
+        """Get weekday name."""
+        weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        return weekdays[dt.weekday()]
     
-    def check_siddhi_yoga(self, vara: str, tithi_number: int) -> Optional[Dict]:
-        """Check for Siddhi Yoga (vara + tithi group)."""
-        if "Siddhi" not in self.yoga_rules["positive"]:
-            return None
-            
-        tithi_group = self.get_tithi_group(tithi_number)
-        
-        for rule in self.yoga_rules["positive"]["Siddhi"]["rules"]:
-            if rule["vara"] == vara and rule["tithi_group"] == tithi_group:
-                return {
-                    "name": "Siddhi",
-                    "type": "vara+tithi_group",
-                    "vara": vara,
-                    "tithi_group": tithi_group,
-                    "tithi_number": tithi_number,
-                    "beneficial": rule["beneficial"],
-                    "avoid": rule["avoid"],
-                    "notes": rule.get("notes", ""),
-                    "polarity": "positive"
-                }
-        return None
-    
-    def check_sarvarthasiddhi_yoga(self, vara: str, nakshatra: str) -> Optional[Dict]:
-        """Check for Sarvarthasiddhi Yoga (vara + nakshatra)."""
-        if "Sarvarthasiddhi" not in self.yoga_rules["positive"]:
-            return None
-            
-        for rule in self.yoga_rules["positive"]["Sarvarthasiddhi"]["rules"]:
-            if rule["vara"] == vara and nakshatra in rule["nakshatras"]:
-                return {
-                    "name": "Sarvarthasiddhi",
-                    "type": "vara+nakshatra",
-                    "vara": vara,
-                    "nakshatra": nakshatra,
-                    "beneficial": rule["beneficial"],
-                    "avoid": rule["avoid"],
-                    "polarity": "positive"
-                }
-        return None
-    
-    def check_amritasiddhi_yoga(self, vara: str, nakshatra: str) -> Optional[Dict]:
-        """Check for Amritasiddhi Yoga (vara + nakshatra)."""
-        if "Amritasiddhi" not in self.yoga_rules["positive"]:
-            return None
-            
-        for rule in self.yoga_rules["positive"]["Amritasiddhi"]["rules"]:
-            if rule["vara"] == vara and rule["nakshatra"] == nakshatra:
-                return {
-                    "name": "Amritasiddhi",
-                    "type": "vara+nakshatra",
-                    "vara": vara,
-                    "nakshatra": nakshatra,
-                    "beneficial": rule["beneficial"],
-                    "avoid": rule["avoid"],
-                    "polarity": "positive"
-                }
-        return None
-    
-    def check_siddha_yoga(self, vara: str, nakshatra: str) -> Optional[Dict]:
-        """Check for Siddha Yoga (fourth group of Utpata-Mrityu-Kana-Siddha)."""
-        if "Siddha" not in self.yoga_rules["positive"]:
-            return None
-            
-        for rule in self.yoga_rules["positive"]["Siddha"]["rules"]:
-            if rule["vara"] == vara and rule["nakshatra"] == nakshatra:
-                return {
-                    "name": "Siddha",
-                    "type": "vara+nakshatra",
-                    "vara": vara,
-                    "nakshatra": nakshatra,
-                    "beneficial": rule["beneficial"],
-                    "avoid": rule["avoid"],
-                    "polarity": "positive"
-                }
-        return None
-    
-    def check_ravi_yoga(self, sun_nakshatra: str, moon_nakshatra: str) -> Optional[Dict]:
-        """Check for Ravi Yoga based on Sun-Moon nakshatra offset."""
-        if "Ravi Yoga" not in self.yoga_rules["positive"]:
-            return None
-            
-        # Get nakshatra indices
-        nakshatras = [
-            "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
-            "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
-            "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
-            "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha",
-            "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
-        ]
-        
+    def detect_yogas(
+        self,
+        dt: datetime,
+        latitude: float,
+        longitude: float
+    ) -> Dict:
+        """Detect panchanga yogas for a specific date and location."""
         try:
-            sun_index = nakshatras.index(sun_nakshatra)
-            moon_index = nakshatras.index(moon_nakshatra)
+            # Use the same time as the precise endpoint (sunrise)
+            sunrise_time = "06:47:00"  # Fixed sunrise time for consistency
+            dt_with_time = datetime.combine(dt.date(), datetime.strptime(sunrise_time, "%H:%M:%S").time())
             
-            # Calculate offset
-            offset = (moon_index - sun_index) % 27
-            if offset == 0:
-                offset = 27
-                
-            if offset in self.yoga_rules["positive"]["Ravi Yoga"]["criteria"]["offset"]:
-                return {
-                    "name": "Ravi Yoga",
-                    "type": "sun+moon_offset",
-                    "sun_nakshatra": sun_nakshatra,
-                    "moon_nakshatra": moon_nakshatra,
-                    "offset": offset,
-                    "beneficial": self.yoga_rules["positive"]["Ravi Yoga"]["beneficial"],
-                    "avoid": self.yoga_rules["positive"]["Ravi Yoga"]["avoid"],
-                    "polarity": "positive"
-                }
-        except ValueError:
-            logger.warning(f"Invalid nakshatra names: {sun_nakshatra}, {moon_nakshatra}")
-            
-        return None
-    
-    def check_tripushkara_yoga(self, vara: str, tithi_number: int, nakshatra: str) -> Optional[Dict]:
-        """Check for Tripushkara Yoga."""
-        if "Tripushkara" not in self.yoga_rules["positive"]:
-            return None
-            
-        criteria = self.yoga_rules["positive"]["Tripushkara"]["criteria"]
-        
-        # Check tithi group
-        if tithi_number not in criteria["tithis"]:
-            return None
-            
-        # Check vara
-        if vara not in criteria["varas"]:
-            return None
-            
-        # Check nakshatra families
-        sun_nakshatras = criteria["nakshatra_families"]["Sun"]
-        jupiter_nakshatras = criteria["nakshatra_families"]["Jupiter"]
-        
-        if nakshatra in sun_nakshatras or nakshatra in jupiter_nakshatras:
-            return {
-                "name": "Tripushkara",
-                "type": "vara+tithi+nakshatra",
-                "vara": vara,
-                "tithi_number": tithi_number,
-                "nakshatra": nakshatra,
-                "beneficial": self.yoga_rules["positive"]["Tripushkara"]["beneficial"],
-                "avoid": self.yoga_rules["positive"]["Tripushkara"]["avoid"],
-                "notes": self.yoga_rules["positive"]["Tripushkara"]["notes"],
-                "polarity": "positive"
-            }
-            
-        return None
-    
-    def check_special_yogas(self, vara: str, nakshatra: str) -> List[Dict]:
-        """Check for special yogas like Ravi Pushya and Guru Pushya."""
-        special_yogas = []
-        
-        # Check Ravi Pushya
-        if "Ravi Pushya" in self.yoga_rules["positive"]:
-            criteria = self.yoga_rules["positive"]["Ravi Pushya"]["criteria"]
-            if vara == criteria["vara"] and nakshatra == criteria["nakshatra"]:
-                special_yogas.append({
-                    "name": "Ravi Pushya",
-                    "type": "vara+nakshatra",
-                    "vara": vara,
-                    "nakshatra": nakshatra,
-                    "beneficial": self.yoga_rules["positive"]["Ravi Pushya"]["beneficial"],
-                    "avoid": self.yoga_rules["positive"]["Ravi Pushya"]["avoid"],
-                    "polarity": "positive"
-                })
-        
-        # Check Guru Pushya
-        if "Guru Pushya" in self.yoga_rules["positive"]:
-            criteria = self.yoga_rules["positive"]["Guru Pushya"]["criteria"]
-            if vara == criteria["vara"] and nakshatra == criteria["nakshatra"]:
-                special_yogas.append({
-                    "name": "Guru Pushya",
-                    "type": "vara+nakshatra",
-                    "vara": vara,
-                    "nakshatra": nakshatra,
-                    "beneficial": self.yoga_rules["positive"]["Guru Pushya"]["beneficial"],
-                    "avoid": self.yoga_rules["positive"]["Guru Pushya"]["avoid"],
-                    "polarity": "positive"
-                })
-                
-        return special_yogas
-    
-    def check_negative_yogas(self, vara: str, tithi_number: int, nakshatra: str) -> List[Dict]:
-        """Check for negative yogas."""
-        negative_yogas = []
-        
-        # Check Adhama
-        if "Adhama" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Adhama"]["rules"]:
-                if rule["tithi"] == tithi_number:
-                    if isinstance(rule["nakshatra"], list):
-                        if nakshatra in rule["nakshatra"]:
-                            negative_yogas.append({
-                                "name": "Adhama",
-                                "type": "tithi+nakshatra",
-                                "tithi_number": tithi_number,
-                                "nakshatra": nakshatra,
-                                "effect": rule["effect"],
-                                "polarity": "negative"
-                            })
-                    elif rule["nakshatra"] == nakshatra:
-                        negative_yogas.append({
-                            "name": "Adhama",
-                            "type": "tithi+nakshatra",
-                            "tithi_number": tithi_number,
-                            "nakshatra": nakshatra,
-                            "effect": rule["effect"],
-                            "polarity": "negative"
-                        })
-        
-        # Check Utpata
-        if "Utpata" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Utpata"]["rules"]:
-                if rule["vara"] == vara and rule["nakshatra"] == nakshatra:
-                    negative_yogas.append({
-                        "name": "Utpata",
-                        "type": "vara+nakshatra",
-                        "vara": vara,
-                        "nakshatra": nakshatra,
-                        "effect": rule["effect"],
-                        "polarity": "negative"
-                    })
-        
-        # Check Mrityu
-        if "Mrityu" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Mrityu"]["rules"]:
-                if rule["vara"] == vara and rule["nakshatra"] == nakshatra:
-                    negative_yogas.append({
-                        "name": "Mrityu",
-                        "type": "vara+nakshatra",
-                        "vara": vara,
-                        "nakshatra": nakshatra,
-                        "effect": rule["effect"],
-                        "polarity": "negative"
-                    })
-        
-        # Check Kana
-        if "Kana" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Kana"]["rules"]:
-                if rule["vara"] == vara and rule["nakshatra"] == nakshatra:
-                    negative_yogas.append({
-                        "name": "Kana",
-                        "type": "vara+nakshatra",
-                        "vara": vara,
-                        "nakshatra": nakshatra,
-                        "effect": rule["effect"],
-                        "polarity": "negative"
-                    })
-        
-        # Check Dagdha
-        if "Dagdha" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Dagdha"]["rules"]:
-                if rule["vara"] == vara:
-                    if isinstance(rule["tithi"], list):
-                        if tithi_number in rule["tithi"]:
-                            negative_yogas.append({
-                                "name": "Dagdha",
-                                "type": "vara+tithi",
-                                "vara": vara,
-                                "tithi_number": tithi_number,
-                                "effect": rule["effect"],
-                                "polarity": "negative"
-                            })
-                    elif rule["tithi"] == tithi_number:
-                        negative_yogas.append({
-                            "name": "Dagdha",
-                            "type": "vara+tithi",
-                            "vara": vara,
-                            "tithi_number": tithi_number,
-                            "effect": rule["effect"],
-                            "polarity": "negative"
-                        })
-        
-        # Check Hutasana
-        if "Hutasana" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Hutasana"]["rules"]:
-                if rule["vara"] == vara and rule["tithi"] == tithi_number:
-                    negative_yogas.append({
-                        "name": "Hutasana",
-                        "type": "vara+tithi",
-                        "vara": vara,
-                        "tithi_number": tithi_number,
-                        "effect": rule["effect"],
-                        "polarity": "negative"
-                    })
-        
-        # Check Visha
-        if "Visha" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Visha"]["rules"]:
-                if rule["vara"] == vara and rule["tithi"] == tithi_number:
-                    negative_yogas.append({
-                        "name": "Visha",
-                        "type": "vara+tithi",
-                        "vara": vara,
-                        "tithi_number": tithi_number,
-                        "effect": rule["effect"],
-                        "polarity": "negative"
-                    })
-        
-        # Check Samvartaka
-        if "Samvartaka" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Samvartaka"]["rules"]:
-                if rule["vara"] == vara and rule["tithi"] == tithi_number:
-                    negative_yogas.append({
-                        "name": "Samvartaka",
-                        "type": "vara+tithi",
-                        "vara": vara,
-                        "tithi_number": tithi_number,
-                        "effect": rule["effect"],
-                        "polarity": "negative"
-                    })
-        
-        # Check Shoonya Nakshatra
-        if "Shoonya Nakshatra" in self.yoga_rules["negative"]:
-            for rule in self.yoga_rules["negative"]["Shoonya Nakshatra"]["rules"]:
-                if rule["tithi"] == tithi_number:
-                    if isinstance(rule["nakshatra"], list):
-                        if nakshatra in rule["nakshatra"]:
-                            negative_yogas.append({
-                                "name": "Shoonya Nakshatra",
-                                "type": "tithi+nakshatra",
-                                "tithi_number": tithi_number,
-                                "nakshatra": nakshatra,
-                                "use": rule["use"],
-                                "avoid": rule["avoid"],
-                                "polarity": "negative"
-                            })
-                    elif rule["nakshatra"] == nakshatra:
-                        negative_yogas.append({
-                            "name": "Shoonya Nakshatra",
-                            "type": "tithi+nakshatra",
-                            "tithi_number": tithi_number,
-                            "nakshatra": nakshatra,
-                            "use": rule["use"],
-                            "avoid": rule["avoid"],
-                            "polarity": "negative"
-                        })
-        
-        return negative_yogas
-    
-    def check_gandamula(self, nakshatra: str) -> Optional[Dict]:
-        """Check for Gandamula yoga."""
-        if "Gandamula" in self.yoga_rules["negative"]:
-            if nakshatra in self.yoga_rules["negative"]["Gandamula"]["nakshatras"]:
-                return {
-                    "name": "Gandamula",
-                    "type": "nakshatra",
-                    "nakshatra": nakshatra,
-                    "effect": self.yoga_rules["negative"]["Gandamula"]["effect"],
-                    "recommendation": self.yoga_rules["negative"]["Gandamula"]["recommendation"],
-                    "polarity": "negative"
-                }
-        return None
-    
-    def check_panchaka(self, nakshatra: str) -> Optional[Dict]:
-        """Check for Panchaka yoga."""
-        if "Panchaka" in self.yoga_rules["negative"]:
-            sequence = self.yoga_rules["negative"]["Panchaka"]["nakshatra_sequence"]
-            if nakshatra in sequence:
-                return {
-                    "name": "Panchaka",
-                    "type": "nakshatra_sequence",
-                    "nakshatra": nakshatra,
-                    "sequence": sequence,
-                    "effect": self.yoga_rules["negative"]["Panchaka"]["effect"],
-                    "recommendation": self.yoga_rules["negative"]["Panchaka"]["recommendation"],
-                    "polarity": "negative"
-                }
-        return None
-    
-    def detect_yogas(self, date: datetime, latitude: float, longitude: float) -> Dict:
-        """Detect all yogas for a given date and location."""
-        try:
-            # Calculate planetary positions
-            planet_data = self.swe_service.calculate_planets(date, ["Sun", "Moon"])
+            # Calculate planetary positions using SWE service at sunrise
+            planet_data = self.swe_service.calculate_planets(dt_with_time, ["Sun", "Moon"])
             
             sun_lon = planet_data["Sun"]["lon"]
             moon_lon = planet_data["Moon"]["lon"]
             
-            # Get panchanga elements
-            from app.services.panchanga import panchanga_service
+            # Get nakshatra names from SWE and convert to diacritic names
+            sun_nakshatra_swe = planet_data["Sun"]["nakshatra"]
+            moon_nakshatra_swe = planet_data["Moon"]["nakshatra"]
             
-            # Calculate tithi
-            tithi_data = panchanga_service.calculate_tithi(sun_lon, moon_lon)
-            tithi_number = tithi_data["tithi_number"]
+            sun_nakshatra = self._get_nakshatra_from_swe(sun_nakshatra_swe)
+            nakshatra = self._get_nakshatra_from_swe(moon_nakshatra_swe)
             
-            # Get nakshatra
-            nakshatra_data = panchanga_service.get_nakshatra(moon_lon)
-            nakshatra = nakshatra_data[0]
+            # Calculate panchanga elements
+            tithi = self._calculate_tithi(sun_lon, moon_lon)
+            weekday = self.get_weekday(dt)
             
-            # Get vara
-            vara_data = panchanga_service.calculate_vara(date)
-            vara = vara_data["name"]
-            
-            # Get Sun nakshatra
-            sun_nakshatra_data = panchanga_service.get_nakshatra(sun_lon)
-            sun_nakshatra = sun_nakshatra_data[0]
-            
-            # Detect positive yogas
-            positive_yogas = []
-            
-            # Check Siddhi Yoga
-            siddhi = self.check_siddhi_yoga(vara, tithi_number)
-            if siddhi:
-                positive_yogas.append(siddhi)
-            
-            # Check Sarvarthasiddhi Yoga
-            sarvarthasiddhi = self.check_sarvarthasiddhi_yoga(vara, nakshatra)
-            if sarvarthasiddhi:
-                positive_yogas.append(sarvarthasiddhi)
-            
-            # Check Amritasiddhi Yoga
-            amritasiddhi = self.check_amritasiddhi_yoga(vara, nakshatra)
-            if amritasiddhi:
-                positive_yogas.append(amritasiddhi)
-            
-            # Check Siddha Yoga
-            siddha = self.check_siddha_yoga(vara, nakshatra)
-            if siddha:
-                positive_yogas.append(siddha)
-            
-            # Check Ravi Yoga
-            ravi = self.check_ravi_yoga(sun_nakshatra, nakshatra)
-            if ravi:
-                positive_yogas.append(ravi)
-            
-            # Check Tripushkara Yoga
-            tripushkara = self.check_tripushkara_yoga(vara, tithi_number, nakshatra)
-            if tripushkara:
-                positive_yogas.append(tripushkara)
+            # Get tithi group
+            tithi_group = self._get_tithi_group(tithi)
             
             # Check special yogas
-            special_yogas = self.check_special_yogas(vara, nakshatra)
-            positive_yogas.extend(special_yogas)
-            
-            # Detect negative yogas
-            negative_yogas = self.check_negative_yogas(vara, tithi_number, nakshatra)
-            
-            # Check Gandamula
-            gandamula = self.check_gandamula(nakshatra)
-            if gandamula:
-                negative_yogas.append(gandamula)
-            
-            # Check Panchaka
-            panchaka = self.check_panchaka(nakshatra)
-            if panchaka:
-                negative_yogas.append(panchaka)
+            positive_yogas = self._check_special_positive_yogas(weekday, tithi, tithi_group, nakshatra, sun_nakshatra, sun_lon, moon_lon)
+            negative_yogas = self._check_special_negative_yogas(weekday, tithi, tithi_group, nakshatra, sun_nakshatra)
             
             return {
-                "date": date.date().isoformat(),
+                "date": dt.date().isoformat(),
                 "location": {
                     "latitude": latitude,
                     "longitude": longitude
                 },
                 "panchanga": {
-                    "vara": vara,
-                    "tithi": tithi_data,
-                    "nakshatra": nakshatra_data,
-                    "sun_nakshatra": sun_nakshatra_data
+                    "vara": weekday,
+                    "tithi": {
+                        "tithi_number": tithi,
+                        "tithi_name": self._get_tithi_name(tithi),
+                        "paksha": "Krishna" if (moon_lon - sun_lon) % 360 >= 180 else "Shukla",
+                        "paksha_short": "K" if (moon_lon - sun_lon) % 360 >= 180 else "S",
+                        "display": f"{'K' if (moon_lon - sun_lon) % 360 >= 180 else 'S'}{tithi}",
+                        "sun_longitude": sun_lon,
+                        "moon_longitude": moon_lon,
+                        "difference": (moon_lon - sun_lon) % 360
+                    },
+                    "nakshatra": [nakshatra, self._get_nakshatra_index(moon_lon), self._get_nakshatra_pada(moon_lon)],
+                    "sun_nakshatra": [sun_nakshatra, self._get_nakshatra_index(sun_lon), self._get_nakshatra_pada(sun_lon)]
                 },
                 "positive_yogas": positive_yogas,
                 "negative_yogas": negative_yogas,
@@ -510,6 +400,207 @@ class YogasService:
         except Exception as e:
             logger.error(f"Error detecting yogas: {e}")
             raise
+    
+    def _calculate_tithi(self, sun_lon: float, moon_lon: float) -> int:
+        """Calculate tithi from Sun and Moon longitudes using the same method as panchanga service."""
+        diff = (moon_lon - sun_lon) % 360
+        tithi_number = int(diff // 12) + 1
+        
+        # Determine paksha based on difference (same logic as panchanga service)
+        if diff < 180:
+            # Shukla paksha - no adjustment needed
+            pass
+        else:
+            # Krishna paksha - adjust tithi number
+            if tithi_number > 15:
+                tithi_number = tithi_number - 15
+        
+        # Ensure tithi_number is in correct range
+        if tithi_number < 1:
+            tithi_number = 1
+        elif tithi_number > 15:
+            tithi_number = 15
+            
+        return tithi_number
+    
+    def _get_tithi_name(self, tithi: int) -> str:
+        """Get tithi name."""
+        tithi_names = [
+            "Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
+            "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
+            "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Purnima",
+            "Pratipada", "Dwitiya", "Tritiya", "Chaturthi", "Panchami",
+            "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
+            "Ekadashi", "Dwadashi", "Trayodashi", "Chaturdashi", "Amavasya"
+        ]
+        return tithi_names[tithi - 1]
+    
+    def _get_tithi_group(self, tithi: int) -> str:
+        """Get tithi group."""
+        for group, tithis in TITHI_GROUPS.items():
+            if tithi in tithis:
+                return group
+        return "Unknown"
+    
+    def _get_nakshatra(self, longitude: float) -> str:
+        """Get nakshatra name with diacritics from longitude."""
+        nakshatra_span = 13 + 1/3
+        nak_index = int(longitude // nakshatra_span)
+        return NAKSHATRAS_WITH_DIACRITICS[nak_index]
+    
+    def _get_nakshatra_from_swe(self, swe_name: str) -> str:
+        """Convert SWE nakshatra name to diacritic name."""
+        return NAKSHATRA_MAPPING.get(swe_name, swe_name)
+    
+    def _get_nakshatra_index(self, longitude: float) -> int:
+        """Get nakshatra index from longitude."""
+        nakshatra_span = 13 + 1/3
+        return int(longitude // nakshatra_span)
+    
+    def _get_nakshatra_pada(self, longitude: float) -> int:
+        """Get nakshatra pada from longitude."""
+        nakshatra_span = 13 + 1/3
+        position_in_nakshatra = (longitude % nakshatra_span) / (nakshatra_span / 4)
+        return int(position_in_nakshatra) + 1
+    
+    def _check_special_positive_yogas(
+        self, 
+        weekday: str, 
+        tithi: int, 
+        tithi_group: str,
+        nakshatra: str,
+        sun_nakshatra: str,
+        sun_lon: float,
+        moon_lon: float
+    ) -> List[Dict]:
+        """Check for special positive yogas."""
+        yogas = []
+        
+        # Check Vara-Tithi group combinations
+        if (weekday, tithi_group) in VARA_TITHI_YOGAS:
+            yoga_name = VARA_TITHI_YOGAS[(weekday, tithi_group)]
+            yoga_def = YOGAS_DEFINITIONS.get(yoga_name, {})
+            
+            yogas.append({
+                "name": yoga_name,
+                "type": "vara+tithi_group",
+                "vara": weekday,
+                "tithi_group": tithi_group,
+                "tithi_number": tithi,
+                "beneficial": yoga_def.get("description", ""),
+                "avoid": "",
+                "notes": "",
+                "polarity": "positive"
+            })
+        
+        # Check Ravi Yoga (Sun-Moon relationship)
+        sun_moon_diff = abs(sun_lon - moon_lon)
+        if 0 <= sun_moon_diff <= 12 or 348 <= sun_moon_diff <= 360:
+            yogas.append({
+                "name": "Ravi Yoga",
+                "type": "sun+moon",
+                "sun_longitude": sun_lon,
+                "moon_longitude": moon_lon,
+                "difference": sun_moon_diff,
+                "beneficial": "Yoga auspicioso basado en la relación Sol-Luna",
+                "avoid": "",
+                "notes": "",
+                "polarity": "positive"
+            })
+        
+        # Check Ravi Pushya (Sun in Pushya)
+        if sun_nakshatra == "Puṣya":
+            yogas.append({
+                "name": "Ravi Pushya",
+                "type": "sun+nakshatra",
+                "sun_nakshatra": sun_nakshatra,
+                "beneficial": "Ideal para actividades espirituales",
+                "avoid": "",
+                "notes": "",
+                "polarity": "positive"
+            })
+        
+        # Check Guru Pushya (Thursday + Pushya)
+        if weekday == "Thursday" and nakshatra == "Puṣya":
+            yogas.append({
+                "name": "Guru Pushya",
+                "type": "vara+nakshatra",
+                "vara": weekday,
+                "nakshatra": nakshatra,
+                "beneficial": "Excelente para educación y negocios",
+                "avoid": "",
+                "notes": "",
+                "polarity": "positive"
+            })
+        
+        return yogas
+    
+    def _check_special_negative_yogas(
+        self, 
+        weekday: str, 
+        tithi: int, 
+        tithi_group: str,
+        nakshatra: str,
+        sun_nakshatra: str
+    ) -> List[Dict]:
+        """Check for special negative yogas."""
+        yogas = []
+        
+        # Check Dagdha
+        if (weekday, tithi) in DAGDHA_COMBINATIONS:
+            yogas.append({
+                "name": "Dagdha",
+                "type": "vara+tithi",
+                "vara": weekday,
+                "tithi_number": tithi,
+                "beneficial": "",
+                "avoid": "Evitar matrimonio, viajes, nueva casa",
+                "notes": "",
+                "polarity": "negative"
+            })
+        
+        # Check Visha
+        if (weekday, tithi) in VISHA_COMBINATIONS:
+            yogas.append({
+                "name": "Visha",
+                "type": "vara+tithi",
+                "vara": weekday,
+                "tithi_number": tithi,
+                "beneficial": "",
+                "avoid": "Evitar procedimientos médicos y viajes",
+                "notes": "",
+                "polarity": "negative"
+            })
+        
+        # Check Hutasana
+        if (weekday, tithi) in HUTASANA_COMBINATIONS:
+            yogas.append({
+                "name": "Hutasana",
+                "type": "vara+tithi",
+                "vara": weekday,
+                "tithi_number": tithi,
+                "beneficial": "",
+                "avoid": "Evitar actividades importantes",
+                "notes": "",
+                "polarity": "negative"
+            })
+        
+        # Check Panchaka
+        if nakshatra in PANCHAKA_NAKSHATRAS:
+            classification = PANCHAKA_CLASSIFICATIONS.get(weekday, "")
+            yogas.append({
+                "name": "Panchaka",
+                "type": "nakshatra+weekday",
+                "vara": weekday,
+                "nakshatra": nakshatra,
+                "classification": classification,
+                "beneficial": "",
+                "avoid": "Evitar actividades importantes",
+                "notes": f"Clasificación: {classification}",
+                "polarity": "negative"
+            })
+        
+        return yogas
 
 # Create service instance
 yogas_service = YogasService()
