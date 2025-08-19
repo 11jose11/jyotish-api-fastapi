@@ -1,157 +1,714 @@
 {
   "positive": {
-    "Amrita Siddhi": {
-      "type": "vara+nakshatra",
-      "criteria": {
-        "weekday": "Sunday",
-        "nakshatra": [
-          "Ashwini", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", 
-          "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", 
-          "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", 
-          "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishtha", 
-          "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
-        ]
-      },
-      "description": "Amrita Siddhi yoga occurs when Sunday coincides with specific nakshatras"
+    "Siddhi": {
+      "type": "vara+tithi_group",
+      "description": "Siddhi Yoga (por vara + grupo de tithi)",
+      "rules": [
+        {
+          "vara": "Friday",
+          "tithi_group": "Nanda",
+          "tithis": [1, 6, 11],
+          "beneficial": "Compras importantes, inicios creativos, relaciones",
+          "avoid": "—",
+          "notes": "Nanda/Bhadra/Jaya/Rikta/Pūrṇa son los 5 grupos clásicos de tithis"
+        },
+        {
+          "vara": "Wednesday",
+          "tithi_group": "Bhadra",
+          "tithis": [2, 7, 12],
+          "beneficial": "Estudio, comunicación, firma de documentos",
+          "avoid": "—",
+          "notes": "Bhadra ≈ estabilidad/materialidad"
+        },
+        {
+          "vara": "Tuesday",
+          "tithi_group": "Jaya",
+          "tithis": [3, 8, 13],
+          "beneficial": "Competencias, litigios, tareas que exigen coraje",
+          "avoid": "Viajes largos si Marte está afligido",
+          "notes": "Jaya = 'victoria'"
+        },
+        {
+          "vara": "Tuesday",
+          "tithi_group": "Nanda",
+          "tithis": [1, 6, 11],
+          "beneficial": "Competencias, litigios, tareas que exigen coraje",
+          "avoid": "Viajes largos si Marte está afligido",
+          "notes": "Jaya = 'victoria'"
+        },
+        {
+          "vara": "Saturday",
+          "tithi_group": "Rikta",
+          "tithis": [4, 9, 14],
+          "beneficial": "Desapego, limpieza, cerrar ciclos",
+          "avoid": "Iniciar obras/negocios",
+          "notes": "'Rikta' = vacío; útil para sacar lo que no sirve"
+        },
+        {
+          "vara": "Thursday",
+          "tithi_group": "Pūrṇa",
+          "tithis": [5, 10, 15, 30],
+          "beneficial": "Ritos espirituales, consagraciones, donaciones",
+          "avoid": "Evita inversiones si la Luna está débil",
+          "notes": "Pūrṇa = plenitud/consumación"
+        }
+      ]
     },
-    "Sarvartha Siddhi": {
+    "Sarvarthasiddhi": {
       "type": "vara+nakshatra",
-      "criteria": {
-        "weekday": "Monday",
-        "nakshatra": ["Rohini", "Hasta", "Shravana"]
-      },
-      "description": "Sarvartha Siddhi yoga for Monday with specific nakshatras"
+      "description": "Sarvārthasiddhi Yoga (por vara + nakshatra)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "nakshatras": ["Hasta", "Mula", "Uttara Phalguni", "Uttara Ashadha", "Uttara Bhadrapada", "Pushya", "Ashlesha"],
+          "beneficial": "'Éxito total' para lanzar proyectos",
+          "avoid": "Coteja vedhas y periodos de Rahu/Gulika/Yamaganda"
+        },
+        {
+          "vara": "Monday",
+          "nakshatras": ["Shravana", "Rohini", "Mrigashira", "Pushya", "Anuradha"],
+          "beneficial": "Negocios, contratos, entrevistas",
+          "avoid": "—"
+        },
+        {
+          "vara": "Tuesday",
+          "nakshatras": ["Ashwini", "Krittika", "Ashlesha", "Uttara Bhadrapada"],
+          "beneficial": "Competencias, acciones legales",
+          "avoid": "Matrimonio / Gṛhapraveśa si Marte está fuerte"
+        },
+        {
+          "vara": "Wednesday",
+          "nakshatras": ["Rohini", "Anuradha", "Hasta", "Krittika", "Mrigashira"],
+          "beneficial": "Firma y comunicación",
+          "avoid": "—"
+        },
+        {
+          "vara": "Thursday",
+          "nakshatras": ["Revati", "Anuradha", "Ashwini", "Punarvasu", "Pushya"],
+          "beneficial": "Educación, espiritualidad, finanzas",
+          "avoid": "—"
+        },
+        {
+          "vara": "Friday",
+          "nakshatras": ["Revati", "Anuradha", "Ashwini", "Punarvasu", "Shravana"],
+          "beneficial": "Compras, acuerdos, relaciones",
+          "avoid": "—"
+        },
+        {
+          "vara": "Saturday",
+          "nakshatras": ["Shravana", "Rohini", "Swati"],
+          "beneficial": "Proyectos de largo plazo",
+          "avoid": "—"
+        }
+      ]
+    },
+    "Amritasiddhi": {
+      "type": "vara+nakshatra",
+      "description": "Amṛtasiddhi Yoga (por vara + nakshatra)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "nakshatra": "Hasta",
+          "beneficial": "Comienzos 'que perduran'",
+          "avoid": "—"
+        },
+        {
+          "vara": "Monday",
+          "nakshatra": "Mrigashira",
+          "beneficial": "Estudios, contratos, viajes",
+          "avoid": "—"
+        },
+        {
+          "vara": "Tuesday",
+          "nakshatra": "Ashwini",
+          "beneficial": "Negocio/empleo",
+          "avoid": "Gṛhapraveśa / construir casa"
+        },
+        {
+          "vara": "Wednesday",
+          "nakshatra": "Anuradha",
+          "beneficial": "Networking, alianzas",
+          "avoid": "Matrimonio"
+        },
+        {
+          "vara": "Thursday",
+          "nakshatra": "Pushya",
+          "beneficial": "Ritos espirituales, inversiones",
+          "avoid": "Matrimonio"
+        },
+        {
+          "vara": "Friday",
+          "nakshatra": "Revati",
+          "beneficial": "Compras mayores, firmas",
+          "avoid": "—"
+        },
+        {
+          "vara": "Saturday",
+          "nakshatra": "Rohini",
+          "beneficial": "Proyectos de estabilidad",
+          "avoid": "Viajar al Sur"
+        }
+      ]
     },
     "Siddha": {
       "type": "vara+nakshatra",
-      "criteria": {
-        "weekday": "Tuesday",
-        "nakshatra": ["Krittika", "Vishakha", "Purva Bhadrapada"]
-      },
-      "description": "Siddha yoga for Tuesday with specific nakshatras"
+      "description": "Siddha Yoga (cuarto grupo de Utpāta-Mṛtyu-Kāṇā-Siddha)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "nakshatra": "Mula",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        },
+        {
+          "vara": "Monday",
+          "nakshatra": "Dhanishtha",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        },
+        {
+          "vara": "Tuesday",
+          "nakshatra": "Uttara Bhadrapada",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        },
+        {
+          "vara": "Wednesday",
+          "nakshatra": "Krittika",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        },
+        {
+          "vara": "Thursday",
+          "nakshatra": "Punarvasu",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        },
+        {
+          "vara": "Friday",
+          "nakshatra": "Purva Phalguni",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        },
+        {
+          "vara": "Saturday",
+          "nakshatra": "Swati",
+          "beneficial": "Auspicioso para realizar objetivos",
+          "avoid": "—"
+        }
+      ]
     },
     "Ravi Yoga": {
-      "type": "sun+moon",
+      "type": "sun+moon_offset",
+      "description": "Ravi Yoga (regla general)",
       "criteria": {
-        "offset": [4, 6, 9, 10, 13, 20]
+        "offset": [4, 6, 9, 10, 13, 20],
+        "rule": "Se forma cuando la Luna está en el 4º, 6º, 9º, 10º, 13º o 20º nakshatra contado desde el nakshatra del Sol"
       },
-      "description": "Ravi Yoga based on Sun-Moon nakshatra offset"
-    },
-    "Guru Pushya": {
-      "type": "vara+nakshatra",
-      "criteria": {
-        "weekday": "Thursday",
-        "nakshatra": ["Pushya"]
-      },
-      "description": "Guru Pushya yoga - Thursday with Pushya nakshatra"
-    },
-    "Ravi Pushya": {
-      "type": "sun+nakshatra",
-      "criteria": {
-        "nakshatra": ["Pushya"]
-      },
-      "description": "Ravi Pushya yoga - Sun in Pushya nakshatra"
-    },
-    "Dvipushkara": {
-      "type": "vara+tithi+nakshatra",
-      "criteria": {
-        "tithi": [2, 7, 12],
-        "nakshatra": ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra"]
-      },
-      "description": "Dvipushkara yoga with specific tithi and nakshatra combinations"
+      "beneficial": "'Quita obstáculos': inicios de casi todo tipo",
+      "avoid": "—"
     },
     "Tripushkara": {
       "type": "vara+tithi+nakshatra",
+      "description": "Tripuṣkara (repetición de resultados)",
       "criteria": {
-        "tithi": [2, 7, 12],
-        "nakshatra": ["Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni"]
+        "tithi_group": "Bhadra",
+        "tithis": [2, 7, 12],
+        "varas": ["Sunday", "Tuesday", "Saturday"],
+        "nakshatra_families": {
+          "Sun": ["Krittika", "Uttara Phalguni", "Uttara Ashadha"],
+          "Jupiter": ["Punarvasu", "Vishakha", "Purva Bhadrapada"]
+        }
       },
-      "description": "Tripushkara yoga with specific tithi and nakshatra combinations"
+      "beneficial": "Estudio, japa, donaciones (que 'se repitan' los méritos)",
+      "avoid": "Contratos pleitos/compras si NO quieres repetirlos",
+      "notes": "Tiende a 'multiplicar' el efecto (hasta 3×)"
+    },
+    "Dvipushkara": {
+      "type": "vara+tithi+nakshatra",
+      "description": "Dvipuṣkara (repetición 2×)",
+      "beneficial": "Prácticas espirituales, aprendizaje",
+      "avoid": "Iniciar deudas / conflictos",
+      "notes": "Consulta tu lugar/fecha: las ventanas son breves"
+    },
+    "Ravi Pushya": {
+      "type": "vara+nakshatra",
+      "description": "Ravi Puṣya (especial)",
+      "criteria": {
+        "vara": "Sunday",
+        "nakshatra": "Pushya"
+      },
+      "beneficial": "Compras mayores (oro/vehículos), iniciar negocios",
+      "avoid": "—"
+    },
+    "Guru Pushya": {
+      "type": "vara+nakshatra",
+      "description": "Guru Puṣya (especial)",
+      "criteria": {
+        "vara": "Thursday",
+        "nakshatra": "Pushya"
+      },
+      "beneficial": "Educación, contratos grandes, consagraciones",
+      "avoid": "—"
     }
   },
   "negative": {
+    "Adhama": {
+      "type": "tithi+nakshatra",
+      "description": "Adhama/Prohibitorios (combinaciones Tithi + Nakshatra)",
+      "rules": [
+        {
+          "tithi": 12,
+          "nakshatra": "Ashlesha",
+          "effect": "Evitar inicios"
+        },
+        {
+          "tithi": 1,
+          "nakshatra": "Uttara Ashadha",
+          "effect": "Evitar ritos"
+        },
+        {
+          "tithi": 2,
+          "nakshatra": "Anuradha",
+          "effect": "Perdidas/contratiempos"
+        },
+        {
+          "tithi": 3,
+          "nakshatra": "Uttara Phalguni",
+          "effect": "—"
+        },
+        {
+          "tithi": 11,
+          "nakshatra": "Rohini",
+          "effect": "—"
+        },
+        {
+          "tithi": 13,
+          "nakshatra": ["Swati", "Chitra"],
+          "effect": "—"
+        },
+        {
+          "tithi": 7,
+          "nakshatra": ["Hasta", "Mula"],
+          "effect": "—"
+        },
+        {
+          "tithi": 9,
+          "nakshatra": "Krittika",
+          "effect": "—"
+        },
+        {
+          "tithi": 8,
+          "nakshatra": "Purva Bhadrapada",
+          "effect": "—"
+        },
+        {
+          "tithi": 5,
+          "nakshatra": "Magha",
+          "effect": "—"
+        }
+      ]
+    },
+    "Utpata": {
+      "type": "vara+nakshatra",
+      "description": "Utpāta Yoga (primer grupo de Utpāta-Mṛtyu-Kāṇā-Siddha)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "nakshatra": "Vishakha",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        },
+        {
+          "vara": "Monday",
+          "nakshatra": "Purva Ashadha",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        },
+        {
+          "vara": "Tuesday",
+          "nakshatra": "Dhanishtha",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        },
+        {
+          "vara": "Wednesday",
+          "nakshatra": "Revati",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        },
+        {
+          "vara": "Thursday",
+          "nakshatra": "Rohini",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        },
+        {
+          "vara": "Friday",
+          "nakshatra": "Pushya",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        },
+        {
+          "vara": "Saturday",
+          "nakshatra": "Uttara Phalguni",
+          "effect": "'Desgarro' / calamidad. Evitar inicios"
+        }
+      ]
+    },
+    "Mrityu": {
+      "type": "vara+nakshatra",
+      "description": "Mṛtyu Yoga (segundo grupo de Utpāta-Mṛtyu-Kāṇā-Siddha)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "nakshatra": "Anuradha",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        },
+        {
+          "vara": "Monday",
+          "nakshatra": "Uttara Ashadha",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        },
+        {
+          "vara": "Tuesday",
+          "nakshatra": "Shatabhisha",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        },
+        {
+          "vara": "Wednesday",
+          "nakshatra": "Ashwini",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        },
+        {
+          "vara": "Thursday",
+          "nakshatra": "Mrigashira",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        },
+        {
+          "vara": "Friday",
+          "nakshatra": "Ashlesha",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        },
+        {
+          "vara": "Saturday",
+          "nakshatra": "Hasta",
+          "effect": "Riesgo/pérdida. Sólo rutinas y remedios"
+        }
+      ]
+    },
+    "Kana": {
+      "type": "vara+nakshatra",
+      "description": "Kāṇā Yoga (tercer grupo de Utpāta-Mṛtyu-Kāṇā-Siddha)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "nakshatra": "Jyeshtha",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        },
+        {
+          "vara": "Monday",
+          "nakshatra": "Shravana",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        },
+        {
+          "vara": "Tuesday",
+          "nakshatra": "Purva Bhadrapada",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        },
+        {
+          "vara": "Wednesday",
+          "nakshatra": "Bharani",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        },
+        {
+          "vara": "Thursday",
+          "nakshatra": "Ardra",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        },
+        {
+          "vara": "Friday",
+          "nakshatra": "Magha",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        },
+        {
+          "vara": "Saturday",
+          "nakshatra": "Chitra",
+          "effect": "'Defecto'/incompletitud. Evitar lanzamientos"
+        }
+      ]
+    },
     "Dagdha": {
       "type": "vara+tithi",
-      "criteria": {
-        "weekday": "Sunday",
-        "tithi": [1, 6, 11, 16, 21, 26]
-      },
-      "description": "Dagdha yoga - Sunday with specific tithis"
-    },
-    "Visha": {
-      "type": "vara+tithi",
-      "criteria": {
-        "weekday": "Monday",
-        "tithi": [2, 7, 12, 17, 22, 27]
-      },
-      "description": "Visha yoga - Monday with specific tithis"
+      "description": "Dagdha ('quemado') - Inauspiciosos clásicos",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "tithi": 12,
+          "effect": "Evitar inicios; sólo rutina"
+        },
+        {
+          "vara": "Monday",
+          "tithi": 11,
+          "effect": "Evitar inicios; sólo rutina"
+        },
+        {
+          "vara": "Tuesday",
+          "tithi": 5,
+          "effect": "Evitar inicios; sólo rutina"
+        },
+        {
+          "vara": "Wednesday",
+          "tithi": [2, 3],
+          "effect": "Evitar inicios; sólo rutina"
+        },
+        {
+          "vara": "Thursday",
+          "tithi": 6,
+          "effect": "Evitar inicios; sólo rutina"
+        },
+        {
+          "vara": "Friday",
+          "tithi": 8,
+          "effect": "Evitar inicios; sólo rutina"
+        },
+        {
+          "vara": "Saturday",
+          "tithi": 9,
+          "effect": "Evitar inicios; sólo rutina"
+        }
+      ]
     },
     "Hutasana": {
       "type": "vara+tithi",
-      "criteria": {
-        "weekday": "Tuesday",
-        "tithi": [3, 8, 13, 18, 23, 28]
-      },
-      "description": "Hutasana yoga - Tuesday with specific tithis"
+      "description": "Hutāśana ('fuego') - Inauspiciosos clásicos",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "tithi": 12,
+          "effect": "Pérdidas/gastos"
+        },
+        {
+          "vara": "Monday",
+          "tithi": 6,
+          "effect": "Pérdidas/gastos"
+        },
+        {
+          "vara": "Tuesday",
+          "tithi": 7,
+          "effect": "Pérdidas/gastos"
+        },
+        {
+          "vara": "Wednesday",
+          "tithi": 8,
+          "effect": "Pérdidas/gastos"
+        },
+        {
+          "vara": "Thursday",
+          "tithi": 9,
+          "effect": "Pérdidas/gastos"
+        },
+        {
+          "vara": "Friday",
+          "tithi": 10,
+          "effect": "Pérdidas/gastos"
+        },
+        {
+          "vara": "Saturday",
+          "tithi": 11,
+          "effect": "Pérdidas/gastos"
+        }
+      ]
     },
-    "Krakacha": {
+    "Visha": {
       "type": "vara+tithi",
-      "criteria": {
-        "weekday": "Wednesday",
-        "tithi": [4, 9, 14, 19, 24, 29]
-      },
-      "description": "Krakacha yoga - Wednesday with specific tithis"
+      "description": "Viṣa ('veneno') - Inauspiciosos clásicos",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "tithi": 4,
+          "effect": "Desaconsejado para todo lo importante"
+        },
+        {
+          "vara": "Monday",
+          "tithi": 6,
+          "effect": "Desaconsejado para todo lo importante"
+        },
+        {
+          "vara": "Tuesday",
+          "tithi": 7,
+          "effect": "Desaconsejado para todo lo importante"
+        },
+        {
+          "vara": "Wednesday",
+          "tithi": 2,
+          "effect": "Desaconsejado para todo lo importante"
+        },
+        {
+          "vara": "Thursday",
+          "tithi": 8,
+          "effect": "Desaconsejado para todo lo importante"
+        },
+        {
+          "vara": "Friday",
+          "tithi": 9,
+          "effect": "Desaconsejado para todo lo importante"
+        },
+        {
+          "vara": "Saturday",
+          "tithi": 7,
+          "effect": "Desaconsejado para todo lo importante"
+        }
+      ]
     },
     "Samvartaka": {
       "type": "vara+tithi",
-      "criteria": {
-        "weekday": "Thursday",
-        "tithi": [5, 10, 15, 20, 25, 30]
-      },
-      "description": "Samvartaka yoga - Thursday with specific tithis"
+      "description": "Samvartaka ('disolución') - Inauspiciosos clásicos",
+      "rules": [
+        {
+          "vara": "Wednesday",
+          "tithi": 1,
+          "effect": "Uno de los peores"
+        },
+        {
+          "vara": "Sunday",
+          "tithi": 7,
+          "effect": "Uno de los peores"
+        }
+      ]
     },
-    "Asubha": {
+    "Shoonya Nakshatra": {
       "type": "tithi+nakshatra",
-      "criteria": {
-        "tithi": [1, 6, 11, 16, 21, 26],
-        "nakshatra": ["Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra"]
-      },
-      "description": "Asubha yoga - specific tithi and nakshatra combinations"
+      "description": "Shoonya Nakshatra (nakshatras 'vacíos' por tithi)",
+      "rules": [
+        {
+          "tithi": 1,
+          "nakshatra": "Uttara Ashadha",
+          "use": "Rutina",
+          "avoid": "Inicios sensibles si cae ese nakshatra"
+        },
+        {
+          "tithi": 2,
+          "nakshatra": "Anuradha",
+          "use": "Rutina",
+          "avoid": "Firmas/consagraciones bajo Anuradha"
+        },
+        {
+          "tithi": 3,
+          "nakshatra": ["Uttara Phalguni", "Uttara Ashadha", "Uttara Bhadrapada"],
+          "use": "Correcciones, limpieza",
+          "avoid": "Lanzamientos mayores en esos nakshatras"
+        },
+        {
+          "tithi": 5,
+          "nakshatra": "Magha",
+          "use": "Estudio individual",
+          "avoid": "Eventos sociales bajo Magha"
+        },
+        {
+          "tithi": 6,
+          "nakshatra": "Rohini",
+          "use": "Rutina",
+          "avoid": "Compras mayores bajo Rohini"
+        },
+        {
+          "tithi": 7,
+          "nakshatra": ["Hasta", "Mula"],
+          "use": "Mantenimiento",
+          "avoid": "Viajes/lanzamientos bajo esos nakshatras"
+        },
+        {
+          "tithi": 8,
+          "nakshatra": "Purva Bhadrapada",
+          "use": "Remedios",
+          "avoid": "Inicios bajo PBhadrapada"
+        },
+        {
+          "tithi": 9,
+          "nakshatra": "Krittika",
+          "use": "Disciplinas personales",
+          "avoid": "Acuerdos bajo Krittika"
+        },
+        {
+          "tithi": 11,
+          "nakshatra": "Rohini",
+          "use": "Vrata, japa",
+          "avoid": "Compras bajo Rohini"
+        },
+        {
+          "tithi": 12,
+          "nakshatra": "Ashlesha",
+          "use": "Ayuno, śānti",
+          "avoid": "Todo lo nuevo bajo Ashlesha"
+        },
+        {
+          "tithi": 13,
+          "nakshatra": ["Chitra", "Swati"],
+          "use": "Remates, cobros",
+          "avoid": "Inicios bajo esos nakshatras"
+        }
+      ]
     },
-    "Vinasa": {
-      "type": "triple",
-      "criteria": {
-        "Sunday": ["Ashlesha", "Magha", "Purva Phalguni"],
-        "Monday": ["Uttara Phalguni", "Hasta", "Chitra"],
-        "Tuesday": ["Swati", "Vishakha", "Anuradha"],
-        "Wednesday": ["Jyeshtha", "Mula", "Purva Ashadha"],
-        "Thursday": ["Uttara Ashadha", "Shravana", "Dhanishtha"],
-        "Friday": ["Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada"],
-        "Saturday": ["Revati", "Ashwini", "Bharani"]
-      },
-      "description": "Vinasa yoga - triple combinations by weekday"
+    "Gandamula": {
+      "type": "nakshatra",
+      "description": "Gandamūla (Luna en nakshatras sensibles)",
+      "nakshatras": ["Ashwini", "Magha", "Mula", "Ashlesha", "Jyeshtha", "Revati"],
+      "effect": "Inestabilidad/'nudos' kármicos",
+      "recommendation": "Evitar inicios; realizar śānti si corresponde"
     },
     "Panchaka": {
-      "type": "nakshatra+weekday",
-      "criteria": {
-        "nakshatra": ["Dhanishtha", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
-        "classification": {
-          "Sunday": "roga",
-          "Monday": "raja", 
-          "Tuesday": "agni",
-          "Wednesday": "chora",
-          "Thursday": "mrityu",
-          "Friday": "roga",
-          "Saturday": "raja"
+      "type": "nakshatra_sequence",
+      "description": "Pañcaka ('Cinco defectos')",
+      "nakshatra_sequence": ["Dhanishtha", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
+      "effect": "'Cinco defectos'; tendencia a resultados inesperados",
+      "recommendation": "Evitar obras/traslados; reforzar remedios"
+    },
+    "Vara Shula": {
+      "type": "vara+direction",
+      "description": "Vara Shūla / Disha Shoola (direcciones a evitar según día)",
+      "rules": [
+        {
+          "vara": "Sunday",
+          "direction": "West",
+          "remedy": "Comenzar hacia el Este unos km y retornar; ofrenda al Sol"
+        },
+        {
+          "vara": "Monday",
+          "direction": "East",
+          "remedy": "Agua/leche antes de salir"
+        },
+        {
+          "vara": "Tuesday",
+          "direction": "North",
+          "remedy": "Jaggery o devoción a Hanumān"
+        },
+        {
+          "vara": "Wednesday",
+          "direction": "North",
+          "remedy": "Hoja verde/ofrenda a Gaṇeśa"
+        },
+        {
+          "vara": "Thursday",
+          "direction": "South",
+          "remedy": "Cuajada/comino; mantra de Viṣṇu"
+        },
+        {
+          "vara": "Friday",
+          "direction": "West",
+          "remedy": "Ofrenda a Lakṣmī"
+        },
+        {
+          "vara": "Saturday",
+          "direction": "East",
+          "remedy": "Lamparilla de aceite de sésamo"
         }
-      },
-      "description": "Panchaka yoga - specific nakshatras classified by weekday"
+      ],
+      "notes": "Usa también Choghadiyā y evita Rahu Kāla/Gulika/Yamaganda al salir"
     }
   },
   "metadata": {
-    "version": "1.0",
-    "description": "Panchanga yoga rules for Jyotiṣa API",
-    "source": "Traditional Vedic astrology texts",
-    "last_updated": "2024-01-01"
+    "version": "2.0",
+    "description": "Comprehensive Panchanga yoga rules for Jyotiṣa API",
+    "source": "Traditional Vedic astrology texts and classical panchanga rules",
+    "last_updated": "2025-01-19",
+    "categories": {
+      "positive": "Auspicious combinations for beneficial activities",
+      "negative": "Inauspicious combinations to avoid for important activities"
+    },
+    "usage": "Use with precise panchanga calculations for accurate yoga detection"
   }
 }

@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import settings
 from app.util.logging import setup_logging, get_logger, RequestLogger
-from app.routers import health, places, ephemeris, calendar, motion, yogas
+from app.routers import health, ephemeris, calendar, motion, yogas, panchanga_precise
 from app.middleware.auth import verify_api_key
 from app.middleware.rate_limit import rate_limit_middleware
 from app.middleware.circuit_breaker import get_circuit_breaker
@@ -94,7 +94,7 @@ async def log_requests(request: Request, call_next: Callable):
 
 # Include routers
 app.include_router(health.router)
-app.include_router(places.router)
+app.include_router(panchanga_precise.router)
 app.include_router(ephemeris.router)
 app.include_router(calendar.router)
 app.include_router(motion.router)
