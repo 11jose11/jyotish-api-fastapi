@@ -18,9 +18,11 @@ class Settings(BaseSettings):
     api_key_header: str = Field("X-API-Key", description="Header name for API key")
     require_api_key: bool = Field(False, description="Whether API key is required")
     
-    # Swiss Ephemeris
+    # Swiss Ephemeris - Lahiri Ayanamsa Configuration
     swiss_ephe_path: Optional[str] = Field(None, description="Path to Swiss Ephemeris files")
     node_mode: str = Field("true", description="Node calculation mode: true or mean")
+    ayanamsa_mode: str = Field("lahiri", description="Ayanamsa mode: lahiri, raman, krishnamurti, etc.")
+    sidereal_mode: int = Field(1, description="Sidereal mode: 1=Lahiri, 2=Raman, 3=Krishnamurti")
     
     # Redis (optional)
     redis_url: Optional[str] = Field(None, description="Redis URL for caching")
@@ -28,6 +30,7 @@ class Settings(BaseSettings):
     # App settings
     log_level: str = Field("INFO", description="Logging level")
     cache_ttl: int = Field(600, description="Cache TTL in seconds")
+    api_version: str = Field("0.2.0", description="API version")
     
     # HTTP client settings
     http_timeout: int = Field(5, description="HTTP timeout in seconds")
@@ -54,9 +57,13 @@ class Settings(BaseSettings):
     rate_limit_requests_per_minute: int = Field(60, description="Rate limit requests per minute")
     rate_limit_burst: int = Field(10, description="Rate limit burst allowance")
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    # Testing settings
+    enable_test_mode: bool = Field(False, description="Enable test mode for development")
+    
+    model_config = {
+        "env_file": ".env",
+        "case_sensitive": False
+    }
 
 
 # Global settings instance

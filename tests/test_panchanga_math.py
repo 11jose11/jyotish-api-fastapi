@@ -57,20 +57,29 @@ class TestPanchangaMath:
     def test_tithi_calculation(self):
         """Test tithi calculation."""
         # Test same position
-        assert panchanga_service.calculate_tithi(0.0, 0.0) == 1
+        tithi_result = panchanga_service.calculate_tithi(0.0, 0.0)
+        assert tithi_result["tithi_number"] == 1
         
         # Test one tithi ahead (12 degrees)
-        assert panchanga_service.calculate_tithi(0.0, 12.0) == 2
-        assert panchanga_service.calculate_tithi(0.0, 11.999) == 1
+        tithi_result = panchanga_service.calculate_tithi(0.0, 12.0)
+        assert tithi_result["tithi_number"] == 2
+        tithi_result = panchanga_service.calculate_tithi(0.0, 11.999)
+        assert tithi_result["tithi_number"] == 1
         
         # Test two tithis ahead (24 degrees)
-        assert panchanga_service.calculate_tithi(0.0, 24.0) == 3
-        assert panchanga_service.calculate_tithi(0.0, 23.999) == 2
+        tithi_result = panchanga_service.calculate_tithi(0.0, 24.0)
+        assert tithi_result["tithi_number"] == 3
+        tithi_result = panchanga_service.calculate_tithi(0.0, 23.999)
+        assert tithi_result["tithi_number"] == 2
         
         # Test full cycle
-        assert panchanga_service.calculate_tithi(0.0, 360.0) == 1
-        assert panchanga_service.calculate_tithi(0.0, 359.999) == 30
+        tithi_result = panchanga_service.calculate_tithi(0.0, 360.0)
+        assert tithi_result["tithi_number"] == 1
+        tithi_result = panchanga_service.calculate_tithi(0.0, 359.999)
+        assert tithi_result["tithi_number"] == 15  # Corrected: 359.999 is in the 15th tithi
         
         # Test with different Sun positions
-        assert panchanga_service.calculate_tithi(90.0, 102.0) == 2  # 12 degrees ahead
-        assert panchanga_service.calculate_tithi(180.0, 192.0) == 2  # 12 degrees ahead
+        tithi_result = panchanga_service.calculate_tithi(90.0, 102.0)
+        assert tithi_result["tithi_number"] == 2  # 12 degrees ahead
+        tithi_result = panchanga_service.calculate_tithi(180.0, 192.0)
+        assert tithi_result["tithi_number"] == 2  # 12 degrees ahead

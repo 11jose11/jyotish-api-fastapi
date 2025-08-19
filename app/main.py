@@ -25,7 +25,7 @@ logger = get_logger("main")
 app = FastAPI(
     title="Jyotiṣa API",
     description="Vedic astrology API with Swiss Ephemeris and Google APIs",
-    version="0.1.0",
+    version=settings.api_version,
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -100,21 +100,17 @@ app.include_router(calendar.router)
 app.include_router(motion.router)
 app.include_router(yogas.router)
 
-# Include optimized routers
-if settings.enable_async:
-    from app.routers.ephemeris_optimized import router as ephemeris_optimized_router
-    app.include_router(ephemeris_optimized_router)
-
 @app.get("/")
 async def root():
     """Root endpoint."""
     return {
         "message": "Jyotiṣa API",
-        "version": "0.2.0",
+        "version": settings.api_version,
         "docs": "/docs",
         "health": "/health/healthz",
         "metrics": "/metrics",
-        "optimized": settings.enable_async
+        "ayanamsa": "Lahiri",
+        "precision": "high"
     }
 
 @app.get("/metrics")

@@ -78,3 +78,42 @@ async def get_ephemeris(
             import traceback
             logger.error(f"Traceback: {traceback.format_exc()}")
             raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
+
+
+@router.get("/planets")
+async def get_planets(
+    when_utc: Optional[str] = Query(None, description="ISO-8601 timestamp in UTC"),
+    planets: Optional[str] = Query("Sun,Moon,Mercury,Venus,Mars,Jupiter,Saturn,Rahu,Ketu", description="Comma-separated list of planets")
+):
+    """Get planetary positions only."""
+    with RequestLogger("ephemeris.planets") as req_log:
+        try:
+            # Parse timestamp
+            if when_utc:
+                dt = datetime.fromisoformat(when_utc.replace('Z', '+00:00'))
+            else:
+                dt = datetime.utcnow()
+            
+            # Parse planets list
+            planet_list = [p.strip() for p in planets.split(",")] if planets else None
+            
+            # Calculate planetary positions
+            planet_data = swe_service.calculate_planets(dt, planet_list)
+            
+            return {
+                "timestamp": dt.isoformat(),
+                "planets": planet_data,
+                "precision": swe_service.precision
+            }
+            
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid timestamp format: {e}")
+        except Exception as e:
+            logger.error(f"Planet calculation failed: {type(e).__name__}: {e}")
+            raise HTTPException(status_code=500, detail=f"{type(e).__name__}: {str(e)}")
+
+
+@router.get("/cache-stats")
+async def get_cache_stats():
+    """Get cache statistics for performance monitoring."""
+    return swe_service.get_cache_info()
