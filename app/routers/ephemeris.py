@@ -58,8 +58,8 @@ async def get_ephemeris(
             # Calculate planetary positions
             planet_data = swe_service.calculate_planets(dt, planet_list)
             
-            # Calculate panchanga
-            panchanga_data = swe_service.calculate_panchanga(dt, ["Sun", "Moon"])
+            # Calculate panchanga with all 5 elements
+            panchanga_data = panchanga_service.get_daily_panchanga(dt, {"timezone": {"timeZoneId": "UTC"}})
             
             # Format response
             response = {
