@@ -402,28 +402,21 @@ class YogasService:
             raise
     
     def _calculate_tithi(self, sun_lon: float, moon_lon: float) -> int:
-        """Calculate tithi from Sun and Moon longitudes using the same method as panchanga service."""
-        diff = (moon_lon - sun_lon) % 360
-        tithi_number = int(diff // 12) + 1
+        """Calculate tithi from Sun and Moon longitudes - corrected logic."""
+        elongation = (moon_lon - sun_lon) % 360
         
-        # Determinar paksha basado en diferencia
-        if diff < 180:
-            # Shukla paksha - no adjustment needed
+        # Calculate tithi number correctly
+        tithi_number = int(elongation / 12) + 1
+        
+        # Determine paksha and adjust tithi for Krishna paksha
+        if elongation < 180:
+            # Shukla paksha - tithi_number is correct (1-15)
             pass
         else:
-            # Krishna paksha - adjust tithi number
+            # Krishna paksha - adjust tithi_number to (1-15)
             tithi_number = tithi_number - 15
             if tithi_number <= 0:
                 tithi_number += 15
-        
-        # Determine paksha based on difference (same logic as panchanga service)
-        if diff < 180:
-            # Shukla paksha - no adjustment needed
-            pass
-        else:
-            # Krishna paksha - adjust tithi number
-            if tithi_number > 15:
-                tithi_number = tithi_number - 15
         
         # Ensure tithi_number is in correct range
         if tithi_number < 1:
