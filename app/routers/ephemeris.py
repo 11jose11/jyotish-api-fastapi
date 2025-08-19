@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from app.services.swe import swe_service
 from app.services.places import places_service
-from app.services.panchanga import panchanga_service
+# from app.services.panchanga import panchanga_service  # TEMPORARILY DISABLED
 from app.util.logging import get_logger, RequestLogger
 
 logger = get_logger("ephemeris")
@@ -59,7 +59,8 @@ async def get_ephemeris(
             planet_data = swe_service.calculate_planets(dt, planet_list)
             
             # Calculate panchanga with all 5 elements
-            panchanga_data = panchanga_service.get_daily_panchanga(dt, {"timezone": {"timeZoneId": "UTC"}})
+            # panchanga_data = panchanga_service.get_daily_panchanga(dt, {"timezone": {"timeZoneId": "UTC"}})  # TEMPORARILY DISABLED
+            panchanga_data = None
             
             # Format response
             response = {

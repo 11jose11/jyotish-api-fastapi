@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 from app.services.swe import swe_service
 from app.services.places import places_service
-from app.services.panchanga import panchanga_service
+# from app.services.panchanga import panchanga_service  # TEMPORARILY DISABLED
 from app.util.logging import get_logger, RequestLogger
 
 logger = get_logger("calendar")
@@ -95,7 +95,8 @@ async def get_monthly_calendar(
                     }
                     
                     if units in ["dms", "both"]:
-                        formatted_planet["lon_dms"] = panchanga_service.to_dms(data["lon"])
+                        # formatted_planet["lon_dms"] = panchanga_service.to_dms(data["lon"])  # TEMPORARILY DISABLED
+                        formatted_planet["lon_dms"] = f"{data['lon']:.2f}°"
                     
                     formatted_planets[planet] = formatted_planet
                 
@@ -144,7 +145,8 @@ async def get_daily_calendar(
             place_info = places_service.resolve_place(place_id)
             
             # Get daily panchanga
-            panchanga_data = panchanga_service.get_daily_panchanga(dt, place_info)
+            # panchanga_data = panchanga_service.get_daily_panchanga(dt, place_info)  # TEMPORARILY DISABLED
+            panchanga_data = None
             
             return panchanga_data
             
