@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 
 from app.services.swe import swe_service
-from app.services.places import places_service
 from app.util.logging import get_logger
 
 logger = get_logger("motion")
@@ -86,8 +85,8 @@ class MotionService:
     ) -> Dict:
         """Get current planetary speeds for the given date range."""
         try:
-            # Resolve place information
-            place_info = places_service.resolve_place(place_id)
+            # Simplified place info (UTC for now)
+            place_info = {"timezone": {"timeZoneId": "UTC"}}
             
             # Calculate speeds for the middle of the date range
             mid_date = start + (end - start) / 2

@@ -68,9 +68,9 @@ class SwissEphService:
             else:
                 logger.info("Using default Swiss Ephemeris path")
             
-            # Set Lahiri sidereal mode (SIDM_LAHIRI = 1)
-            swe.set_sid_mode(swe.SIDM_LAHIRI, 0, 0)
-            logger.info("Swiss Ephemeris initialized with Lahiri sidereal mode")
+            # Set True Citra Paksha sidereal mode (SIDM_TRUE_CITRA = 14)
+            swe.set_sid_mode(swe.SIDM_TRUE_CITRA, 0, 0)
+            logger.info("Swiss Ephemeris initialized with True Citra Paksha sidereal mode")
             
             # Test calculation to verify setup
             test_jd = swe.julday(2025, 8, 17, 12.0)
@@ -95,7 +95,7 @@ class SwissEphService:
             logger.error(f"Failed to initialize Swiss Ephemeris: {e}")
             # Try one more time with minimal settings
             try:
-                swe.set_sid_mode(swe.SIDM_LAHIRI, 0, 0)
+                swe.set_sid_mode(swe.SIDM_TRUE_CITRA, 0, 0)
                 self.initialized = True
                 self.precision = "low"
                 logger.warning("Swiss Ephemeris initialized with minimal settings")
@@ -154,7 +154,7 @@ class SwissEphService:
         if planet_id is None:
             raise ValueError(f"Invalid planet: {planet_name}")
         
-        # Use sidereal mode for Lahiri Ayanamsa
+        # Use sidereal mode for True Citra Paksha Ayanamsa
         flags = swe.FLG_SIDEREAL | swe.FLG_MOSEPH
         
         try:

@@ -109,7 +109,7 @@ async def root():
         "docs": "/docs",
         "health": "/health/healthz",
         "metrics": "/metrics",
-        "ayanamsa": "Lahiri",
+        "ayanamsa": "True Citra Paksha",
         "precision": "high"
     }
 

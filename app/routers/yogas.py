@@ -44,7 +44,7 @@ async def detect_yogas_get(
             if not (-180 <= longitude <= 180):
                 raise HTTPException(status_code=400, detail="Longitude must be between -180 and 180")
             
-            # Detect yogas
+            # Detect yogas using improved service
             result = yogas_service.detect_yogas(dt, latitude, longitude)
             
             return result
@@ -71,7 +71,7 @@ async def detect_yogas_post(request: YogaDetectionRequest):
             if not (-180 <= request.longitude <= 180):
                 raise HTTPException(status_code=400, detail="Longitude must be between -180 and 180")
             
-            # Detect yogas
+            # Detect yogas using improved service
             result = yogas_service.detect_yogas(dt, request.latitude, request.longitude)
             
             return result

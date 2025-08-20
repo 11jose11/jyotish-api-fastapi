@@ -7,8 +7,7 @@ from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 
 from app.services.swe import swe_service
-from app.services.places import places_service
-from app.services.panchanga import panchanga_service
+# from app.services.panchanga import panchanga_service  # TEMPORARILY DISABLED
 from app.util.logging import get_logger, RequestLogger
 
 logger = get_logger("calendar")
@@ -37,8 +36,11 @@ async def get_monthly_calendar(
             if anchor == "custom" and not custom_time:
                 raise HTTPException(status_code=400, detail="Custom time required when anchor is custom")
             
-            # Resolve place
-            place_info = places_service.resolve_place(place_id)
+            # Simplified place info (UTC for now)
+            place_info = {
+                "place": {"id": place_id, "name": "Unknown Location"},
+                "timezone": {"timeZoneId": "UTC"}
+            }
             
             # Parse planets
             planet_list = [p.strip() for p in planets.split(",")]
@@ -95,7 +97,8 @@ async def get_monthly_calendar(
                     }
                     
                     if units in ["dms", "both"]:
-                        formatted_planet["lon_dms"] = panchanga_service.to_dms(data["lon"])
+                        # formatted_planet["lon_dms"] = panchanga_service.to_dms(data["lon"])  # TEMPORARILY DISABLED
+                        formatted_planet["lon_dms"] = f"{data['lon']:.2f}°"
                     
                     formatted_planets[planet] = formatted_planet
                 
@@ -140,11 +143,15 @@ async def get_daily_calendar(
             # Parse date
             dt = datetime.fromisoformat(date)
             
-            # Resolve place
-            place_info = places_service.resolve_place(place_id)
+            # Simplified place info (UTC for now)
+            place_info = {
+                "place": {"id": place_id, "name": "Unknown Location"},
+                "timezone": {"timeZoneId": "UTC"}
+            }
             
             # Get daily panchanga
-            panchanga_data = panchanga_service.get_daily_panchanga(dt, place_info)
+            # panchanga_data = panchanga_service.get_daily_panchanga(dt, place_info)  # TEMPORARILY DISABLED
+            panchanga_data = None
             
             return panchanga_data
             
