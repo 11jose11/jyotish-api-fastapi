@@ -51,25 +51,24 @@ Thumbs.db
 
 # Documentation
 README.md
-DEPLOYMENT.md
-STATUS.md
 *.md
-
-# Scripts and configs
-deploy.sh
-deploy-vercel.sh
-cloudbuild.yaml
-vercel.json
-test_api.py
-simple_server.py
-run.py
-
-# Frontend (if not needed in API container)
-frontend/
+docs/
 
 # Tests
 tests/
+test_*.py
+*_test.py
 
 # Development files
-calculate_birth_chart.py
+frontend-integration-example.js
+FRONTEND_INTEGRATION.md
+env.example
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
 
