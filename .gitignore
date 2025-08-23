@@ -198,3 +198,28 @@ Thumbs.db
 .env.local
 .env.production
 .vercel
+
+# Obsolete files
+Dockerfile.old
+navatara-service/
+FRONTEND_INTEGRATION_NAVATARA.md
+API_ROBUSTNESS_FRONTEND_INTEGRATION.md
+test_ayanamsa_*.py
+vercel.json
+frontend-integration-example.js
+cloud-run-config.yaml
+cloudbuild.yaml
+
+# Obsolete documentation
+FRONTEND_ENV_SETUP.md
+FRONTEND_INTEGRATION.md
+CLOUD_RUN_DEPLOYMENT.md
+DEPLOYMENT_GUIDE.md
+OPTIMIZATION_GUIDE.md
+ROBUSTNESS_IMPROVEMENTS.md
+PANCHANGA_PRECISION_IMPROVEMENTS.md
+PANCHANGA_YOGAS_FIX.md
+PR_SUMMARY.md
+STATUS.md
+AUDIT_SUMMARY.md
+CLEANUP_SUMMARY.md
