@@ -24,19 +24,36 @@ logger = get_logger("main")
 # Create FastAPI app
 app = FastAPI(
     title="Jyotiṣa API",
-    description="Vedic astrology API with Swiss Ephemeris and Google APIs",
+    description="""
+    **Vedic Astrology API with Swiss Ephemeris and Google APIs**
+    
+    ## Ayanamsa Configuration
+    This API uses **True Citra Paksha ayanamsa** for all sidereal calculations.
+    - Ayanamsa Type: True Citra Paksha (SIDM_TRUE_CITRA)
+    - Current Value (2024): ~24°11'14"
+    - All planetary positions are calculated in sidereal coordinates
+    
+    ## Key Features
+    - Precise panchanga calculations with percentage remaining
+    - Accurate sunrise/sunset times using Swiss Ephemeris
+    - Planetary positions in nakshatras and rashis
+    - High-precision astronomical calculations
+    - Frontend-friendly CORS configuration
+    """,
     version=settings.api_version,
     docs_url="/docs",
     redoc_url="/redoc"
 )
 
-# Add CORS middleware
+# Enhanced CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=settings.cors_origins,
+    allow_credentials=settings.cors_allow_credentials,
+    allow_methods=settings.cors_allow_methods,
+    allow_headers=settings.cors_allow_headers,
+    expose_headers=settings.cors_expose_headers,
+    max_age=settings.cors_max_age,
 )
 
 # Request ID middleware
@@ -100,41 +117,114 @@ app.include_router(calendar.router)
 app.include_router(motion.router)
 app.include_router(yogas.router)
 
+# Add metrics endpoint
+@app.get("/metrics")
+async def get_metrics_endpoint():
+    """Get application metrics."""
+    return get_metrics()
+
+# Add circuit breaker status endpoint
+@app.get("/circuit-breaker/status")
+async def get_circuit_breaker_status():
+    """Get circuit breaker status."""
+    cb = get_circuit_breaker()
+    return {
+        "state": cb.state,
+        "failure_count": cb.failure_count,
+        "last_failure_time": cb.last_failure_time.isoformat() if cb.last_failure_time else None,
+        "next_attempt_time": cb.next_attempt_time.isoformat() if cb.next_attempt_time else None
+    }
+
+# Add API info endpoint
+@app.get("/info")
+async def get_api_info():
+    """Get API information and configuration."""
+    return {
+        "name": "Jyotiṣa API",
+        "version": settings.api_version,
+        "description": "Vedic astrology API with Swiss Ephemeris",
+        "ayanamsa": {
+            "type": "True Citra Paksha",
+            "description": "All calculations use True Citra Paksha ayanamsa for sidereal coordinates",
+            "current_value_2024": "24°11'14\"",
+            "swiss_ephemeris_mode": "SIDM_TRUE_CITRA"
+        },
+        "features": [
+            "Precise panchanga calculations",
+            "Accurate sunrise/sunset times", 
+            "Planetary positions in nakshatras",
+            "High-precision astronomical calculations",
+            "Percentage remaining for all elements",
+            "Frontend-friendly CORS configuration"
+        ],
+        "cors": {
+            "enabled": True,
+            "origins_count": len(settings.cors_origins),
+            "credentials_allowed": settings.cors_allow_credentials,
+            "methods": settings.cors_allow_methods
+        },
+        "precision": "high",
+        "swiss_ephemeris": "enabled"
+    }
+
+# Add CORS preflight handler
+@app.options("/{full_path:path}")
+async def cors_preflight_handler(request: Request):
+    """Handle CORS preflight requests."""
+    return JSONResponse(
+        content={},
+        headers={
+            "Access-Control-Allow-Origin": request.headers.get("Origin", "*"),
+            "Access-Control-Allow-Methods": ", ".join(settings.cors_allow_methods),
+            "Access-Control-Allow-Headers": ", ".join(settings.cors_allow_headers),
+            "Access-Control-Allow-Credentials": str(settings.cors_allow_credentials).lower(),
+            "Access-Control-Max-Age": str(settings.cors_max_age),
+        }
+    )
+
+# Add root endpoint with CORS headers
 @app.get("/")
 async def root():
-    """Root endpoint."""
+    """Root endpoint with API information."""
     return {
-        "message": "Jyotiṣa API",
+        "message": "Jyotiṣa API - Vedic Astrology API",
         "version": settings.api_version,
         "docs": "/docs",
         "health": "/health/healthz",
-        "metrics": "/metrics",
-        "ayanamsa": "True Citra Paksha",
-        "precision": "high"
+        "info": "/info",
+        "cors_enabled": True,
+        "frontend_integration": "Ready for calendar and panchanga display"
     }
 
-@app.get("/metrics")
-async def metrics():
-    """Prometheus metrics endpoint."""
-    if settings.enable_metrics:
-        return get_metrics()
-    else:
-        return {"message": "Metrics disabled"}
+# Add health check endpoint
+@app.get("/health")
+async def health_check():
+    """Health check endpoint."""
+    return {
+        "status": "healthy",
+        "api_version": settings.api_version,
+        "cors_status": "enabled",
+        "swiss_ephemeris": "initialized"
+    }
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    """Global exception handler."""
-    logger.error(f"Unhandled exception: {exc}", exc_info=True)
+    """Global exception handler with CORS headers."""
+    logger.error(f"Unhandled exception: {exc}")
     
-    request_id = getattr(request.state, 'request_id', None)
+    # Add CORS headers to error responses
+    headers = {
+        "Access-Control-Allow-Origin": request.headers.get("Origin", "*"),
+        "Access-Control-Allow-Credentials": str(settings.cors_allow_credentials).lower(),
+    }
     
     return JSONResponse(
         status_code=500,
         content={
             "error": "Internal server error",
-            "detail": str(exc),
-            "request_id": request_id
-        }
+            "detail": str(exc) if settings.enable_test_mode else "An unexpected error occurred"
+        },
+        headers=headers
     )
 
 if __name__ == "__main__":

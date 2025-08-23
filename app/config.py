@@ -1,7 +1,7 @@
 """Configuration settings for Jyotiṣa API."""
 
 import os
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import Field
 from pydantic_settings import BaseSettings
@@ -23,6 +23,55 @@ class Settings(BaseSettings):
     node_mode: str = Field("true", description="Node calculation mode: true or mean")
     ayanamsa_mode: str = Field("lahiri", description="Ayanamsa mode: lahiri, raman, krishnamurti, etc.")
     sidereal_mode: int = Field(1, description="Sidereal mode: 1=Lahiri, 2=Raman, 3=Krishnamurti")
+    
+    # CORS Configuration
+    cors_origins: List[str] = Field(
+        default=[
+            "http://localhost:3000",  # React/Next.js default
+            "http://localhost:3001",  # Alternative React port
+            "http://localhost:5173",  # Vite default
+            "http://localhost:8080",  # Alternative dev port
+            "http://127.0.0.1:3000",
+            "http://127.0.0.1:3001", 
+            "http://127.0.0.1:5173",
+            "http://127.0.0.1:8080",
+            "https://localhost:3000",  # HTTPS versions
+            "https://localhost:3001",
+            "https://localhost:5173",
+            "https://localhost:8080",
+        ],
+        description="Allowed CORS origins for frontend"
+    )
+    cors_allow_credentials: bool = Field(True, description="Allow credentials in CORS")
+    cors_allow_methods: List[str] = Field(
+        default=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+        description="Allowed HTTP methods for CORS"
+    )
+    cors_allow_headers: List[str] = Field(
+        default=[
+            "Accept",
+            "Accept-Language", 
+            "Content-Language",
+            "Content-Type",
+            "Authorization",
+            "X-API-Key",
+            "X-Requested-With",
+            "X-Request-Id",
+            "Origin",
+            "Access-Control-Request-Method",
+            "Access-Control-Request-Headers"
+        ],
+        description="Allowed headers for CORS"
+    )
+    cors_expose_headers: List[str] = Field(
+        default=[
+            "X-Request-Id",
+            "X-Total-Count",
+            "X-Page-Count"
+        ],
+        description="Headers to expose to frontend"
+    )
+    cors_max_age: int = Field(86400, description="CORS preflight cache time in seconds")
     
     # Redis (optional)
     redis_url: Optional[str] = Field(None, description="Redis URL for caching")
