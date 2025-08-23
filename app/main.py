@@ -10,7 +10,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import settings
 from app.util.logging import setup_logging, get_logger, RequestLogger
-from app.routers import health, ephemeris, calendar, motion, yogas, panchanga_precise
+from app.routers import health, ephemeris, calendar, motion, yogas, panchanga_precise, chesta_bala, navatara
 from app.middleware.auth import verify_api_key
 from app.middleware.rate_limit import rate_limit_middleware
 from app.middleware.circuit_breaker import get_circuit_breaker
@@ -116,6 +116,8 @@ app.include_router(ephemeris.router)
 app.include_router(calendar.router)
 app.include_router(motion.router)
 app.include_router(yogas.router)
+app.include_router(chesta_bala.router)
+app.include_router(navatara.router)
 
 # Add metrics endpoint
 @app.get("/metrics")

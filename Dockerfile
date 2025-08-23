@@ -1,10 +1,16 @@
-# Use Python 3.11 slim image optimized for Cloud Run
-FROM python:3.11-slim
+# Unified Jyotiṣa API Dockerfile
+# Multi-stage build for optimized production image
 
-# Set working directory
-WORKDIR /app
+# Build stage
+FROM python:3.11-slim AS builder
 
-# Install system dependencies and cleanup in one layer
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PIP_NO_CACHE_DIR=1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \
     g++ \
@@ -12,35 +18,55 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for better caching
-COPY requirements.txt .
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+# Copy requirements and install Python dependencies
+COPY requirements.txt .
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Production stage
+FROM python:3.11-slim AS production
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy virtual environment from builder
+COPY --from=builder /opt/venv /opt/venv
+
+# Create non-root user
+RUN groupadd -r app && useradd -r -g app app
+
+# Set working directory
+WORKDIR /app
 
 # Copy application code
 COPY app/ ./app/
 COPY rules/ ./rules/
 COPY pyproject.toml .
 
-# Create non-root user for security
-RUN useradd --create-home --shell /bin/bash app && \
-    chown -R app:app /app
+# Change ownership to app user
+RUN chown -R app:app /app
+
+# Switch to non-root user
 USER app
 
 # Expose port
 EXPOSE 8080
 
-# Set environment variables for Cloud Run
-ENV PORT=8080
-ENV PYTHONPATH=/app
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-
-# Health check for Cloud Run
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8080/health/healthz || exit 1
 
-# Run the application optimized for Cloud Run
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "1", "--timeout-keep-alive", "5"]
+# Start the application
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
