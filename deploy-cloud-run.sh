@@ -46,7 +46,7 @@ gcloud services enable containerregistry.googleapis.com
 
 # Build and push Docker image
 echo -e "${YELLOW}🐳 Building Docker image...${NC}"
-docker build -t $IMAGE_NAME .
+docker build --platform linux/amd64 -t $IMAGE_NAME .
 
 echo -e "${YELLOW}📤 Pushing image to Container Registry...${NC}"
 docker push $IMAGE_NAME
@@ -64,8 +64,7 @@ gcloud run deploy $SERVICE_NAME \
     --max-instances 10 \
     --timeout 300 \
     --concurrency 80 \
-    --set-env-vars PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1 \
-    --update-env-vars CORS_ORIGINS="https://your-frontend-domain.com,http://localhost:3000,http://localhost:5173"
+    --set-env-vars PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1
 
 # Get the service URL
 SERVICE_URL=$(gcloud run services describe $SERVICE_NAME --region=$REGION --format='value(status.url)')

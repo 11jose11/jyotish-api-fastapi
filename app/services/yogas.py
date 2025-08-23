@@ -10,7 +10,7 @@ from app.util.logging import get_logger
 
 logger = get_logger("yogas")
 
-# Yoga definitions with Sanskrit and Spanish names
+# Enhanced Yoga definitions with Sanskrit and Spanish names
 YOGAS_DEFINITIONS = {
     "Amrita Siddhi": {
         "name_sanskrit": "Amṛta Siddhi",
@@ -18,7 +18,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+nakshatra",
         "description": "Yoga auspicioso para todas las actividades",
-        "color": "#10b981"
+        "detailed_description": "Uno de los yogas más auspiciosos. Ideal para iniciar nuevos proyectos, matrimonios, y actividades espirituales.",
+        "color": "#10b981",
+        "priority": 1
     },
     "Sarvartha Siddhi": {
         "name_sanskrit": "Sarvārtha Siddhi",
@@ -26,7 +28,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+nakshatra",
         "description": "Yoga auspicioso para todos los propósitos",
-        "color": "#10b981"
+        "detailed_description": "Excelente para cualquier actividad importante. Garantiza éxito en todos los esfuerzos.",
+        "color": "#10b981",
+        "priority": 1
     },
     "Siddha": {
         "name_sanskrit": "Siddha",
@@ -34,7 +38,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+nakshatra",
         "description": "Yoga auspicioso para actividades espirituales",
-        "color": "#10b981"
+        "detailed_description": "Perfecto para meditación, pujas, y actividades espirituales. Favorece el crecimiento interior.",
+        "color": "#10b981",
+        "priority": 2
     },
     "Guru Pushya": {
         "name_sanskrit": "Guru Puṣya",
@@ -42,7 +48,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+nakshatra",
         "description": "Excelente para educación y negocios",
-        "color": "#8b5cf6"
+        "detailed_description": "Ideal para iniciar estudios, firmar contratos, y actividades comerciales. Favorece el aprendizaje.",
+        "color": "#8b5cf6",
+        "priority": 1
     },
     "Ravi Pushya": {
         "name_sanskrit": "Ravi Puṣya",
@@ -50,7 +58,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "sun+nakshatra",
         "description": "Ideal para actividades espirituales",
-        "color": "#f59e0b"
+        "detailed_description": "Excelente para pujas, iniciaciones espirituales, y actividades religiosas.",
+        "color": "#f59e0b",
+        "priority": 2
     },
     "Ravi Yoga": {
         "name_sanskrit": "Ravi Yoga",
@@ -58,7 +68,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "sun+moon",
         "description": "Yoga auspicioso basado en la relación Sol-Luna",
-        "color": "#f59e0b"
+        "detailed_description": "Favorece la armonía entre el Sol y la Luna. Bueno para actividades que requieren balance.",
+        "color": "#f59e0b",
+        "priority": 3
     },
     "Dvipushkara": {
         "name_sanskrit": "Dvipuṣkara",
@@ -66,7 +78,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+tithi+nakshatra",
         "description": "Yoga auspicioso para actividades importantes",
-        "color": "#10b981"
+        "detailed_description": "Favorece el éxito en actividades importantes. Bueno para inauguraciones y ceremonias.",
+        "color": "#10b981",
+        "priority": 2
     },
     "Tripushkara": {
         "name_sanskrit": "Tripuṣkara",
@@ -74,7 +88,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+tithi+nakshatra",
         "description": "Yoga muy auspicioso para actividades importantes",
-        "color": "#10b981"
+        "detailed_description": "Uno de los yogas más poderosos. Excelente para actividades de gran importancia.",
+        "color": "#10b981",
+        "priority": 1
     },
     "Dagdha": {
         "name_sanskrit": "Dagdha",
@@ -82,7 +98,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi",
         "description": "Evitar matrimonio, viajes, nueva casa",
-        "color": "#ef4444"
+        "detailed_description": "Período desfavorable para actividades importantes. Evitar decisiones trascendentales.",
+        "color": "#ef4444",
+        "priority": 1
     },
     "Visha": {
         "name_sanskrit": "Viṣa",
@@ -90,7 +108,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi",
         "description": "Evitar procedimientos médicos y viajes",
-        "color": "#dc2626"
+        "detailed_description": "Período desfavorable para tratamientos médicos y viajes largos.",
+        "color": "#dc2626",
+        "priority": 1
     },
     "Hutasana": {
         "name_sanskrit": "Hutāsana",
@@ -98,7 +118,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi",
         "description": "Evitar actividades importantes",
-        "color": "#ef4444"
+        "detailed_description": "Período desfavorable para actividades importantes. Postergar decisiones.",
+        "color": "#ef4444",
+        "priority": 2
     },
     "Panchaka": {
         "name_sanskrit": "Pañcaka",
@@ -106,7 +128,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "nakshatra+weekday",
         "description": "Evitar actividades importantes",
-        "color": "#dc2626"
+        "detailed_description": "Período desfavorable. Evitar actividades importantes según la clasificación del día.",
+        "color": "#dc2626",
+        "priority": 2
     },
     "Siddhi": {
         "name_sanskrit": "Siddhi",
@@ -114,7 +138,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+tithi_group",
         "description": "Competencias, litigios, tareas que exigen coraje",
-        "color": "#10b981"
+        "detailed_description": "Favorece actividades que requieren coraje y determinación. Bueno para competencias.",
+        "color": "#10b981",
+        "priority": 2
     },
     "Amritasiddha": {
         "name_sanskrit": "Amṛtasiddha",
@@ -122,7 +148,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+tithi_group",
         "description": "Actividades auspiciosas, especialmente espirituales",
-        "color": "#10b981"
+        "detailed_description": "Excelente para actividades espirituales y ceremonias religiosas.",
+        "color": "#10b981",
+        "priority": 2
     },
     "Jaya": {
         "name_sanskrit": "Jaya",
@@ -130,7 +158,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "positive",
         "type": "vara+tithi_group",
         "description": "Victoria en competencias y litigios",
-        "color": "#10b981"
+        "detailed_description": "Favorece la victoria en competencias, litigios y actividades competitivas.",
+        "color": "#10b981",
+        "priority": 2
     },
     "Rikta": {
         "name_sanskrit": "Rikta",
@@ -138,7 +168,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi_group",
         "description": "Evitar actividades importantes",
-        "color": "#ef4444"
+        "detailed_description": "Período desfavorable para actividades importantes. Evitar decisiones trascendentales.",
+        "color": "#ef4444",
+        "priority": 2
     },
     "Utpata": {
         "name_sanskrit": "Utpāta",
@@ -146,7 +178,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi_group",
         "description": "Evitar viajes y actividades importantes",
-        "color": "#dc2626"
+        "detailed_description": "Período desfavorable para viajes y actividades importantes. Postergar decisiones.",
+        "color": "#dc2626",
+        "priority": 1
     },
     "Mrityu": {
         "name_sanskrit": "Mṛtyu",
@@ -154,7 +188,9 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi_group",
         "description": "Evitar actividades importantes",
-        "color": "#dc2626"
+        "detailed_description": "Período muy desfavorable. Evitar cualquier actividad importante.",
+        "color": "#dc2626",
+        "priority": 1
     },
     "Kana": {
         "name_sanskrit": "Kaṇa",
@@ -162,7 +198,40 @@ YOGAS_DEFINITIONS = {
         "polarity": "negative",
         "type": "vara+tithi_group",
         "description": "Evitar actividades importantes",
-        "color": "#ef4444"
+        "detailed_description": "Período desfavorable. Evitar actividades importantes y decisiones trascendentales.",
+        "color": "#ef4444",
+        "priority": 2
+    },
+    # New special yogas
+    "Guru Yoga": {
+        "name_sanskrit": "Guru Yoga",
+        "name_spanish": "Guru Yoga",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Excelente para educación y sabiduría",
+        "detailed_description": "Favorece el aprendizaje, la enseñanza y la adquisición de sabiduría.",
+        "color": "#8b5cf6",
+        "priority": 2
+    },
+    "Shukra Yoga": {
+        "name_sanskrit": "Śukra Yoga",
+        "name_spanish": "Shukra Yoga",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Favorable para artes y relaciones",
+        "detailed_description": "Excelente para actividades artísticas, relaciones y asuntos del corazón.",
+        "color": "#ec4899",
+        "priority": 2
+    },
+    "Mangala Yoga": {
+        "name_sanskrit": "Maṅgala Yoga",
+        "name_spanish": "Mangala Yoga",
+        "polarity": "positive",
+        "type": "vara+nakshatra",
+        "description": "Favorable para coraje y energía",
+        "detailed_description": "Favorece actividades que requieren coraje, energía y determinación.",
+        "color": "#dc2626",
+        "priority": 2
     }
 }
 
@@ -312,6 +381,15 @@ PANCHAKA_CLASSIFICATIONS = {
     "Saturday": "Naga"
 }
 
+# Special Vara-Nakshatra combinations
+VARA_NAKSHATRA_YOGAS = {
+    ("Thursday", "Puṣya"): "Guru Pushya",
+    ("Friday", "Citrā"): "Shukra Yoga",
+    ("Tuesday", "Mṛgaśira"): "Mangala Yoga",
+    ("Wednesday", "Rohiṇī"): "Budha Yoga",
+    ("Monday", "Śravaṇa"): "Chandra Yoga"
+}
+
 class YogasService:
     """Service for detecting panchanga yogas."""
     
@@ -370,6 +448,10 @@ class YogasService:
             positive_yogas = self._check_special_positive_yogas(weekday, tithi, tithi_group, nakshatra, sun_nakshatra, sun_lon, moon_lon)
             negative_yogas = self._check_special_negative_yogas(weekday, tithi, tithi_group, nakshatra, sun_nakshatra)
             
+            # Sort yogas by priority
+            positive_yogas.sort(key=lambda x: YOGAS_DEFINITIONS.get(x["name"], {}).get("priority", 3))
+            negative_yogas.sort(key=lambda x: YOGAS_DEFINITIONS.get(x["name"], {}).get("priority", 3))
+            
             return {
                 "date": dt.date().isoformat(),
                 "location": {
@@ -394,12 +476,47 @@ class YogasService:
                 "positive_yogas": positive_yogas,
                 "negative_yogas": negative_yogas,
                 "total_positive": len(positive_yogas),
-                "total_negative": len(negative_yogas)
+                "total_negative": len(negative_yogas),
+                "summary": self._generate_yoga_summary(positive_yogas, negative_yogas)
             }
             
         except Exception as e:
             logger.error(f"Error detecting yogas: {e}")
             raise
+    
+    def _generate_yoga_summary(self, positive_yogas: List[Dict], negative_yogas: List[Dict]) -> Dict:
+        """Generate a summary of the yogas for the day."""
+        total_yogas = len(positive_yogas) + len(negative_yogas)
+        
+        if total_yogas == 0:
+            return {
+                "overall_muhurta": "neutral",
+                "recommendation": "Día neutral para actividades",
+                "priority_yogas": []
+            }
+        
+        # Get highest priority yogas
+        all_yogas = positive_yogas + negative_yogas
+        all_yogas.sort(key=lambda x: YOGAS_DEFINITIONS.get(x["name"], {}).get("priority", 3))
+        
+        priority_yogas = all_yogas[:3]  # Top 3 yogas
+        
+        # Determine overall muhurta
+        if len(positive_yogas) > len(negative_yogas):
+            overall_muhurta = "auspicious"
+            recommendation = "Día favorable para actividades importantes"
+        elif len(negative_yogas) > len(positive_yogas):
+            overall_muhurta = "inauspicious"
+            recommendation = "Evitar actividades importantes"
+        else:
+            overall_muhurta = "mixed"
+            recommendation = "Día mixto - consultar yogas específicos"
+        
+        return {
+            "overall_muhurta": overall_muhurta,
+            "recommendation": recommendation,
+            "priority_yogas": priority_yogas
+        }
     
     def _calculate_tithi(self, sun_lon: float, moon_lon: float) -> int:
         """Calculate tithi from Sun and Moon longitudes - corrected logic."""
@@ -491,49 +608,62 @@ class YogasService:
                 "tithi_group": tithi_group,
                 "tithi_number": tithi,
                 "beneficial": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "avoid": "",
                 "notes": "",
-                "polarity": "positive"
+                "polarity": "positive",
+                "priority": yoga_def.get("priority", 3)
+            })
+        
+        # Check Vara-Nakshatra combinations
+        if (weekday, nakshatra) in VARA_NAKSHATRA_YOGAS:
+            yoga_name = VARA_NAKSHATRA_YOGAS[(weekday, nakshatra)]
+            yoga_def = YOGAS_DEFINITIONS.get(yoga_name, {})
+            
+            yogas.append({
+                "name": yoga_name,
+                "type": "vara+nakshatra",
+                "vara": weekday,
+                "nakshatra": nakshatra,
+                "beneficial": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
+                "avoid": "",
+                "notes": "",
+                "polarity": "positive",
+                "priority": yoga_def.get("priority", 3)
             })
         
         # Check Ravi Yoga (Sun-Moon relationship)
         sun_moon_diff = abs(sun_lon - moon_lon)
         if 0 <= sun_moon_diff <= 12 or 348 <= sun_moon_diff <= 360:
+            yoga_def = YOGAS_DEFINITIONS.get("Ravi Yoga", {})
             yogas.append({
                 "name": "Ravi Yoga",
                 "type": "sun+moon",
                 "sun_longitude": sun_lon,
                 "moon_longitude": moon_lon,
                 "difference": sun_moon_diff,
-                "beneficial": "Yoga auspicioso basado en la relación Sol-Luna",
+                "beneficial": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "avoid": "",
                 "notes": "",
-                "polarity": "positive"
+                "polarity": "positive",
+                "priority": yoga_def.get("priority", 3)
             })
         
         # Check Ravi Pushya (Sun in Pushya)
         if sun_nakshatra == "Puṣya":
+            yoga_def = YOGAS_DEFINITIONS.get("Ravi Pushya", {})
             yogas.append({
                 "name": "Ravi Pushya",
                 "type": "sun+nakshatra",
                 "sun_nakshatra": sun_nakshatra,
-                "beneficial": "Ideal para actividades espirituales",
+                "beneficial": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "avoid": "",
                 "notes": "",
-                "polarity": "positive"
-            })
-        
-        # Check Guru Pushya (Thursday + Pushya)
-        if weekday == "Thursday" and nakshatra == "Puṣya":
-            yogas.append({
-                "name": "Guru Pushya",
-                "type": "vara+nakshatra",
-                "vara": weekday,
-                "nakshatra": nakshatra,
-                "beneficial": "Excelente para educación y negocios",
-                "avoid": "",
-                "notes": "",
-                "polarity": "positive"
+                "polarity": "positive",
+                "priority": yoga_def.get("priority", 3)
             })
         
         return yogas
@@ -551,46 +681,56 @@ class YogasService:
         
         # Check Dagdha
         if (weekday, tithi) in DAGDHA_COMBINATIONS:
+            yoga_def = YOGAS_DEFINITIONS.get("Dagdha", {})
             yogas.append({
                 "name": "Dagdha",
                 "type": "vara+tithi",
                 "vara": weekday,
                 "tithi_number": tithi,
                 "beneficial": "",
-                "avoid": "Evitar matrimonio, viajes, nueva casa",
+                "avoid": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "notes": "",
-                "polarity": "negative"
+                "polarity": "negative",
+                "priority": yoga_def.get("priority", 3)
             })
         
         # Check Visha
         if (weekday, tithi) in VISHA_COMBINATIONS:
+            yoga_def = YOGAS_DEFINITIONS.get("Visha", {})
             yogas.append({
                 "name": "Visha",
                 "type": "vara+tithi",
                 "vara": weekday,
                 "tithi_number": tithi,
                 "beneficial": "",
-                "avoid": "Evitar procedimientos médicos y viajes",
+                "avoid": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "notes": "",
-                "polarity": "negative"
+                "polarity": "negative",
+                "priority": yoga_def.get("priority", 3)
             })
         
         # Check Hutasana
         if (weekday, tithi) in HUTASANA_COMBINATIONS:
+            yoga_def = YOGAS_DEFINITIONS.get("Hutasana", {})
             yogas.append({
                 "name": "Hutasana",
                 "type": "vara+tithi",
                 "vara": weekday,
                 "tithi_number": tithi,
                 "beneficial": "",
-                "avoid": "Evitar actividades importantes",
+                "avoid": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "notes": "",
-                "polarity": "negative"
+                "polarity": "negative",
+                "priority": yoga_def.get("priority", 3)
             })
         
         # Check Panchaka
         if nakshatra in PANCHAKA_NAKSHATRAS:
             classification = PANCHAKA_CLASSIFICATIONS.get(weekday, "")
+            yoga_def = YOGAS_DEFINITIONS.get("Panchaka", {})
             yogas.append({
                 "name": "Panchaka",
                 "type": "nakshatra+weekday",
@@ -598,9 +738,11 @@ class YogasService:
                 "nakshatra": nakshatra,
                 "classification": classification,
                 "beneficial": "",
-                "avoid": "Evitar actividades importantes",
+                "avoid": yoga_def.get("description", ""),
+                "detailed_description": yoga_def.get("detailed_description", ""),
                 "notes": f"Clasificación: {classification}",
-                "polarity": "negative"
+                "polarity": "negative",
+                "priority": yoga_def.get("priority", 3)
             })
         
         return yogas
