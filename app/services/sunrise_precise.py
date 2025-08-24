@@ -137,7 +137,8 @@ class PreciseSunriseService:
             dt = dt.astimezone().replace(tzinfo=None)
         
         # Convert to Julian Day
-        jd = swe.julday(dt.year, dt.month, dt.day, dt.hour + dt.minute/60.0 + dt.second/3600.0)
+        # swe.julday requires integer parameters for year, month, day
+        jd = swe.julday(int(dt.year), int(dt.month), int(dt.day), dt.hour + dt.minute/60.0 + dt.second/3600.0)
         return jd
     
     def _jd_to_datetime(self, jd: float) -> datetime:
@@ -147,9 +148,9 @@ class PreciseSunriseService:
             year, month, day, hour = swe.revjul(jd)
             
             # Convert hour to hours, minutes, seconds
-            hours = int(hour)
-            minutes = int((hour - hours) * 60)
-            seconds = int(((hour - hours) * 60 - minutes) * 60)
+            hours = int(float(hour))
+            minutes = int((float(hour) - hours) * 60)
+            seconds = int(((float(hour) - hours) * 60 - minutes) * 60)
             
             return datetime(year, month, day, hours, minutes, seconds)
         except Exception as e:

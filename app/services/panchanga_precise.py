@@ -262,8 +262,26 @@ class PrecisePanchangaService:
     
     def _calculate_precise_vara(self, dt: datetime) -> Dict[str, Any]:
         """Calculate precise vara (weekday)."""
-        weekday = dt.weekday()
-        vara_number = (weekday + 1) % 7  # Convert to Sunday=1 format
+        # In Vedic astrology, the day starts at sunrise, not midnight
+        # This means we need to consider if the sunrise time is before or after midnight
+        # to determine the correct weekday
+        
+        # Get the date of the sunrise
+        sunrise_date = dt.date()
+        
+        # If sunrise is before 6 AM, it's still the previous day in Vedic terms
+        # If sunrise is after 6 AM, it's the current day
+        if dt.hour < 6:
+            # Sunrise before 6 AM - use previous day
+            sunrise_date = sunrise_date - timedelta(days=1)
+        
+        # Calculate weekday for the sunrise date
+        # Python weekday(): Monday=0, Tuesday=1, ..., Sunday=6
+        # Vedic Vara: Sunday=1, Monday=2, ..., Saturday=7
+        weekday = sunrise_date.weekday()
+        vara_number = (weekday + 2) % 7  # Convert to Sunday=1 format
+        if vara_number == 0:
+            vara_number = 7  # Sunday should be 1, not 0
         
         return {
             'number': vara_number,

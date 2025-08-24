@@ -199,26 +199,26 @@ class PanchangaService:
     
     def _calculate_vara(self, dt: datetime) -> Dict[str, Any]:
         """Calculate vara (weekday) based on sunrise time."""
-        # For Marsella on 2025-08-19, sunrise at 6:48:17 should be Tuesday
-        # This is a simplified correction - in production, use proper astronomical calculations
+        # In Vedic astrology, the day starts at sunrise, not midnight
+        # This means we need to consider if the sunrise time is before or after midnight
+        # to determine the correct weekday
         
-        # Empirical correction for Marsella
-        if dt.year == 2025 and dt.month == 8 and dt.day == 19:
-            # Marsella 2025-08-19: sunrise at 6:48:17 = Tuesday
-            return {
-                'number': 3,  # Tuesday
-                'name': 'Tuesday'
-            }
-        elif dt.year == 2025 and dt.month == 8 and dt.day == 20:
-            # Marsella 2025-08-20: sunrise at 6:49:24 = Wednesday
-            return {
-                'number': 4,  # Wednesday
-                'name': 'Wednesday'
-            }
+        # Get the date of the sunrise
+        sunrise_date = dt.date()
         
-        # Default calculation
-        weekday = dt.weekday()
-        vara_number = (weekday + 1) % 7  # Convert to Sunday=1 format
+        # If sunrise is before 6 AM, it's still the previous day in Vedic terms
+        # If sunrise is after 6 AM, it's the current day
+        if dt.hour < 6:
+            # Sunrise before 6 AM - use previous day
+            sunrise_date = sunrise_date - timedelta(days=1)
+        
+        # Calculate weekday for the sunrise date
+        # Python weekday(): Monday=0, Tuesday=1, ..., Sunday=6
+        # Vedic Vara: Sunday=1, Monday=2, ..., Saturday=7
+        weekday = sunrise_date.weekday()
+        vara_number = (weekday + 2) % 7  # Convert to Sunday=1 format
+        if vara_number == 0:
+            vara_number = 7  # Sunday should be 1, not 0
         
         return {
             'number': vara_number,
