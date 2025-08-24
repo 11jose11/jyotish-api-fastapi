@@ -431,9 +431,17 @@ class YogasService:
     ) -> Dict:
         """Detect panchanga yogas for a specific date and location."""
         try:
-            # Use the same time as the precise endpoint (sunrise)
-            sunrise_time = "06:47:00"  # Fixed sunrise time for consistency
-            dt_with_time = datetime.combine(dt.date(), datetime.strptime(sunrise_time, "%H:%M:%S").time())
+            # Calculate actual sunrise time for the location
+            from app.services.sunrise_precise import precise_sunrise_service
+            
+            try:
+                # Get actual sunrise time for the location
+                sunrise_dt = precise_sunrise_service.calculate_sunrise(dt, latitude, longitude)
+                dt_with_time = sunrise_dt
+            except Exception as e:
+                # Fallback to approximate sunrise time (6:30 AM local time)
+                logger.warning(f"Could not calculate precise sunrise, using fallback: {e}")
+                dt_with_time = datetime.combine(dt.date(), datetime.strptime("06:30:00", "%H:%M:%S").time())
             
             # Calculate planetary positions using SWE service at sunrise
             planet_data = self.swe_service.calculate_planets(dt_with_time, ["Sun", "Moon"])

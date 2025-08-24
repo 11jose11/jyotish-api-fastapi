@@ -132,9 +132,11 @@ class PreciseSunriseService:
     
     def _datetime_to_jd(self, dt: datetime) -> float:
         """Convert datetime to Julian Day Number."""
-        # Convert to UTC if timezone aware
+        # Handle timezone conversion properly
         if dt.tzinfo is not None:
-            dt = dt.astimezone().replace(tzinfo=None)
+            # Convert to UTC first, then remove timezone info
+            dt_utc = dt.astimezone(datetime.timezone.utc)
+            dt = dt_utc.replace(tzinfo=None)
         
         # Convert to Julian Day
         # swe.julday requires integer parameters for year, month, day
