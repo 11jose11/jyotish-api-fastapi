@@ -409,18 +409,12 @@ class YogasService:
     
     def get_weekday(self, dt: datetime) -> str:
         """Get weekday name."""
-        # In Vedic astrology, the day starts at sunrise, not midnight
-        # This means we need to consider if the sunrise time is before or after midnight
-        # to determine the correct weekday
+        # In Vedic astrology, the day starts at sunrise
+        # The vara is determined by the day on which the sunrise occurs
+        # NOT by whether sunrise is before or after 6 AM
         
         # Get the date of the sunrise
         sunrise_date = dt.date()
-        
-        # If sunrise is before 6 AM, it's still the previous day in Vedic terms
-        # If sunrise is after 6 AM, it's the current day
-        if dt.hour < 6:
-            # Sunrise before 6 AM - use previous day
-            sunrise_date = sunrise_date - timedelta(days=1)
         
         # Calculate weekday for the sunrise date
         # Python weekday(): Monday=0, Tuesday=1, ..., Sunday=6
