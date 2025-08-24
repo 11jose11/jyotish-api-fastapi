@@ -17,6 +17,7 @@ from app.middleware.circuit_breaker import get_circuit_breaker
 from app.middleware.performance import performance_middleware
 from app.middleware.metrics import metrics_middleware, get_metrics
 
+
 # Setup logging
 setup_logging()
 logger = get_logger("main")
@@ -55,6 +56,26 @@ app.add_middleware(
     expose_headers=settings.cors_expose_headers,
     max_age=settings.cors_max_age,
 )
+
+# Security headers middleware
+@app.middleware("http")
+async def security_headers_middleware(request: Request, call_next: Callable):
+    """Add security headers to all responses."""
+    response = await call_next(request)
+    
+    # Add security headers
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    response.headers["X-API-Version"] = settings.api_version
+    
+    # Add timing header
+    if hasattr(request.state, 'start_time'):
+        processing_time = time.time() - request.state.start_time
+        response.headers["X-Response-Time"] = f"{processing_time:.3f}s"
+    
+    return response
 
 # Request ID middleware
 @app.middleware("http")
@@ -98,6 +119,7 @@ async def authenticate_requests(request: Request, call_next: Callable):
 async def log_requests(request: Request, call_next: Callable):
     """Log all requests with timing."""
     start_time = time.time()
+    request.state.start_time = start_time
     
     request_id = getattr(request.state, 'request_id', str(uuid.uuid4()))
     
@@ -169,12 +191,12 @@ async def get_api_info():
         "swiss_ephemeris": "enabled"
     }
 
-# Add CORS preflight handler
+# CORS preflight handler (handled automatically by FastAPI CORS middleware)
 @app.options("/{full_path:path}")
 async def cors_preflight_handler(request: Request):
     """Handle CORS preflight requests."""
     return JSONResponse(
-        content={},
+        content={"message": "CORS preflight request handled"},
         headers={
             "Access-Control-Allow-Origin": request.headers.get("Origin", "*"),
             "Access-Control-Allow-Methods": ", ".join(settings.cors_allow_methods),

@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     # CORS Configuration
     cors_origins: List[str] = Field(
         default=[
+            # Development origins
             "http://localhost:3000",  # React/Next.js default
             "http://localhost:3001",  # Alternative React port
             "http://localhost:5173",  # Vite default
@@ -39,6 +40,25 @@ class Settings(BaseSettings):
             "https://localhost:3001",
             "https://localhost:5173",
             "https://localhost:8080",
+            
+            # Production origins
+            "https://jyotish-api-ndcfqrjivq-uc.a.run.app",  # API domain
+            "https://jyotish-frontend-ndcfqrjivq-uc.a.run.app",  # Frontend domain
+            "https://jyotish-calendar.vercel.app",  # Vercel deployment
+            "https://jyotish-calendar.netlify.app",  # Netlify deployment
+            
+            # Cloud Run domains
+            "https://*.run.app",
+            "https://*.a.run.app",
+            
+            # Vercel domains
+            "https://*.vercel.app",
+            
+            # Netlify domains
+            "https://*.netlify.app",
+            
+            # Allow all origins for development (remove in production)
+            "*",
         ],
         description="Allowed CORS origins for frontend"
     )
@@ -49,25 +69,56 @@ class Settings(BaseSettings):
     )
     cors_allow_headers: List[str] = Field(
         default=[
+            # Standard headers
             "Accept",
             "Accept-Language", 
             "Content-Language",
             "Content-Type",
             "Authorization",
+            
+            # Custom API headers
             "X-API-Key",
             "X-Requested-With",
             "X-Request-Id",
+            "X-Client-Version",
+            "X-Client-Platform",
+            
+            # CORS headers
             "Origin",
             "Access-Control-Request-Method",
-            "Access-Control-Request-Headers"
+            "Access-Control-Request-Headers",
+            
+            # Additional headers for better compatibility
+            "Cache-Control",
+            "Pragma",
+            "If-Modified-Since",
+            "If-None-Match",
+            "User-Agent",
+            "Referer",
         ],
         description="Allowed headers for CORS"
     )
     cors_expose_headers: List[str] = Field(
         default=[
+            # Request tracking
             "X-Request-Id",
+            "X-Response-Time",
+            
+            # Pagination
             "X-Total-Count",
-            "X-Page-Count"
+            "X-Page-Count",
+            "X-Page-Size",
+            "X-Current-Page",
+            
+            # API information
+            "X-API-Version",
+            "X-Cache-Status",
+            "X-Rate-Limit-Remaining",
+            "X-Rate-Limit-Reset",
+            
+            # Performance
+            "X-Processing-Time",
+            "X-Server-Timestamp",
         ],
         description="Headers to expose to frontend"
     )
