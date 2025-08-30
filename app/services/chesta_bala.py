@@ -167,7 +167,8 @@ class ChestaBalaService:
     ) -> Dict:
         """Calculate Chesta Bala for a specific planet using classical methods."""
         try:
-            planet_id = self.planets[planet_name]
+            planet_info = self.planets[planet_name]
+            planet_id = planet_info['id']
             
             if planet_name == 'Ketu':
                 # Ketu is opposite to Rahu
@@ -198,24 +199,40 @@ class ChestaBalaService:
             chesta_score = self._calculate_chesta_score_classical(chesta_bala)
             strength_level = self._get_strength_level_classical(chesta_bala)
             
+            # Return the exact structure requested in the prompt
             return {
+                'graha': planet_info['sanskrit'],
+                'graha_es': planet_info['español'],
+                'chesta_avasta': motion_state_info['sanskrit'],
+                'chesta_es': motion_state_info['español'],
+                'velocidad_grados_por_dia': round(speed, 2),
+                'categoria': motion_state_info['sanskrit'],
+                'puntuaje_shastiamsa': chesta_bala,
+                # Additional information for compatibility
                 'longitude': longitude,
                 'speed': abs(speed),
                 'is_retrograde': is_retrograde,
-                'motion_state': motion_state_info['english'],
+                'motion_state': motion_state_info['sanskrit'],
                 'motion_state_sanskrit': motion_state_info['sanskrit'],
                 'motion_state_description': motion_state_info['description'],
                 'chesta_bala': chesta_bala,
                 'chesta_score': chesta_score,
                 'strength_level': strength_level,
                 'description': self._get_chesta_description_classical(planet_name, motion_state_info),
-                'classical_reference': f"Ṣaṣṭyāṁśa: {chesta_bala}/60"
+                'classical_reference': f"Śaṣṭiāṁśa: {chesta_bala}/60"
             }
             
         except Exception as e:
             logger.error(f"Error calculating Chesta Bala for {planet_name}: {e}")
             return {
                 'error': str(e),
+                'graha': self.planets.get(planet_name, {}).get('sanskrit', planet_name),
+                'graha_es': self.planets.get(planet_name, {}).get('español', planet_name),
+                'chesta_avasta': 'अज्ञात',
+                'chesta_es': 'Desconocido',
+                'velocidad_grados_por_dia': 0,
+                'categoria': 'अज्ञात',
+                'puntuaje_shastiamsa': 0,
                 'longitude': 0,
                 'speed': 0,
                 'is_retrograde': False,
@@ -330,7 +347,7 @@ class ChestaBalaService:
     
     def _get_chesta_description_classical(self, planet_name: str, motion_state_info: Dict) -> str:
         """Get classical description of Chesta Bala for a planet."""
-        state = motion_state_info['english']
+        state = motion_state_info['state']
         description = motion_state_info['description']
         chesta_bala = motion_state_info['chesta_bala']
         
