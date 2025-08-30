@@ -82,23 +82,27 @@ async def get_monthly_calendar(
                 # Format planet data
                 formatted_planets = {}
                 for planet, data in planet_data.items():
+                    if "error" in data:
+                        formatted_planets[planet] = {"error": data["error"]}
+                        continue
+                        
                     formatted_planet = {
-                        "lon_decimal": round(data["lon"], 6),
-                        "retrograde": data["retrograde"],
+                        "lon_decimal": round(data["longitude"], 6),
+                        "retrograde": data.get("retrograde", False),
                         "motion_state": data.get("motion_state", "sama"),
-                        "rasi": data["rasi"],
-                        "rasi_index": data["rasi_index"],
-                        "nakshatra": data["nakshatra"],
-                        "nak_index": data["nak_index"],
-                        "pada": data["pada"],
+                        "rasi": data["rasi"]["name"],
+                        "rasi_index": data["rasi"]["number"],
+                        "nakshatra": data["nakshatra"]["name"],
+                        "nak_index": data["nakshatra"]["number"],
+                        "pada": data["nakshatra"]["pada"],
                         "changedNakshatra": False,  # TODO: implement change detection
                         "changedPada": False,
                         "changedRasi": False
                     }
                     
                     if units in ["dms", "both"]:
-                        # formatted_planet["lon_dms"] = panchanga_service.to_dms(data["lon"])  # TEMPORARILY DISABLED
-                        formatted_planet["lon_dms"] = f"{data['lon']:.2f}°"
+                        # formatted_planet["lon_dms"] = panchanga_service.to_dms(data["longitude"])  # TEMPORARILY DISABLED
+                        formatted_planet["lon_dms"] = f"{data['longitude']:.2f}°"
                     
                     formatted_planets[planet] = formatted_planet
                 
