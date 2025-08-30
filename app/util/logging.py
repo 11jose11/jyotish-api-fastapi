@@ -88,6 +88,19 @@ class RequestLogger:
         )
         return self
         
+    def success(self):
+        """Mark request as successful."""
+        latency_ms = int((time.time() - self.start_time) * 1000)
+        self.logger.info(
+            "Request completed successfully",
+            extra={
+                "route": self.route,
+                "req_id": self.req_id,
+                "latency_ms": latency_ms,
+                "status": "success"
+            }
+        )
+        
     def __exit__(self, exc_type, exc_val, exc_tb):
         latency_ms = int((time.time() - self.start_time) * 1000)
         
