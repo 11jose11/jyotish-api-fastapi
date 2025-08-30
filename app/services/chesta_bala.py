@@ -330,7 +330,7 @@ class ChestaBalaService:
     
     def _get_chesta_description_classical(self, planet_name: str, motion_state_info: Dict) -> str:
         """Get classical description of Chesta Bala for a planet."""
-        state = motion_state_info['state']
+        state = motion_state_info['english']
         description = motion_state_info['description']
         chesta_bala = motion_state_info['chesta_bala']
         
