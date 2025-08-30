@@ -10,6 +10,12 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Application settings."""
     
+    # Environment detection
+    environment: str = Field(
+        default=os.getenv("ENVIRONMENT", "production"),
+        description="Environment: development, staging, production"
+    )
+    
     # Google APIs
     google_maps_api_key: Optional[str] = Field(None, description="Google Maps API key")
     
@@ -24,44 +30,51 @@ class Settings(BaseSettings):
     ayanamsa_mode: str = Field("lahiri", description="Ayanamsa mode: lahiri, raman, krishnamurti, etc.")
     sidereal_mode: int = Field(1, description="Sidereal mode: 1=Lahiri, 2=Raman, 3=Krishnamurti")
     
-    # CORS Configuration
-    cors_origins: List[str] = Field(
-        default=[
-            # Development origins
-            "http://localhost:3000",  # React/Next.js default
-            "http://localhost:3001",  # Alternative React port
-            "http://localhost:5173",  # Vite default
-            "http://localhost:8080",  # Alternative dev port
-            "http://127.0.0.1:3000",
-            "http://127.0.0.1:3001", 
-            "http://127.0.0.1:5173",
-            "http://127.0.0.1:8080",
-            "https://localhost:3000",  # HTTPS versions
-            "https://localhost:3001",
-            "https://localhost:5173",
-            "https://localhost:8080",
-            
-            # Production origins
-            "https://jyotish-api-ndcfqrjivq-uc.a.run.app",  # API domain
-            "https://jyotish-frontend-ndcfqrjivq-uc.a.run.app",  # Frontend domain
-            "https://jyotish-calendar.vercel.app",  # Vercel deployment
-            "https://jyotish-calendar.netlify.app",  # Netlify deployment
-            
-            # Cloud Run domains
-            "https://*.run.app",
-            "https://*.a.run.app",
-            
-            # Vercel domains
-            "https://*.vercel.app",
-            
-            # Netlify domains
-            "https://*.netlify.app",
-            
-            # Allow all origins for development (remove in production)
-            "*",
-        ],
-        description="Allowed CORS origins for frontend"
+    # CORS Configuration - ENHANCED FOR VERCEL FRONTEND
+    allowed_origin: str = Field(
+        default=os.getenv("ALLOWED_ORIGIN", "https://jyotish-content-manager.vercel.app"),
+        description="Primary allowed origin for CORS (main frontend domain)"
     )
+    
+    # Additional allowed origins (comma-separated string from env)
+    additional_origins: str = Field(
+        default=os.getenv("ADDITIONAL_ORIGINS", ""),
+        description="Additional allowed origins (comma-separated)"
+    )
+    
+    @property
+    def cors_origins(self) -> List[str]:
+        """Dynamic CORS origins based on environment."""
+        origins = []
+        
+        if self.environment == "development":
+            # Development: allow all origins
+            origins = ["*"]
+        else:
+            # Production: specific origins only
+            origins = [
+                # Primary frontend domain
+                self.allowed_origin,
+                
+                # API domain (for API-to-API calls)
+                "https://jyotish-api-ndcfqrjivq-uc.a.run.app",
+                
+                # Development origins (for testing)
+                "http://localhost:3000",
+                "http://localhost:3001", 
+                "http://localhost:5173",
+                "http://127.0.0.1:3000",
+                "http://127.0.0.1:3001",
+                "http://127.0.0.1:5173",
+            ]
+            
+            # Add additional origins from environment variable
+            if self.additional_origins:
+                additional = [origin.strip() for origin in self.additional_origins.split(",") if origin.strip()]
+                origins.extend(additional)
+        
+        return origins
+    
     cors_allow_credentials: bool = Field(True, description="Allow credentials in CORS")
     cors_allow_methods: List[str] = Field(
         default=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
@@ -76,8 +89,12 @@ class Settings(BaseSettings):
             "Content-Type",
             "Authorization",
             
-            # Custom API headers
+            # Custom API headers (as requested)
             "X-API-Key",
+            "x-client-info",
+            "apikey",
+            
+            # Request tracking headers
             "X-Requested-With",
             "X-Request-Id",
             "X-Client-Version",

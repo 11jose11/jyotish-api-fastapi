@@ -133,13 +133,25 @@ async def log_requests(request: Request, call_next: Callable):
 
 # Include routers
 app.include_router(health.router)
-app.include_router(panchanga_precise.router)
 app.include_router(ephemeris.router)
 app.include_router(calendar.router)
 app.include_router(motion.router)
 app.include_router(yogas.router)
+app.include_router(panchanga_precise.router)
 app.include_router(chesta_bala.router)
 app.include_router(navatara.router)
+
+# CORS test endpoint
+@app.get("/cors-test")
+async def cors_test():
+    """Test endpoint to verify CORS configuration."""
+    return {
+        "message": "CORS is working correctly!",
+        "environment": settings.environment,
+        "allowed_origin": settings.allowed_origin,
+        "cors_origins": settings.cors_origins if settings.environment == "development" else ["<hidden>"],
+        "timestamp": time.time()
+    }
 
 # Add metrics endpoint
 @app.get("/metrics")
