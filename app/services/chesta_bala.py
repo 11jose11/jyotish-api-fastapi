@@ -202,7 +202,7 @@ class ChestaBalaService:
                 'longitude': longitude,
                 'speed': abs(speed),
                 'is_retrograde': is_retrograde,
-                'motion_state': motion_state_info['state'],
+                'motion_state': motion_state_info['english'],
                 'motion_state_sanskrit': motion_state_info['sanskrit'],
                 'motion_state_description': motion_state_info['description'],
                 'chesta_bala': chesta_bala,
