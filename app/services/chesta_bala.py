@@ -48,6 +48,7 @@ class ChestaBalaService:
             'Vakra': {
                 'sanskrit': 'वक्र',
                 'transliteration': 'vakra',
+                'español': 'Retrógrado',
                 'description': 'Retrógrado',
                 'chesta_bala': 60,
                 'english': 'Retrograde',
@@ -56,6 +57,7 @@ class ChestaBalaService:
             'Anuvakra': {
                 'sanskrit': 'अनुवक्र',
                 'transliteration': 'anuvakra',
+                'español': 'Anuvakra',
                 'description': 'Directo después de retrogradación',
                 'chesta_bala': 30,
                 'english': 'Direct after retrograde',
@@ -64,6 +66,7 @@ class ChestaBalaService:
             'Vikala': {
                 'sanskrit': 'विकल',
                 'transliteration': 'vikala',
+                'español': 'Estacionario',
                 'description': 'Estacionario (sin movimiento)',
                 'chesta_bala': 15,
                 'english': 'Stationary (no movement)',
@@ -72,6 +75,7 @@ class ChestaBalaService:
             'Mandatara': {
                 'sanskrit': 'मन्दतर',
                 'transliteration': 'mandatara',
+                'español': 'Muy Lento',
                 'description': 'Muy lento',
                 'chesta_bala': 15,
                 'english': 'Very slow',
@@ -80,6 +84,7 @@ class ChestaBalaService:
             'Manda': {
                 'sanskrit': 'मन्द',
                 'transliteration': 'manda',
+                'español': 'Lento',
                 'description': 'Lento',
                 'chesta_bala': 30,
                 'english': 'Slow',
@@ -88,6 +93,7 @@ class ChestaBalaService:
             'Sama': {
                 'sanskrit': 'साम',
                 'transliteration': 'sama',
+                'español': 'Medio',
                 'description': 'Movimiento medio',
                 'chesta_bala': 30,
                 'english': 'Medium motion',
@@ -96,6 +102,7 @@ class ChestaBalaService:
             'Chara': {
                 'sanskrit': 'चरा',
                 'transliteration': 'chara',
+                'español': 'Rápido',
                 'description': 'Rápido',
                 'chesta_bala': 30,
                 'english': 'Fast',
@@ -104,6 +111,7 @@ class ChestaBalaService:
             'Sighra': {
                 'sanskrit': 'शीघ्र',
                 'transliteration': 'sighra',
+                'español': 'Veloz',
                 'description': 'Rápido',
                 'chesta_bala': 30,
                 'english': 'Fast',
@@ -112,6 +120,7 @@ class ChestaBalaService:
             'Atichara': {
                 'sanskrit': 'अतिचरा',
                 'transliteration': 'atichara',
+                'español': 'Muy Rápido',
                 'description': 'Muy rápido',
                 'chesta_bala': 45,
                 'english': 'Very fast',
@@ -120,6 +129,7 @@ class ChestaBalaService:
             'Sighratara': {
                 'sanskrit': 'शीघ्रतर',
                 'transliteration': 'sighratara',
+                'español': 'Súper Rápido',
                 'description': 'Muy rápido',
                 'chesta_bala': 45,
                 'english': 'Very fast',
@@ -128,6 +138,7 @@ class ChestaBalaService:
             'Kutilaka': {
                 'sanskrit': 'कुटिलक',
                 'transliteration': 'kutilaka',
+                'español': 'Irregular',
                 'description': 'Movimiento irregular, zigzagueante',
                 'chesta_bala': 37.5,  # Valor promedio entre 30-45
                 'english': 'Irregular, zigzag motion',
@@ -257,6 +268,7 @@ class ChestaBalaService:
                 'motion_state': motion_state_info['sanskrit'],
                 'motion_state_sanskrit': motion_state_info['sanskrit'],
                 'motion_state_transliteration': motion_state_info['transliteration'],
+                'motion_state_español': motion_state_info['español'],
                 'motion_state_description': motion_state_info['description'],
                 'chesta_bala': chesta_bala,
                 'chesta_score': chesta_score,
@@ -284,6 +296,7 @@ class ChestaBalaService:
                 'motion_state': 'unknown',
                 'motion_state_sanskrit': 'अज्ञात',
                 'motion_state_transliteration': 'ajñāta',
+                'motion_state_español': 'Desconocido',
                 'motion_state_description': 'Estado desconocido',
                 'chesta_bala': 0,
                 'chesta_score': 0,
