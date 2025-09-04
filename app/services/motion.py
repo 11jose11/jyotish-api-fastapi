@@ -106,7 +106,7 @@ class MotionService:
                         "planet": planet,
                         "name_sanskrit": planet_names["sanskrit"],
                         "name_spanish": planet_names["spanish"],
-                        "speed_deg_per_day": data["speedDegPerDay"],
+                        "speed": data["speedDegPerDay"],
                         "motion_state": motion_state,
                         "is_retrograde": data["retrograde"]
                     })

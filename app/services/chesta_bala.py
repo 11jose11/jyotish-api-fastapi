@@ -30,10 +30,24 @@ class ChestaBalaService:
             'Ketu': None  # Ketu is opposite to Rahu
         }
         
+        # Planet names in Sanskrit and Spanish
+        self.planet_names = {
+            'Sun': {'sanskrit': 'सूर्य', 'español': 'Sol'},
+            'Moon': {'sanskrit': 'चन्द्र', 'español': 'Luna'},
+            'Mercury': {'sanskrit': 'बुध', 'español': 'Mercurio'},
+            'Venus': {'sanskrit': 'शुक्र', 'español': 'Venus'},
+            'Mars': {'sanskrit': 'मङ्गल', 'español': 'Marte'},
+            'Jupiter': {'sanskrit': 'गुरु', 'español': 'Júpiter'},
+            'Saturn': {'sanskrit': 'शनि', 'español': 'Saturno'},
+            'Rahu': {'sanskrit': 'राहु', 'español': 'Rahu'},
+            'Ketu': {'sanskrit': 'केतु', 'español': 'Ketu'}
+        }
+        
         # Classical Chesta Bala motion states and their ṣaṣṭyāṁśa values
         self.motion_states = {
             'Vakra': {
                 'sanskrit': 'वक्र',
+                'transliteration': 'vakra',
                 'description': 'Retrógrado',
                 'chesta_bala': 60,
                 'english': 'Retrograde',
@@ -41,59 +55,83 @@ class ChestaBalaService:
             },
             'Anuvakra': {
                 'sanskrit': 'अनुवक्र',
-                'description': 'Directo después de retrógrado',
+                'transliteration': 'anuvakra',
+                'description': 'Directo después de retrogradación',
                 'chesta_bala': 30,
                 'english': 'Direct after retrograde',
                 'speed_threshold': 0.01
             },
-            'Manda': {
-                'sanskrit': 'मन्द',
-                'description': 'Directo pero lento',
+            'Vikala': {
+                'sanskrit': 'विकल',
+                'transliteration': 'vikala',
+                'description': 'Estacionario (sin movimiento)',
                 'chesta_bala': 15,
-                'english': 'Direct but slow',
-                'speed_threshold': 0.3
+                'english': 'Stationary (no movement)',
+                'speed_threshold': 0.05
             },
             'Mandatara': {
                 'sanskrit': 'मन्दतर',
-                'description': 'Más lento que lo normal',
-                'chesta_bala': 7.5,
-                'english': 'Slower than normal',
-                'speed_threshold': 0.5
+                'transliteration': 'mandatara',
+                'description': 'Muy lento',
+                'chesta_bala': 15,
+                'english': 'Very slow',
+                'speed_threshold': 0.3
+            },
+            'Manda': {
+                'sanskrit': 'मन्द',
+                'transliteration': 'manda',
+                'description': 'Lento',
+                'chesta_bala': 30,
+                'english': 'Slow',
+                'speed_threshold': 0.6
             },
             'Sama': {
-                'sanskrit': 'सम',
-                'description': 'Movimiento medio, regular',
+                'sanskrit': 'साम',
+                'transliteration': 'sama',
+                'description': 'Movimiento medio',
                 'chesta_bala': 30,
-                'english': 'Medium, regular motion',
-                'speed_threshold': 1.0
+                'english': 'Medium motion',
+                'speed_threshold': 1.4
             },
             'Chara': {
-                'sanskrit': 'चर',
-                'description': 'Movimiento rápido',
+                'sanskrit': 'चरा',
+                'transliteration': 'chara',
+                'description': 'Rápido',
                 'chesta_bala': 30,
-                'english': 'Fast motion',
+                'english': 'Fast',
+                'speed_threshold': 2.0
+            },
+            'Sighra': {
+                'sanskrit': 'शीघ्र',
+                'transliteration': 'sighra',
+                'description': 'Rápido',
+                'chesta_bala': 30,
+                'english': 'Fast',
                 'speed_threshold': 2.0
             },
             'Atichara': {
-                'sanskrit': 'अतिचर',
+                'sanskrit': 'अतिचरा',
+                'transliteration': 'atichara',
                 'description': 'Muy rápido',
                 'chesta_bala': 45,
                 'english': 'Very fast',
-                'speed_threshold': 5.0
+                'speed_threshold': 3.0
+            },
+            'Sighratara': {
+                'sanskrit': 'शीघ्रतर',
+                'transliteration': 'sighratara',
+                'description': 'Muy rápido',
+                'chesta_bala': 45,
+                'english': 'Very fast',
+                'speed_threshold': 3.0
             },
             'Kutilaka': {
                 'sanskrit': 'कुटिलक',
-                'description': 'Movimiento estacionario/curvo (planeta casi detenido, cambiando dirección)',
-                'chesta_bala': 15,
-                'english': 'Stationary/curved motion (planet almost stopped, changing direction)',
-                'speed_threshold': 0.05
-            },
-            'Vakragati': {
-                'sanskrit': 'वक्रगति',
-                'description': 'Retrógrado extremo o giro forzado',
-                'chesta_bala': 60,
-                'english': 'Extreme retrograde or forced turn',
-                'speed_threshold': -0.5
+                'transliteration': 'kutilaka',
+                'description': 'Movimiento irregular, zigzagueante',
+                'chesta_bala': 37.5,  # Valor promedio entre 30-45
+                'english': 'Irregular, zigzag motion',
+                'speed_threshold': 0.1
             }
         }
         
@@ -167,8 +205,7 @@ class ChestaBalaService:
     ) -> Dict:
         """Calculate Chesta Bala for a specific planet using classical methods."""
         try:
-            planet_info = self.planets[planet_name]
-            planet_id = planet_info['id']
+            planet_id = self.planets[planet_name]
             
             if planet_name == 'Ketu':
                 # Ketu is opposite to Rahu
@@ -199,14 +236,19 @@ class ChestaBalaService:
             chesta_score = self._calculate_chesta_score_classical(chesta_bala)
             strength_level = self._get_strength_level_classical(chesta_bala)
             
+            # Get planet names
+            planet_names = self.planet_names.get(planet_name, {'sanskrit': planet_name, 'español': planet_name})
+            
             # Return the exact structure requested in the prompt
             return {
-                'graha': planet_info['sanskrit'],
-                'graha_es': planet_info['español'],
+                'graha': planet_names['sanskrit'],
+                'graha_es': planet_names['español'],
                 'chesta_avasta': motion_state_info['sanskrit'],
-                'chesta_es': motion_state_info['español'],
+                'chesta_avasta_transliteration': motion_state_info['transliteration'],
+                'chesta_es': motion_state_info['description'],
                 'velocidad_grados_por_dia': round(speed, 2),
                 'categoria': motion_state_info['sanskrit'],
+                'categoria_transliteration': motion_state_info['transliteration'],
                 'puntuaje_shastiamsa': chesta_bala,
                 # Additional information for compatibility
                 'longitude': longitude,
@@ -214,6 +256,7 @@ class ChestaBalaService:
                 'is_retrograde': is_retrograde,
                 'motion_state': motion_state_info['sanskrit'],
                 'motion_state_sanskrit': motion_state_info['sanskrit'],
+                'motion_state_transliteration': motion_state_info['transliteration'],
                 'motion_state_description': motion_state_info['description'],
                 'chesta_bala': chesta_bala,
                 'chesta_score': chesta_score,
@@ -229,15 +272,18 @@ class ChestaBalaService:
                 'graha': self.planets.get(planet_name, {}).get('sanskrit', planet_name),
                 'graha_es': self.planets.get(planet_name, {}).get('español', planet_name),
                 'chesta_avasta': 'अज्ञात',
+                'chesta_avasta_transliteration': 'ajñāta',
                 'chesta_es': 'Desconocido',
                 'velocidad_grados_por_dia': 0,
                 'categoria': 'अज्ञात',
+                'categoria_transliteration': 'ajñāta',
                 'puntuaje_shastiamsa': 0,
                 'longitude': 0,
                 'speed': 0,
                 'is_retrograde': False,
                 'motion_state': 'unknown',
                 'motion_state_sanskrit': 'अज्ञात',
+                'motion_state_transliteration': 'ajñāta',
                 'motion_state_description': 'Estado desconocido',
                 'chesta_bala': 0,
                 'chesta_score': 0,
@@ -286,13 +332,14 @@ class ChestaBalaService:
             
             # Check for retrograde states first
             if is_retrograde:
-                if abs_speed > 0.5:
-                    return self.motion_states['Vakragati']  # Extreme retrograde
-                else:
-                    return self.motion_states['Vakra']  # Normal retrograde
+                return self.motion_states['Vakra']  # Retrograde
             
-            # Check for stationary/curved motion (Kutilaka)
+            # Check for stationary motion (Vikala)
             if abs_speed < 0.05:
+                return self.motion_states['Vikala']
+            
+            # Check for irregular motion (Kutilaka) - very small speed variations
+            if 0.05 <= abs_speed < 0.1:
                 return self.motion_states['Kutilaka']
             
             # Get planet-specific speed ranges
@@ -303,13 +350,15 @@ class ChestaBalaService:
             slow_threshold = ranges.get('slow', 0.3)
             
             # Determine motion state based on speed
-            if abs_speed > fast_threshold:
+            if abs_speed >= 3.0:
                 return self.motion_states['Atichara']  # Very fast
-            elif abs_speed > normal_max:
+            elif abs_speed >= 2.0:
+                return self.motion_states['Sighra']  # Fast
+            elif abs_speed >= normal_max:
                 return self.motion_states['Chara']  # Fast
-            elif abs_speed < slow_threshold:
+            elif abs_speed <= slow_threshold:
                 return self.motion_states['Mandatara']  # Very slow
-            elif abs_speed < normal_min:
+            elif abs_speed <= normal_min:
                 return self.motion_states['Manda']  # Slow
             else:
                 return self.motion_states['Sama']  # Normal/regular
@@ -347,9 +396,9 @@ class ChestaBalaService:
     
     def _get_chesta_description_classical(self, planet_name: str, motion_state_info: Dict) -> str:
         """Get classical description of Chesta Bala for a planet."""
-        state = motion_state_info['state']
-        description = motion_state_info['description']
-        chesta_bala = motion_state_info['chesta_bala']
+        state = motion_state_info.get('transliteration', 'unknown')
+        description = motion_state_info.get('description', 'unknown')
+        chesta_bala = motion_state_info.get('chesta_bala', 0)
         
         return f"{planet_name} está en estado {state} ({description}). Cheṣṭā Bala: {chesta_bala}/60 ṣaṣṭyāṁśa."
     
@@ -462,6 +511,221 @@ class ChestaBalaService:
                 notes.append(f"Estado Kutilaka (estacionario): {', '.join(planets)} - Cambio de dirección")
         
         return notes
+    
+    def get_monthly_chesta_analysis(
+        self, 
+        year: int, 
+        month: int, 
+        latitude: float, 
+        longitude: float,
+        planets: Optional[List[str]] = None
+    ) -> Dict:
+        """Get monthly Chesta Bala analysis with motion changes."""
+        try:
+            if planets is None:
+                planets = list(self.planets.keys())
+            
+            # Get first and last day of month
+            from calendar import monthrange
+            first_day = datetime(year, month, 1)
+            last_day_num = monthrange(year, month)[1]
+            last_day = datetime(year, month, last_day_num)
+            
+            # Calculate for each day of the month
+            daily_data = {}
+            motion_changes = []
+            previous_states = {}
+            
+            current_date = first_day
+            while current_date <= last_day:
+                date_str = current_date.strftime('%Y-%m-%d')
+                jd = self._datetime_to_jd(current_date)
+                
+                daily_planets = {}
+                for planet_name in planets:
+                    if planet_name not in self.planets:
+                        continue
+                    
+                    planet_data = self._calculate_planet_chesta_bala(
+                        planet_name, jd, latitude, longitude
+                    )
+                    daily_planets[planet_name] = planet_data
+                    
+                    # Check for motion state changes
+                    current_state = planet_data.get('motion_state_transliteration', 'unknown')
+                    if planet_name in previous_states:
+                        prev_state = previous_states[planet_name]
+                        if current_state != prev_state:
+                            motion_changes.append({
+                                'date': date_str,
+                                'planet': planet_name,
+                                'from_state': prev_state,
+                                'to_state': current_state,
+                                'from_sanskrit': self._get_sanskrit_for_transliteration(prev_state),
+                                'to_sanskrit': self._get_sanskrit_for_transliteration(current_state),
+                                'chesta_bala_change': planet_data.get('chesta_bala', 0) - self._get_chesta_bala_for_state(prev_state)
+                            })
+                    
+                    previous_states[planet_name] = current_state
+                
+                daily_data[date_str] = {
+                    'date': date_str,
+                    'planets': daily_planets
+                }
+                
+                current_date += timedelta(days=1)
+            
+            # Generate summary
+            summary = self._generate_monthly_summary(daily_data, motion_changes)
+            
+            return {
+                'year': year,
+                'month': month,
+                'latitude': latitude,
+                'longitude': longitude,
+                'daily_data': daily_data,
+                'motion_changes': motion_changes,
+                'summary': summary
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in monthly Chesta analysis: {e}")
+            raise
+    
+    def get_daily_chesta_analysis(
+        self, 
+        date: datetime, 
+        latitude: float, 
+        longitude: float,
+        planets: Optional[List[str]] = None
+    ) -> Dict:
+        """Get detailed daily Chesta Bala analysis."""
+        try:
+            if planets is None:
+                planets = list(self.planets.keys())
+            
+            jd = self._datetime_to_jd(date)
+            
+            planets_data = {}
+            for planet_name in planets:
+                if planet_name not in self.planets:
+                    continue
+                
+                planet_data = self._calculate_planet_chesta_bala(
+                    planet_name, jd, latitude, longitude
+                )
+                planets_data[planet_name] = planet_data
+            
+            # Generate daily summary
+            summary = self._generate_daily_summary(planets_data)
+            
+            return {
+                'date': date.isoformat(),
+                'latitude': latitude,
+                'longitude': longitude,
+                'planets': planets_data,
+                'summary': summary
+            }
+            
+        except Exception as e:
+            logger.error(f"Error in daily Chesta analysis: {e}")
+            raise
+    
+    def _get_sanskrit_for_transliteration(self, transliteration: str) -> str:
+        """Get Sanskrit name for transliteration."""
+        for state_name, state_data in self.motion_states.items():
+            if state_data['transliteration'] == transliteration:
+                return state_data['sanskrit']
+        return transliteration
+    
+    def _get_chesta_bala_for_state(self, transliteration: str) -> float:
+        """Get Chesta Bala value for transliteration."""
+        for state_name, state_data in self.motion_states.items():
+            if state_data['transliteration'] == transliteration:
+                return state_data['chesta_bala']
+        return 0.0
+    
+    def _generate_monthly_summary(self, daily_data: Dict, motion_changes: List[Dict]) -> Dict:
+        """Generate monthly summary of Chesta Bala analysis."""
+        try:
+            # Count motion changes by planet
+            changes_by_planet = {}
+            for change in motion_changes:
+                planet = change['planet']
+                if planet not in changes_by_planet:
+                    changes_by_planet[planet] = []
+                changes_by_planet[planet].append(change)
+            
+            # Calculate average Chesta Bala for each planet
+            planet_averages = {}
+            for date_str, day_data in daily_data.items():
+                for planet_name, planet_data in day_data['planets'].items():
+                    if planet_name not in planet_averages:
+                        planet_averages[planet_name] = []
+                    planet_averages[planet_name].append(planet_data.get('chesta_bala', 0))
+            
+            # Calculate averages
+            for planet_name in planet_averages:
+                values = planet_averages[planet_name]
+                planet_averages[planet_name] = sum(values) / len(values) if values else 0
+            
+            return {
+                'total_motion_changes': len(motion_changes),
+                'changes_by_planet': changes_by_planet,
+                'planet_averages': planet_averages,
+                'most_active_planet': max(changes_by_planet.keys(), key=lambda k: len(changes_by_planet[k])) if changes_by_planet else None,
+                'average_chesta_bala': sum(planet_averages.values()) / len(planet_averages) if planet_averages else 0
+            }
+            
+        except Exception as e:
+            logger.error(f"Error generating monthly summary: {e}")
+            return {'error': str(e)}
+    
+    def _generate_daily_summary(self, planets_data: Dict) -> Dict:
+        """Generate daily summary of Chesta Bala analysis."""
+        try:
+            total_chesta_bala = 0
+            planet_count = 0
+            strong_planets = []
+            weak_planets = []
+            retrograde_planets = []
+            motion_states = {}
+            
+            for planet_name, planet_data in planets_data.items():
+                chesta_bala = planet_data.get('chesta_bala', 0)
+                total_chesta_bala += chesta_bala
+                planet_count += 1
+                
+                # Categorize by strength
+                if chesta_bala >= 45:
+                    strong_planets.append(planet_name)
+                elif chesta_bala <= 15:
+                    weak_planets.append(planet_name)
+                
+                # Track retrograde planets
+                if planet_data.get('is_retrograde', False):
+                    retrograde_planets.append(planet_name)
+                
+                # Track motion states
+                motion_state = planet_data.get('motion_state_transliteration', 'unknown')
+                if motion_state not in motion_states:
+                    motion_states[motion_state] = []
+                motion_states[motion_state].append(planet_name)
+            
+            average_chesta_bala = total_chesta_bala / planet_count if planet_count > 0 else 0
+            
+            return {
+                'average_chesta_bala': round(average_chesta_bala, 2),
+                'strong_planets': strong_planets,
+                'weak_planets': weak_planets,
+                'retrograde_planets': retrograde_planets,
+                'motion_states': motion_states,
+                'overall_assessment': self._get_overall_assessment_classical(average_chesta_bala)
+            }
+            
+        except Exception as e:
+            logger.error(f"Error generating daily summary: {e}")
+            return {'error': str(e)}
 
 
 # Create service instance

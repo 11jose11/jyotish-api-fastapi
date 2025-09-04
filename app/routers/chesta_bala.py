@@ -79,6 +79,86 @@ async def calculate_chesta_bala(
             raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/monthly")
+async def get_monthly_chesta_analysis(
+    year: int = Query(..., description="Year (e.g., 2024)"),
+    month: int = Query(..., description="Month (1-12)"),
+    latitude: float = Query(..., description="Latitude in decimal degrees"),
+    longitude: float = Query(..., description="Longitude in decimal degrees"),
+    planets: Optional[str] = Query(None, description="Comma-separated list of planets")
+):
+    """Get monthly Chesta Bala analysis with motion changes."""
+    with RequestLogger("chesta_bala.monthly") as req_log:
+        try:
+            # Validate inputs
+            if not (1 <= month <= 12):
+                raise HTTPException(status_code=400, detail="Month must be between 1 and 12")
+            if not (-90 <= latitude <= 90):
+                raise HTTPException(status_code=400, detail="Latitude must be between -90 and 90")
+            if not (-180 <= longitude <= 180):
+                raise HTTPException(status_code=400, detail="Longitude must be between -180 and 180")
+            
+            # Parse planets list
+            planet_list = None
+            if planets:
+                planet_list = [p.strip() for p in planets.split(",")]
+            
+            # Get monthly analysis
+            result = chesta_bala_service.get_monthly_chesta_analysis(
+                year, month, latitude, longitude, planet_list
+            )
+            
+            req_log.success()
+            return result
+            
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid input: {e}")
+        except Exception as e:
+            logger.error(f"Monthly Chesta Bala analysis failed: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/daily")
+async def get_daily_chesta_analysis(
+    date: str = Query(..., description="Date in YYYY-MM-DD format"),
+    time: str = Query("12:00:00", description="Time in HH:MM:SS format"),
+    latitude: float = Query(..., description="Latitude in decimal degrees"),
+    longitude: float = Query(..., description="Longitude in decimal degrees"),
+    planets: Optional[str] = Query(None, description="Comma-separated list of planets")
+):
+    """Get detailed daily Chesta Bala analysis."""
+    with RequestLogger("chesta_bala.daily") as req_log:
+        try:
+            # Parse date and time
+            dt_str = f"{date}T{time}"
+            dt = datetime.fromisoformat(dt_str)
+            
+            # Validate coordinates
+            if not (-90 <= latitude <= 90):
+                raise HTTPException(status_code=400, detail="Latitude must be between -90 and 90")
+            if not (-180 <= longitude <= 180):
+                raise HTTPException(status_code=400, detail="Longitude must be between -180 and 180")
+            
+            # Parse planets list
+            planet_list = None
+            if planets:
+                planet_list = [p.strip() for p in planets.split(",")]
+            
+            # Get daily analysis
+            result = chesta_bala_service.get_daily_chesta_analysis(
+                dt, latitude, longitude, planet_list
+            )
+            
+            req_log.success()
+            return result
+            
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail=f"Invalid date/time format: {e}")
+        except Exception as e:
+            logger.error(f"Daily Chesta Bala analysis failed: {e}")
+            raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/planets")
 async def get_chesta_bala_planets(
     date: str = Query(..., description="Date in YYYY-MM-DD format"),
